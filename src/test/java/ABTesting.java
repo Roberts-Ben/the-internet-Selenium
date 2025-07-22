@@ -11,7 +11,7 @@ import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class Template
+public class ABTesting
 {
     WebDriver driver;
     WebDriverWait wait;
@@ -20,22 +20,39 @@ public class Template
     public void Setup() throws Exception
     {
         driver = new ChromeDriver();
-        driver.get("https://the-internet.herokuapp.com/");
+        driver.get("https://the-internet.herokuapp.com/abtest");
         wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
         String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/", URL);
+        assertEquals("https://the-internet.herokuapp.com/abtest", URL);
     }
 
     @Test
-    public void TestCase()
+    public void verifyAPage()
     {
+        String AHeader = "A/B Test Variation 1";
+        String BHeader = "A/B Test Control";
 
+        WebElement header = driver.findElement(By.cssSelector("h3"));
+
+        if(header.getText().equals(AHeader))
+        {
+            assertEquals(AHeader, header.getText());
+        }
+        else if(header.getText().equals(BHeader))
+        {
+            assertEquals(BHeader, header.getText());
+        }
     }
 
     @After
     public void Teardown()
     {
         driver.quit();
+    }
+
+    private void ClearBrowserCache()
+    {
+        driver.manage().deleteAllCookies();
     }
 }
