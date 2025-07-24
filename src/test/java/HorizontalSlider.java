@@ -33,7 +33,7 @@ public class HorizontalSlider
     public void verifySliderClickandDrag()
     {
         WebElement sliderValue = driver.findElement(By.id("range"));
-        WebElement slider = driver.findElement(By.xpath("//*[@id='content']/div/div/input"));
+        WebElement slider = driver.findElement(By.xpath("//input[@type='range']"));
 
         assertEquals("0", sliderValue.getText());
 
@@ -47,7 +47,7 @@ public class HorizontalSlider
     public void verifySliderArrowKeys()
     {
         WebElement sliderValue = driver.findElement(By.id("range"));
-        WebElement slider = driver.findElement(By.xpath("//*[@id='content']/div/div/input"));
+        WebElement slider = driver.findElement(By.xpath("//input[@type='range']"));
 
         assertEquals("0", sliderValue.getText());
 

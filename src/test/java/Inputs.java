@@ -30,7 +30,7 @@ public class Inputs
     @Test
     public void verifyValidInput()
     {
-        WebElement inputField = driver.findElement(By.xpath("//*[@id=\"content\"]/div/div/div/input"));
+        WebElement inputField = driver.findElement(By.xpath("//input[@type='number']"));
 
         assertEquals("", inputField.getAttribute("value"));
 
@@ -42,7 +42,7 @@ public class Inputs
     @Test
     public void verifyValidNegativeInput()
     {
-        WebElement inputField = driver.findElement(By.xpath("//*[@id=\"content\"]/div/div/div/input"));
+        WebElement inputField = driver.findElement(By.xpath("//input[@type='number']"));
 
         assertEquals("", inputField.getAttribute("value"));
 
@@ -54,7 +54,7 @@ public class Inputs
     @Test
     public void verifyInvalidInput()
     {
-        WebElement inputField = driver.findElement(By.xpath("//*[@id=\"content\"]/div/div/div/input"));
+        WebElement inputField = driver.findElement(By.xpath("//input[@type='number']"));
 
         assertEquals("", inputField.getAttribute("value"));
 

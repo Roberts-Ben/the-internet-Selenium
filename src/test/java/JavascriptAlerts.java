@@ -31,7 +31,7 @@ public class JavascriptAlerts
     @Test
     public void verifyJSAlert()
     {
-        WebElement jsAlert = driver.findElement(By.xpath("//*[@id='content']/div/ul/li[1]/button"));
+        WebElement jsAlert = driver.findElement(By.xpath("//button[@onclick='jsAlert()']"));
 
         jsAlert.click();
 
@@ -49,7 +49,7 @@ public class JavascriptAlerts
     @Test
     public void verifyJSConfirmOK()
     {
-        WebElement jsAlert = driver.findElement(By.xpath("//*[@id='content']/div/ul/li[2]/button"));
+        WebElement jsAlert = driver.findElement(By.xpath("//button[@onclick='jsConfirm()']"));
 
         jsAlert.click();
 
@@ -67,7 +67,7 @@ public class JavascriptAlerts
     @Test
     public void verifyJSConfirmCancel()
     {
-        WebElement jsAlert = driver.findElement(By.xpath("//*[@id='content']/div/ul/li[2]/button"));
+        WebElement jsAlert = driver.findElement(By.xpath("//button[@onclick='jsConfirm()']"));
 
         jsAlert.click();
 
@@ -85,7 +85,7 @@ public class JavascriptAlerts
     @Test
     public void verifyJSPromptAccept()
     {
-        WebElement jsAlert = driver.findElement(By.xpath("//*[@id='content']/div/ul/li[3]/button"));
+        WebElement jsAlert = driver.findElement(By.xpath("//button[@onclick='jsPrompt()']"));
 
         jsAlert.click();
 
@@ -105,7 +105,7 @@ public class JavascriptAlerts
     @Test
     public void verifyJSPromptEmpty()
     {
-        WebElement jsAlert = driver.findElement(By.xpath("//*[@id='content']/div/ul/li[3]/button"));
+        WebElement jsAlert = driver.findElement(By.xpath("//button[@onclick='jsPrompt()']"));
 
         jsAlert.click();
 
@@ -123,7 +123,7 @@ public class JavascriptAlerts
     @Test
     public void verifyJSPromptCancel()
     {
-        WebElement jsAlert = driver.findElement(By.xpath("//*[@id='content']/div/ul/li[3]/button"));
+        WebElement jsAlert = driver.findElement(By.xpath("//button[@onclick='jsPrompt()']"));
 
         jsAlert.click();
 

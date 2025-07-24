@@ -33,7 +33,7 @@ public class Geolocation
     @Test
     public void verifyLocation()
     {
-        WebElement locationButton = driver.findElement(By.xpath("//*[@id='content']/div/button"));
+        WebElement locationButton = driver.findElement(By.xpath("//button[@onclick='getLocation()']"));
 
         locationButton.click();
 
