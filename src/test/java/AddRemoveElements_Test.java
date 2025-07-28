@@ -123,12 +123,6 @@ public class AddRemoveElements_Test
         assertEquals(elementsToAdd - elementsToDelete, deleteButtons.size());
     }
 
-    @AfterEach
-    public void tearDown()
-    {
-        driver.quit();
-    }
-
     private void AddElement()
     {
         WebElement addButton = driver.findElement(By.cssSelector("button[onclick='addElement()']"));
@@ -144,5 +138,11 @@ public class AddRemoveElements_Test
     private void DeleteElement(WebElement elementToDelete)
     {
         elementToDelete.click();
+    }
+
+    @AfterEach
+    public void tearDown()
+    {
+        driver.quit();
     }
 }

@@ -50,9 +50,4 @@ public class ABTesting_Test
     {
         driver.quit();
     }
-
-    private void ClearBrowserCache()
-    {
-        driver.manage().deleteAllCookies();
-    }
 }
