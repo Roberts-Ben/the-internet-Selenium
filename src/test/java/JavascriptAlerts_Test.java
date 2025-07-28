@@ -1,28 +1,17 @@
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class JavascriptAlerts_Test
+public class JavascriptAlerts_Test extends BaseTest
 {
-    WebDriver driver;
-    WebDriverWait wait;
-
     @BeforeEach
     public void setup() throws Exception
     {
-        driver = new ChromeDriver();
         driver.get("https://the-internet.herokuapp.com/javascript_alerts");
-        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
         String URL = driver.getCurrentUrl();
         assertEquals("https://the-internet.herokuapp.com/javascript_alerts", URL);
@@ -136,11 +125,5 @@ public class JavascriptAlerts_Test
         WebElement alertSuccessLabel = driver.findElement(By.id("result"));
 
         assertEquals("You entered: null", alertSuccessLabel.getText());
-    }
-
-    @AfterEach
-    public void tearDown()
-    {
-        driver.quit();
     }
 }

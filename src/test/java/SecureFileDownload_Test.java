@@ -1,43 +1,24 @@
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.time.Duration;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SecureFileDownload_Test
+public class SecureFileDownload_Test extends BaseTest
 {
-    WebDriver driver;
-    WebDriverWait wait;
-    ChromeOptions chromeOptions;
-
-    String downloadDirectory;
+    String downloadDirectory = "C:/Users/" + System.getProperty("user.name") + "/Downloads/";;
 
     String baseURL = "the-internet.herokuapp.com/download_secure";;
     String username = "admin";
     String password = "admin";
-
-    @BeforeEach
-    public void setup() throws Exception
-    {
-        driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-
-        downloadDirectory = "C:/Users/" + System.getProperty("user.name") + "/Downloads/";
-    }
 
     @Test
     public void verifySecureLoginDownload()
@@ -117,11 +98,5 @@ public class SecureFileDownload_Test
         }
 
         return false;
-    }
-
-    @AfterEach
-    public void tearDown()
-    {
-        driver.quit();
     }
 }

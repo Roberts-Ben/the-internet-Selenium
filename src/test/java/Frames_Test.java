@@ -1,30 +1,17 @@
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.locators.RelativeLocator;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class Frames_Test
+public class Frames_Test extends BaseTest
 {
-    WebDriver driver;
-    WebDriverWait wait;
-
     @BeforeEach
     public void setup() throws Exception
     {
-        driver = new ChromeDriver();
         driver.get("https://the-internet.herokuapp.com/frames");
-        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
         String URL = driver.getCurrentUrl();
         assertEquals("https://the-internet.herokuapp.com/frames", URL);
@@ -54,11 +41,5 @@ public class Frames_Test
         WebElement editor = driver.findElement(By.tagName("body"));
 
         assertEquals("Your content goes here.", editor.getText());
-    }
-
-    @AfterEach
-    public void tearDown()
-    {
-        driver.quit();
     }
 }

@@ -1,28 +1,18 @@
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ChallengingDOM_Test
+public class ChallengingDOM_Test extends BaseTest
 {
-    WebDriver driver;
-    WebDriverWait wait;
-
     @BeforeEach
     public void setup() throws Exception
     {
-        driver = new ChromeDriver();
         driver.get("https://the-internet.herokuapp.com/challenging_dom");
-        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
         String URL = driver.getCurrentUrl();
         assertEquals("https://the-internet.herokuapp.com/challenging_dom", URL);
@@ -86,11 +76,5 @@ public class ChallengingDOM_Test
     {
         WebElement canvas = driver.findElement(By.id("canvas"));
         assertTrue(canvas.isDisplayed());
-    }
-
-    @AfterEach
-    public void tearDown()
-    {
-        driver.quit();
     }
 }

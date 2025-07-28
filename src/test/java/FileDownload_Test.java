@@ -1,37 +1,25 @@
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.time.Duration;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FileDownload_Test
+public class FileDownload_Test extends BaseTest
 {
-    private static final Log log = LogFactory.getLog(FileDownload_Test.class);
-    WebDriver driver;
-    WebDriverWait wait;
     String downloadDirectory;
 
     @BeforeEach
     public void setup() throws Exception
     {
-        driver = new ChromeDriver();
         driver.get("https://the-internet.herokuapp.com/download");
-        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
         String URL = driver.getCurrentUrl();
         assertEquals("https://the-internet.herokuapp.com/download", URL);
@@ -99,11 +87,5 @@ public class FileDownload_Test
         }
 
         return false;
-    }
-
-    @AfterEach
-    public void tearDown()
-    {
-        driver.quit();
     }
 }

@@ -1,29 +1,19 @@
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AddRemoveElements_Test
+public class AddRemoveElements_Test extends BaseTest
 {
-    WebDriver driver;
-    WebDriverWait wait;
-
     @BeforeEach
     public void setup() throws Exception
     {
-        driver = new ChromeDriver();
         driver.get("https://the-internet.herokuapp.com/add_remove_elements/");
-        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
         String URL = driver.getCurrentUrl();
         assertEquals("https://the-internet.herokuapp.com/add_remove_elements/", URL);
@@ -138,11 +128,5 @@ public class AddRemoveElements_Test
     private void DeleteElement(WebElement elementToDelete)
     {
         elementToDelete.click();
-    }
-
-    @AfterEach
-    public void tearDown()
-    {
-        driver.quit();
     }
 }
