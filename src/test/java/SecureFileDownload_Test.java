@@ -105,6 +105,7 @@ public class SecureFileDownload_Test extends BaseTest
             timeElapsed++;
         }
 
+        System.out.println("File should be downloaded but is not: " + fileName);
         return false;
     }
 }

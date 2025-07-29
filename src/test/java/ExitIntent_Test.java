@@ -37,6 +37,7 @@ public class ExitIntent_Test extends BaseTest
 
         modalCloseButton.click();
 
+        wait.until(ExpectedConditions.invisibilityOf(modal));
         assertFalse(modal.isDisplayed());
     }
 }

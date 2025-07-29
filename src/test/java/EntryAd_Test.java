@@ -71,8 +71,8 @@ public class EntryAd_Test extends BaseTest
 
         assertFalse(modal.isDisplayed());
 
-        // Wait for modal to appear
-        wait.until(ExpectedConditions.visibilityOf(modal));
+        // Wait for modal to appear (using the close button as we'll be clicking it right after)
+        wait.until(ExpectedConditions.elementToBeClickable(modalCloseButton));
         assertTrue(modal.isDisplayed());
 
         modalCloseButton.click();
@@ -80,6 +80,7 @@ public class EntryAd_Test extends BaseTest
 
         // Re-enable the popup
         WebElement resetButton = driver.findElement(By.id("restart-ad"));
+        wait.until(ExpectedConditions.elementToBeClickable(resetButton));
         resetButton.click();
 
         if(driver.getCurrentUrl() != null)
