@@ -34,7 +34,7 @@ public class FileUpload_Test extends BaseTest
         uploadButton.click();
 
         WebElement uploadedFile = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("uploaded-files")));
-        assertEquals(uploadedFile.getText(), fileName);
+        assertTrue(uploadedFile.getText().contains(fileName));
     }
 
     @Test

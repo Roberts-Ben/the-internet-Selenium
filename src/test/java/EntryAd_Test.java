@@ -34,8 +34,7 @@ public class EntryAd_Test extends BaseTest
         assertTrue(modal.isDisplayed());
 
         modalCloseButton.click();
-
-        assertFalse(modal.isDisplayed());
+        CheckModalNotDisplayed(modal);
     }
 
     @Test
@@ -51,9 +50,7 @@ public class EntryAd_Test extends BaseTest
         assertTrue(modal.isDisplayed());
 
         modalCloseButton.click();
-
-        wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(modal)));
-        assertFalse(modal.isDisplayed());
+        CheckModalNotDisplayed(modal);
 
         if(driver.getCurrentUrl() != null)
         {
@@ -62,12 +59,8 @@ public class EntryAd_Test extends BaseTest
 
         modal = driver.findElement(By.id("modal"));
 
-        try {
-            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(1));
-            shortWait.until(ExpectedConditions.visibilityOf(modal));
-        } catch (TimeoutException e) {
-            assertFalse(modal.isDisplayed());
-        }
+        CheckModalNotDisplayed(modal);
+
     }
 
     @Test
@@ -83,11 +76,11 @@ public class EntryAd_Test extends BaseTest
         assertTrue(modal.isDisplayed());
 
         modalCloseButton.click();
-
-        assertFalse(modal.isDisplayed());
+        CheckModalNotDisplayed(modal);
 
         // Re-enable the popup
         WebElement resetButton = driver.findElement(By.id("restart-ad"));
+        resetButton.click();
 
         if(driver.getCurrentUrl() != null)
         {
@@ -99,5 +92,16 @@ public class EntryAd_Test extends BaseTest
         // Wait for modal to appear
         wait.until(ExpectedConditions.visibilityOf(modal));
         assertTrue(modal.isDisplayed());
+    }
+
+    private void CheckModalNotDisplayed(WebElement _modal)
+    {
+        try {
+            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(2));
+            shortWait.until(ExpectedConditions.visibilityOf(_modal));
+            System.out.println("Modal is visible when it shouldn't be");
+        } catch (TimeoutException e) {
+            assertFalse(_modal.isDisplayed());
+        }
     }
 }

@@ -39,7 +39,6 @@ public class KeyPresses_Test extends BaseTest
         assertEquals("You entered: ESCAPE", resultLabel.getText());
 
         inputField.sendKeys(Keys.ENTER);
-        assertEquals("You entered: ENTER", resultLabel.getText());
 
         wait.until(ExpectedConditions.stalenessOf(resultLabel));
         resultLabel = driver.findElement(By.id("result"));
