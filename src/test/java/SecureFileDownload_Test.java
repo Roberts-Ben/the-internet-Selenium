@@ -1,4 +1,3 @@
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -8,14 +7,11 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SecureFileDownload_Test extends BaseTest
 {
-    String downloadDirectory = System.getProperty("user.home") + "/Downloads/";
-
     String baseURL = "the-internet.herokuapp.com/download_secure";
     String username = "admin";
     String password = "admin";
@@ -26,8 +22,6 @@ public class SecureFileDownload_Test extends BaseTest
         String authURL = "https://" + username + ":" + password + "@" + baseURL;
 
         driver.get(authURL);
-
-        Pattern pattern = Pattern.compile("\\.(jpg|png|txt|json|xlsx|pdf|mp4|zip|py|exe|docx|jpeg|csv|sol)$", Pattern.CASE_INSENSITIVE);
 
         List<WebElement> downloadButtons = driver.findElements(By.xpath("//a[@href]"));
 

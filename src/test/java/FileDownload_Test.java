@@ -8,7 +8,6 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,8 +25,6 @@ public class FileDownload_Test extends BaseTest
     @Test
     public void verifyFileDownload()
     {
-        Pattern pattern = Pattern.compile("\\.(jpg|png|txt|json|xlsx|pdf|.mp4|tmp|java|docx|jpeg|zip|doc)$", Pattern.CASE_INSENSITIVE);
-
         List<WebElement> downloadButtons = driver.findElements(By.xpath("//a[@href]"));
 
         int totalFiles = downloadButtons.size();

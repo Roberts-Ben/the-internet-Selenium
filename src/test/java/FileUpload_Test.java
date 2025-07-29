@@ -26,6 +26,8 @@ public class FileUpload_Test extends BaseTest
         String fileString = fileToUpload.toString();
         String fileName = fileString.substring(fileString.lastIndexOf('\\') + 1);
 
+        System.out.println("Attempting to upload file: " + fileToUpload.getAbsolutePath());
+
         WebElement chooseFileButton = driver.findElement(By.id("file-upload"));
         WebElement uploadButton = driver.findElement(By.id("file-submit"));
 
@@ -34,6 +36,9 @@ public class FileUpload_Test extends BaseTest
         uploadButton.click();
 
         WebElement uploadedFile = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("uploaded-files")));
+
+        System.out.println("Uploaded file name shown on page: " + uploadedFile.getText());
+
         assertTrue(uploadedFile.getText().contains(fileName));
     }
 

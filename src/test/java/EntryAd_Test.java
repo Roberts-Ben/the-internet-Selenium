@@ -1,10 +1,8 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.TimeoutException;
 
 import java.time.Duration;
 
@@ -33,7 +31,8 @@ public class EntryAd_Test extends BaseTest
         wait.until(ExpectedConditions.elementToBeClickable(modalCloseButton));
         assertTrue(modal.isDisplayed());
 
-        modalCloseButton.click();
+        ClickModalCloseButton(modalCloseButton);
+
         CheckModalNotDisplayed(modal);
     }
 
@@ -49,7 +48,7 @@ public class EntryAd_Test extends BaseTest
         wait.until(ExpectedConditions.elementToBeClickable(modalCloseButton));
         assertTrue(modal.isDisplayed());
 
-        modalCloseButton.click();
+        ClickModalCloseButton(modalCloseButton);
         CheckModalNotDisplayed(modal);
 
         if(driver.getCurrentUrl() != null)
@@ -75,7 +74,7 @@ public class EntryAd_Test extends BaseTest
         wait.until(ExpectedConditions.elementToBeClickable(modalCloseButton));
         assertTrue(modal.isDisplayed());
 
-        modalCloseButton.click();
+        ClickModalCloseButton(modalCloseButton);
         CheckModalNotDisplayed(modal);
 
         // Re-enable the popup
@@ -103,6 +102,16 @@ public class EntryAd_Test extends BaseTest
             System.out.println("Modal is visible when it shouldn't be");
         } catch (TimeoutException e) {
             assertFalse(_modal.isDisplayed());
+        }
+    }
+
+    private void ClickModalCloseButton(WebElement button)
+    {
+        try {
+            button.click();
+        } catch (ElementClickInterceptedException e) {
+            // fallback to JS click if intercepted
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", button);
         }
     }
 }
