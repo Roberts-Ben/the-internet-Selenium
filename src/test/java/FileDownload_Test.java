@@ -14,8 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class FileDownload_Test extends BaseTest
 {
-    String downloadDirectory;
-
     @BeforeEach
     public void setup() throws Exception
     {
@@ -23,8 +21,6 @@ public class FileDownload_Test extends BaseTest
 
         String URL = driver.getCurrentUrl();
         assertEquals("https://the-internet.herokuapp.com/download", URL);
-
-        downloadDirectory = "C:/Users/" + System.getProperty("user.name") + "/Downloads/";
     }
 
     @Test
@@ -51,7 +47,7 @@ public class FileDownload_Test extends BaseTest
                 assertFalse(isFileDownloaded(fileName, false));
 
                 downloadButton.click();
-                System.out.println(fileName + "-" + currentFile + "/" + totalFiles);
+                System.out.println(fileName + " - " + currentFile + "/" + totalFiles);
 
                 assertTrue(isFileDownloaded(fileName, true));
             }

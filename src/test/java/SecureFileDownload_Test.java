@@ -14,9 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SecureFileDownload_Test extends BaseTest
 {
-    String downloadDirectory = "C:/Users/" + System.getProperty("user.name") + "/Downloads/";;
+    String downloadDirectory = System.getProperty("user.home") + "/Downloads/";
 
-    String baseURL = "the-internet.herokuapp.com/download_secure";;
+    String baseURL = "the-internet.herokuapp.com/download_secure";
     String username = "admin";
     String password = "admin";
 
@@ -48,7 +48,7 @@ public class SecureFileDownload_Test extends BaseTest
                 assertFalse(isFileDownloaded(fileName, false));
 
                 downloadButton.click();
-                System.out.println(fileName + "-" + currentFile + "/" + totalFiles);
+                System.out.println(fileName + " - " + currentFile + "/" + totalFiles);
 
                 assertTrue(isFileDownloaded(fileName, true));
             }
