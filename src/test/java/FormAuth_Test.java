@@ -87,6 +87,7 @@ public class FormAuth_Test extends BaseTest
         String alertText = alert.getText();
 
         assertTrue(alert.isDisplayed());
+
         switch (alertType)
         {
             case "Success":

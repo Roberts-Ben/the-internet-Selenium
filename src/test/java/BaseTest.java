@@ -8,6 +8,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BaseTest
 {
@@ -19,7 +21,13 @@ public class BaseTest
     {
         Path tempProfile = Files.createTempDirectory("chrome-profile-");
 
+        Map<String, Object> chromePrefs = new HashMap<>();
+        chromePrefs.put("credentials_enable_service", false);
+        chromePrefs.put("profile.password_manager_enabled", false);
+        chromePrefs.put("profile.password_manager_leak_detection", false);
+
         ChromeOptions options = new ChromeOptions();
+        options.setExperimentalOption("prefs", chromePrefs);
         options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");

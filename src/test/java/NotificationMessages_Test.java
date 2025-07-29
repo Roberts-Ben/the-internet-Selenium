@@ -2,9 +2,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,7 +32,8 @@ public class NotificationMessages_Test extends BaseTest
         }
         else
         {
-            assertTrue(notificationText.contains("Action unsuccessful, please try again"));
+            // Note: Typo is intended
+            assertTrue(notificationText.contains("Action unsuccesful, please try again"));
         }
     }
 }

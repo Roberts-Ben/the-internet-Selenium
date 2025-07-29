@@ -3,6 +3,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,7 +39,9 @@ public class KeyPresses_Test extends BaseTest
         assertEquals("You entered: ESCAPE", resultLabel.getText());
 
         inputField.sendKeys(Keys.ENTER);
+        assertEquals("You entered: ENTER", resultLabel.getText());
 
+        wait.until(ExpectedConditions.stalenessOf(resultLabel));
         resultLabel = driver.findElement(By.id("result"));
 
         assertFalse(resultLabel.isDisplayed());

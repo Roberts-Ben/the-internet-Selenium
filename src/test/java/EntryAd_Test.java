@@ -52,6 +52,7 @@ public class EntryAd_Test extends BaseTest
 
         modalCloseButton.click();
 
+        wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(modal)));
         assertFalse(modal.isDisplayed());
 
         if(driver.getCurrentUrl() != null)

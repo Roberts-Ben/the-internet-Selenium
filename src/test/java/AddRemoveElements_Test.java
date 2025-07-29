@@ -2,6 +2,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -103,8 +104,16 @@ public class AddRemoveElements_Test extends BaseTest
 
         for(int i = 0; i < elementsToDelete; i++)
         {
-            int randomIndex = ThreadLocalRandom.current().nextInt(0, elementsToAdd);
-            DeleteElement(deleteButtons.get(randomIndex));
+            int randomIndex = ThreadLocalRandom.current().nextInt(0, deleteButtons.size());
+
+            if(IsElementStale(deleteButtons.get(randomIndex)))
+            {
+                i--; // Attempt another removal as this element was already removed
+            }
+            else
+            {
+                DeleteElement(deleteButtons.get(randomIndex));
+            }
         }
 
         deleteButtons.clear();
@@ -128,5 +137,10 @@ public class AddRemoveElements_Test extends BaseTest
     private void DeleteElement(WebElement elementToDelete)
     {
         elementToDelete.click();
+    }
+
+    private boolean IsElementStale(WebElement element)
+    {
+        return Boolean.TRUE.equals(ExpectedConditions.stalenessOf(element).apply(driver));
     }
 }

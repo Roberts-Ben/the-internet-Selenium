@@ -34,6 +34,9 @@ public class FileDownload_Test extends BaseTest
 
         List<WebElement> downloadButtons = driver.findElements(By.xpath("//a[@href]"));
 
+        int totalFiles = downloadButtons.size();
+        int currentFile = 0;
+
         // Download and verify files
         for (WebElement downloadButton : downloadButtons)
         {
@@ -48,10 +51,15 @@ public class FileDownload_Test extends BaseTest
                 assertFalse(isFileDownloaded(fileName, false));
 
                 downloadButton.click();
-                System.out.println(fileName);
+                System.out.println(fileName + "-" + currentFile + "/" + totalFiles);
 
                 assertTrue(isFileDownloaded(fileName, true));
             }
+            else
+            {
+                System.out.println("Invalid file: " + fileName);
+            }
+            currentFile++;
         }
     }
 
