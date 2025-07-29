@@ -31,7 +31,7 @@ public class EntryAd_Test extends BaseTest
         wait.until(ExpectedConditions.elementToBeClickable(modalCloseButton));
         assertTrue(modal.isDisplayed());
 
-        ClickModalCloseButton(modalCloseButton);
+        ClickButtonWithJSFallback(modalCloseButton);
 
         CheckModalNotDisplayed(modal);
     }
@@ -48,7 +48,7 @@ public class EntryAd_Test extends BaseTest
         wait.until(ExpectedConditions.elementToBeClickable(modalCloseButton));
         assertTrue(modal.isDisplayed());
 
-        ClickModalCloseButton(modalCloseButton);
+        ClickButtonWithJSFallback(modalCloseButton);
         CheckModalNotDisplayed(modal);
 
         if(driver.getCurrentUrl() != null)
@@ -74,13 +74,13 @@ public class EntryAd_Test extends BaseTest
         wait.until(ExpectedConditions.elementToBeClickable(modalCloseButton));
         assertTrue(modal.isDisplayed());
 
-        ClickModalCloseButton(modalCloseButton);
+        ClickButtonWithJSFallback(modalCloseButton);
         CheckModalNotDisplayed(modal);
 
         // Re-enable the popup
         WebElement resetButton = driver.findElement(By.id("restart-ad"));
         wait.until(ExpectedConditions.elementToBeClickable(resetButton));
-        resetButton.click();
+        ClickButtonWithJSFallback(resetButton);
 
         if(driver.getCurrentUrl() != null)
         {
@@ -105,12 +105,11 @@ public class EntryAd_Test extends BaseTest
         }
     }
 
-    private void ClickModalCloseButton(WebElement button)
+    private void ClickButtonWithJSFallback(WebElement button)
     {
         try {
             button.click();
         } catch (ElementClickInterceptedException e) {
-            // fallback to JS click if intercepted
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", button);
         }
     }

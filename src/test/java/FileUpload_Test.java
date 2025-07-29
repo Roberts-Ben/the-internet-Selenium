@@ -24,7 +24,7 @@ public class FileUpload_Test extends BaseTest
     {
         File fileToUpload = new File("src/main/resources/testuploadfile/testFile.txt");
         String fileString = fileToUpload.toString();
-        String fileName = fileString.substring(fileString.lastIndexOf('\\') + 1);
+        String fileName = fileString.substring(Math.max(fileString.lastIndexOf('/'), fileString.lastIndexOf('\\')) + 1); // Account for both path structures
 
         System.out.println("Attempting to upload file: " + fileToUpload.getAbsolutePath());
 
