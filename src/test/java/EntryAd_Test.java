@@ -30,7 +30,7 @@ public class EntryAd_Test extends BaseTest
         assertFalse(modal.isDisplayed());
 
         // Wait for modal to appear
-        wait.until(ExpectedConditions.visibilityOf(modal));
+        wait.until(ExpectedConditions.elementToBeClickable(modalCloseButton));
         assertTrue(modal.isDisplayed());
 
         modalCloseButton.click();
@@ -46,7 +46,7 @@ public class EntryAd_Test extends BaseTest
         assertFalse(modal.isDisplayed());
 
         // Wait for modal to appear
-        wait.until(ExpectedConditions.visibilityOf(modal));
+        wait.until(ExpectedConditions.elementToBeClickable(modalCloseButton));
         assertTrue(modal.isDisplayed());
 
         modalCloseButton.click();
@@ -91,7 +91,7 @@ public class EntryAd_Test extends BaseTest
         modal = driver.findElement(By.id("modal"));
 
         // Wait for modal to appear
-        wait.until(ExpectedConditions.visibilityOf(modal));
+        wait.until(ExpectedConditions.elementToBeClickable(modalCloseButton));
         assertTrue(modal.isDisplayed());
     }
 

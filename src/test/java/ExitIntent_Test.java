@@ -30,10 +30,8 @@ public class ExitIntent_Test extends BaseTest
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("_ouibounce.fire();");
 
-        wait.until(ExpectedConditions.visibilityOf(modal));
-        assertTrue(modal.isDisplayed());
-
         wait.until(ExpectedConditions.elementToBeClickable(modalCloseButton));
+        assertTrue(modal.isDisplayed());
 
         modalCloseButton.click();
 
