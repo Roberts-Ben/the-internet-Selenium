@@ -17,7 +17,7 @@ public class EntryAd_Test extends BaseTest
     }
 
     @Test
-    public void verifyAdOnFirstLoad()
+    public void verifyAdOnFirstLoad() throws InterruptedException
     {
         WebElement modalFooter = driver.findElement(By.className("modal-footer"));
         assertFalse(modalFooter.isDisplayed());
@@ -26,6 +26,7 @@ public class EntryAd_Test extends BaseTest
         wait.until(ExpectedConditions.visibilityOf(modalFooter));
         assertTrue(modalFooter.isDisplayed());
 
+        Thread.sleep(2000);
         modalFooter.click();
 
         wait.until(ExpectedConditions.invisibilityOf(modalFooter));
@@ -42,6 +43,7 @@ public class EntryAd_Test extends BaseTest
         wait.until(ExpectedConditions.visibilityOf(modalFooter));
         assertTrue(modalFooter.isDisplayed());
 
+        Thread.sleep(2000);
         modalFooter.click();
 
         wait.until(ExpectedConditions.invisibilityOf(modalFooter));
@@ -59,7 +61,8 @@ public class EntryAd_Test extends BaseTest
     }
 
     @Test
-    public void verifyAdAppearsAfterRefresh() throws InterruptedException {
+    public void verifyAdAppearsAfterRefresh() throws InterruptedException
+    {
         WebElement modalFooter = driver.findElement(By.className("modal-footer"));
         assertFalse(modalFooter.isDisplayed());
 
