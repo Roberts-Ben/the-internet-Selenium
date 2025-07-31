@@ -67,6 +67,7 @@ public class EntryAd_Test extends BaseTest
         wait.until(ExpectedConditions.visibilityOf(modalFooter));
         assertTrue(modalFooter.isDisplayed());
 
+        Thread.sleep(2000);
         modalFooter.click();
 
         wait.until(ExpectedConditions.invisibilityOf(modalFooter));
