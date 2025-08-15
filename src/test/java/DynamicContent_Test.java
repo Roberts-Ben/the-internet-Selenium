@@ -23,48 +23,34 @@ public class DynamicContent_Test extends BaseTest
     @Test
     public void verifyDynamicContent()
     {
-        List<WebElement> avatars = driver.findElements(By.xpath("//img[contains(@src, 'avatar')]"));
-        List<WebElement> paragraphs = driver.findElements(By.className("large-10"));
-
-        List<String> avatarContent = getAvatarSources();
-        List<String> paragraphContent = getParagraphTexts();
+        List<String> originalAvatarContent = getAvatarSources();
+        List<String> originalParagraphContent = getParagraphTexts();
 
         // Refresh page
         driver.navigate().refresh();
 
-        avatars.clear();
-        paragraphs.clear();
-        avatarContent.clear();
-        paragraphContent.clear();
-
-        avatars = driver.findElements(By.xpath("//img[contains(@src, 'avatar')]"));
-        paragraphs = driver.findElements(By.className("large-10"));
-
-        avatarContent = getAvatarSources();
-        paragraphContent = getParagraphTexts();
+        List<String> newAvatarContent = getAvatarSources();
+        List<String> newParagraphContent = getParagraphTexts();
 
         // Confirm content is different
-        for (int i = 0; i < avatars.size(); i++)
+        for (int i = 0; i < originalAvatarContent.size(); i++)
         {
-            String currentAvatarContent = avatars.get(i).getAttribute("src");
-            String currentParagraphContent = paragraphs.get(i).getText();
-
-            if(!Objects.equals(avatarContent.get(i), currentAvatarContent))
+            if(!Objects.equals(originalAvatarContent.get(i), newAvatarContent.get(i)))
             {
-                assertNotEquals(avatarContent.get(i), currentAvatarContent);
+                assertNotEquals(originalAvatarContent.get(i), newAvatarContent.get(i));
             }
             else
             {
-                assertEquals(avatarContent.get(i), currentAvatarContent);
+                assertEquals(originalAvatarContent.get(i), newAvatarContent.get(i));
             }
 
-            if(!Objects.equals(paragraphContent.get(i), currentParagraphContent))
+            if(!Objects.equals(originalParagraphContent.get(i), newParagraphContent.get(i)))
             {
-                assertNotEquals(paragraphContent.get(i), currentParagraphContent);
+                assertNotEquals(originalParagraphContent.get(i), newParagraphContent.get(i));
             }
             else
             {
-                assertEquals(paragraphContent.get(i), currentParagraphContent);
+                assertEquals(originalParagraphContent.get(i), newParagraphContent.get(i));
             }
         }
     }
@@ -75,56 +61,42 @@ public class DynamicContent_Test extends BaseTest
         WebElement staticContentLink = driver.findElement(By.xpath("//a[text()='click here']"));
         staticContentLink.click();
 
-        List<WebElement> avatars = driver.findElements(By.xpath("//img[contains(@src, 'avatar')]"));
-        List<WebElement> paragraphs = driver.findElements(By.className("large-10"));
-
-        List<String> avatarContent = getAvatarSources();
-        List<String> paragraphContent = getParagraphTexts();
+        List<String> originalAvatarContent = getAvatarSources();
+        List<String> originalParagraphContent = getParagraphTexts();
 
         // Refresh page
         driver.navigate().refresh();
 
-        avatars.clear();
-        paragraphs.clear();
-        avatarContent.clear();
-        paragraphContent.clear();
-
-        avatars = driver.findElements(By.xpath("//img[contains(@src, 'avatar')]"));
-        paragraphs = driver.findElements(By.className("large-10"));
-
-        avatarContent = getAvatarSources();
-        paragraphContent = getParagraphTexts();
+        List<String> newAvatarContent = getAvatarSources();
+        List<String> newParagraphContent = getParagraphTexts();
 
         // Confirm content is different
-        for (int i = 0; i < avatars.size(); i++)
+        for (int i = 0; i < originalAvatarContent.size(); i++)
         {
-            String currentAvatarContent = avatars.get(i).getAttribute("src");
-            String currentParagraphContent = paragraphs.get(i).getText();
-
             if(i < 2)
             {
                 // First 2 are always static
-                assertEquals(avatarContent.get(i), currentAvatarContent);
-                assertEquals(paragraphContent.get(i), currentParagraphContent);
+                assertEquals(originalAvatarContent.get(i), newAvatarContent.get(i));
+                assertEquals(originalParagraphContent.get(i), newParagraphContent.get(i));
             }
             else
             {
-                if(!Objects.equals(avatarContent.get(i), currentAvatarContent))
+                if(!Objects.equals(originalAvatarContent.get(i), newAvatarContent.get(i)))
                 {
-                    assertNotEquals(avatarContent.get(i), currentAvatarContent);
+                    assertNotEquals(originalAvatarContent.get(i), newAvatarContent.get(i));
                 }
                 else
                 {
-                    assertEquals(avatarContent.get(i), currentAvatarContent);
+                    assertEquals(originalAvatarContent.get(i), newAvatarContent.get(i));
                 }
 
-                if(!Objects.equals(paragraphContent.get(i), currentParagraphContent))
+                if(!Objects.equals(originalParagraphContent.get(i), newParagraphContent.get(i)))
                 {
-                    assertNotEquals(paragraphContent.get(i), currentParagraphContent);
+                    assertNotEquals(originalParagraphContent.get(i), newParagraphContent.get(i));
                 }
                 else
                 {
-                    assertEquals(paragraphContent.get(i), currentParagraphContent);
+                    assertEquals(originalParagraphContent.get(i), newParagraphContent.get(i));
                 }
             }
         }
@@ -143,7 +115,9 @@ public class DynamicContent_Test extends BaseTest
 
     private List<String> getParagraphTexts()
     {
-        List<WebElement> paragraphs = driver.findElements(By.className("large-10"));
+        WebElement paragraphHolder = driver.findElement(By.className("large-10"));
+
+        List<WebElement> paragraphs = paragraphHolder.findElements(By.className("large-10"));
         List<String> texts = new ArrayList<>();
         for (WebElement paragraph : paragraphs)
         {
