@@ -1,0 +1,42 @@
+package com.br.theinternet.tests;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class Geolocation_Test extends BaseTest
+{
+    String mapsBaseURL = "http://maps.google.com/";
+
+    @BeforeEach
+    public void setup() throws Exception
+    {
+        driver.get("https://the-internet.herokuapp.com/geolocation");
+
+        String URL = driver.getCurrentUrl();
+        assertEquals("https://the-internet.herokuapp.com/geolocation", URL);
+    }
+
+    @Test
+    public void verifyLocation()
+    {
+        WebElement locationButton = driver.findElement(By.xpath("//button[@onclick='getLocation()']"));
+
+        locationButton.click();
+
+        WebElement latValue = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("lat-value")));
+        WebElement longValue = driver.findElement(By.id("long-value"));
+
+        String location = mapsBaseURL + "?q=" + latValue.getText() + "," + longValue.getText();
+
+        assertTrue(latValue.isDisplayed());
+
+        WebElement mapsLink = driver.findElement(By.xpath("//a[contains(text(), 'See it on Google')]"));
+
+        assertEquals(location, mapsLink.getAttribute("href"));
+    }
+}
