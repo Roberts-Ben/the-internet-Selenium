@@ -1,10 +1,9 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.AddRemoveElementsPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -13,23 +12,24 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class AddRemoveElements_Test extends BaseTest
 {
+    private AddRemoveElementsPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/add_remove_elements/";
+
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/add_remove_elements/");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/add_remove_elements/", URL);
+        page = new AddRemoveElementsPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, driver.getCurrentUrl());
     }
 
     @Test
     public void verifyAddElement()
     {
-        AddElement();
+        page.addElement();
 
-        WebElement deleteButton = driver.findElement(By.cssSelector("button[onclick='deleteElement()']"));
-
-        assertTrue(deleteButton.isDisplayed());
+        assertTrue(page.getDeleteButtons().getFirst().isDisplayed());
     }
 
     @Test
@@ -39,29 +39,24 @@ public class AddRemoveElements_Test extends BaseTest
 
         for(int i = 0; i < elementsToAdd; i++)
         {
-            AddElement();
+            page.addElement();
         }
 
-        List<WebElement> deleteButtons = driver.findElements(By.cssSelector("button[onclick='deleteElement()']"));
-
-        assertEquals(elementsToAdd, deleteButtons.size());
+        assertEquals(elementsToAdd, page.getDeleteButtons().size());
     }
 
     @Test
     public void verifyDeleteElement()
     {
-        AddElement();
+        page.addElement();
 
-        List<WebElement> deleteButton = driver.findElements(By.cssSelector("button[onclick='deleteElement()']"));
+        List<WebElement> deleteButtons = page.getDeleteButtons();
 
-        assertEquals(1, deleteButton.size());
+        assertEquals(1, deleteButtons.size());
 
-        deleteButton.getFirst().click();
+        page.deleteElement(deleteButtons.getFirst());
 
-        deleteButton.clear();
-        deleteButton = driver.findElements(By.cssSelector("button[onclick='deleteElement()']"));
-
-        assertEquals(0, deleteButton.size());
+        assertEquals(0, page.getDeleteButtons().size());
     }
 
     @Test
@@ -71,22 +66,19 @@ public class AddRemoveElements_Test extends BaseTest
 
         for(int i = 0; i < elementsToAdd; i++)
         {
-            AddElement();
+            page.addElement();
         }
 
-        List<WebElement> deleteButtons = GetDeleteButtons();
+        List<WebElement> deleteButtons = page.getDeleteButtons();
 
         assertEquals(elementsToAdd, deleteButtons.size());
 
-        for(int i = 0; i < elementsToAdd; i++)
+        for(WebElement button : deleteButtons)
         {
-            DeleteElement(deleteButtons.get(i));
+            page.deleteElement(button);
         }
 
-        deleteButtons.clear();
-        deleteButtons = GetDeleteButtons();
-
-        assertEquals(0, deleteButtons.size());
+        assertEquals(0, page.getDeleteButtons().size());
     }
 
     @Test
@@ -97,52 +89,29 @@ public class AddRemoveElements_Test extends BaseTest
 
         for(int i = 0; i < elementsToAdd; i++)
         {
-            AddElement();
+            page.addElement();
         }
 
-        List<WebElement> deleteButtons = GetDeleteButtons();
+        List<WebElement> deleteButtons = page.getDeleteButtons();
 
         assertEquals(elementsToAdd, deleteButtons.size());
 
         for(int i = 0; i < elementsToDelete; i++)
         {
+            deleteButtons = page.getDeleteButtons();
+
             int randomIndex = ThreadLocalRandom.current().nextInt(0, deleteButtons.size());
 
-            if(IsElementStale(deleteButtons.get(randomIndex)))
+            if(page.isElementStale(deleteButtons.get(randomIndex)))
             {
                 i--; // Attempt another removal as this element was already removed
             }
             else
             {
-                DeleteElement(deleteButtons.get(randomIndex));
+                page.deleteElement(deleteButtons.get(randomIndex));
             }
         }
 
-        deleteButtons.clear();
-        deleteButtons = GetDeleteButtons();
-
-        assertEquals(elementsToAdd - elementsToDelete, deleteButtons.size());
-    }
-
-    private void AddElement()
-    {
-        WebElement addButton = driver.findElement(By.cssSelector("button[onclick='addElement()']"));
-
-        addButton.click();
-    }
-
-    private List<WebElement> GetDeleteButtons()
-    {
-        return driver.findElements(By.cssSelector("button[onclick='deleteElement()']"));
-    }
-
-    private void DeleteElement(WebElement elementToDelete)
-    {
-        elementToDelete.click();
-    }
-
-    private boolean IsElementStale(WebElement element)
-    {
-        return Boolean.TRUE.equals(ExpectedConditions.stalenessOf(element).apply(driver));
+        assertEquals(elementsToAdd - elementsToDelete, page.getDeleteButtons().size());
     }
 }

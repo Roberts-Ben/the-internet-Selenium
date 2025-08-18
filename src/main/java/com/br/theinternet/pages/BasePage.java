@@ -1,5 +1,6 @@
 package com.br.theinternet.pages;
 
+import io.restassured.RestAssured;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -48,5 +49,10 @@ public class BasePage
         } catch (Exception e) {
             return false;
         }
+    }
+
+    protected int getStatusCode(String URL)
+    {
+        return RestAssured.given().when().get(URL).statusCode();
     }
 }

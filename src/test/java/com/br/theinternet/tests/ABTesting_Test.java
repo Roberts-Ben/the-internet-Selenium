@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ABTesting_Test extends BaseTest
 {
-    private ABTestingPage abTestPage;
+    private ABTestingPage page;
 
     private static final String URL = "https://the-internet.herokuapp.com/abtest";
     private static final String HEADER_A = "A/B Test Variation 1";
@@ -17,15 +17,15 @@ public class ABTesting_Test extends BaseTest
     @BeforeEach
     public void setup()
     {
-        abTestPage = new ABTestingPage(driver);
-        abTestPage.navigateTo(URL);
+        page = new ABTestingPage(driver);
+        page.navigateTo(URL);
         assertEquals(URL, driver.getCurrentUrl());
     }
 
     @Test
     public void verifyHeaderText()
     {
-        String headerText = abTestPage.getHeaderText();
+        String headerText = page.getHeaderText();
 
         assertTrue(headerText.equals(HEADER_A) || headerText.equals(HEADER_B),
                 "Header text does not match any expected value. Found: " + headerText
