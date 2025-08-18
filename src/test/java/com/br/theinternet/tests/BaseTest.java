@@ -33,7 +33,7 @@ public class BaseTest
         pattern = Pattern.compile("\\.(jpg|png|txt|json|xlsx|pdf|mp4|zip|py|exe|docx|jpeg|csv|sol|tmp|java|doc)$", Pattern.CASE_INSENSITIVE);
 
         ChromeOptions options = getChromeOptions();
-        //options.addArguments("--headless=new");
+        options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--user-data-dir=" + tempProfile.toAbsolutePath());
