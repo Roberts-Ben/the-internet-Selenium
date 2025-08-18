@@ -1,13 +1,14 @@
 package com.br.theinternet.tests;
 
-import com.br.theinternet.pages.ABTestPage;
+import com.br.theinternet.pages.ABTestingPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ABTesting_Test extends BaseTest
 {
-    ABTestPage page;
+    private ABTestingPage abTestPage;
 
     private static final String URL = "https://the-internet.herokuapp.com/abtest";
     private static final String HEADER_A = "A/B Test Variation 1";
@@ -16,16 +17,15 @@ public class ABTesting_Test extends BaseTest
     @BeforeEach
     public void setup()
     {
-        driver.get(URL);
+        abTestPage = new ABTestingPage(driver);
+        abTestPage.navigateTo(URL);
         assertEquals(URL, driver.getCurrentUrl());
     }
 
     @Test
     public void verifyHeaderText()
     {
-        page = new ABTestPage(driver);
-
-        String headerText = page.getHeaderText();
+        String headerText = abTestPage.getHeaderText();
 
         assertTrue(headerText.equals(HEADER_A) || headerText.equals(HEADER_B),
                 "Header text does not match any expected value. Found: " + headerText
