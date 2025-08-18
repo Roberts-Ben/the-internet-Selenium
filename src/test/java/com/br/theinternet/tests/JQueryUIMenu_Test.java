@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.io.File;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -112,34 +111,6 @@ public class JQueryUIMenu_Test extends BaseTest
 
         downloadLinkElement.click();
 
-        assertTrue(isFileDownloaded(fileName));
-    }
-
-    private boolean isFileDownloaded(String fileName)
-    {
-        File dir = new File(downloadDirectory);
-        File targetFile = new File(dir, fileName);
-
-        int timeElapsed = 0;
-        int timeout = 10;
-
-        while (timeElapsed < timeout) {
-            if (targetFile.exists()) {
-                targetFile.delete();
-                return true;
-            }
-
-            try {
-                Thread.sleep(1000);  // Wait 1 second
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();  // Restore interrupted status
-                break;
-            }
-
-            timeElapsed++;
-        }
-
-        System.out.println("File should be downloaded but is not: " + fileName);
-        return false;
+        assertTrue(isFileDownloaded(fileName, true));
     }
 }

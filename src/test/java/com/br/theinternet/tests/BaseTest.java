@@ -8,6 +8,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
@@ -20,15 +21,16 @@ public class BaseTest
     protected WebDriver driver;
     protected WebDriverWait wait;
 
+    public Path tempProfile;
     public String downloadDirectory;
+
     public Pattern pattern;
 
     @BeforeEach
     public void setUp() throws Exception
     {
-        Path tempProfile = Files.createTempDirectory("chrome-profile-");
+        tempProfile = Files.createTempDirectory("chrome-profile-");
         downloadDirectory = Files.createTempDirectory("downloads").toAbsolutePath().toString();
-        new File(downloadDirectory).mkdirs();
 
         pattern = Pattern.compile("\\.(jpg|png|txt|json|xlsx|pdf|mp4|zip|py|exe|docx|jpeg|csv|sol|tmp|java|doc)$", Pattern.CASE_INSENSITIVE);
 
@@ -61,5 +63,75 @@ public class BaseTest
         {
             driver.quit();
         }
+
+        // Delete temporary directories
+        deleteDirectory(tempProfile);
+        deleteDirectory(Path.of(downloadDirectory));
+    }
+
+    private void deleteDirectory(Path path) {
+        if (path != null && Files.exists(path))
+        {
+            try
+            {
+                Files.walk(path).sorted((a, b) -> b.compareTo(a)).forEach(p ->
+                {
+                    try {
+                        Files.delete(p);
+                    } catch (IOException e) {
+                        System.err.println("Failed to delete: " + p + " - " + e.getMessage());
+                    }
+                });
+            } catch (IOException e) {
+                System.err.println("Error walking path: " + path + " - " + e.getMessage());
+            }
+        }
+    }
+
+    protected boolean isFileDownloaded(String fileName, boolean shouldExist)
+    {
+        File file = new File(downloadDirectory, fileName);
+
+        int timeElapsed = 0;
+        int timeout = 10;
+
+        if (!shouldExist)
+        {
+            return file.exists();
+        }
+
+        while (timeElapsed < timeout)
+        {
+            // Check full file
+            if (file.exists())
+            {
+                file.delete(); // cleanup after verification
+                return true;
+            }
+
+            // Check for partial files (.crdownload)
+            File[] partials = new File(downloadDirectory).listFiles((d, name) -> name.startsWith(fileName) || name.endsWith(".crdownload"));
+
+            if (partials != null)
+            {
+                for (File p : partials)
+                {
+                    p.delete();
+                    return true; // treat as detected for cleanup
+                }
+            }
+
+            try {
+                Thread.sleep(1000); // wait 1 second
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+
+            timeElapsed++;
+        }
+
+        System.out.println("File should be downloaded but is not: " + fileName);
+        return false;
     }
 }

@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import java.io.File;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -56,40 +55,5 @@ public class FileDownload_Test extends BaseTest
             }
             currentFile++;
         }
-    }
-
-    boolean isFileDownloaded(String fileName, boolean shouldExist)
-    {
-        File dir = new File(downloadDirectory);
-        File targetFile = new File(dir, fileName);
-
-        int timeElapsed = 0;
-        int timeout = 10;
-
-        if(!shouldExist) // Break out early on the false check as we don't need to wait for the file to download
-        {
-            return targetFile.exists();
-        }
-
-        while (timeElapsed < timeout)
-        {
-            if (targetFile.exists())
-            {
-                targetFile.delete();
-                return true;
-            }
-
-            try {
-                Thread.sleep(1000);  // Wait 1 second
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();  // Restore interrupted status
-                break;
-            }
-
-            timeElapsed++;
-        }
-
-        System.out.println("File should be downloaded but is not: " + fileName);
-        return false;
     }
 }
