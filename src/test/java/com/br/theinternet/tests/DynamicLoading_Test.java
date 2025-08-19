@@ -1,55 +1,48 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.DynamicLoadingPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DynamicLoading_Test extends BaseTest
 {
+    private DynamicLoadingPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/dynamic_controls";
+    private static final String URLTest1 = "https://the-internet.herokuapp.com/dynamic_loading/1";
+    private static final String URLTest2 = "https://the-internet.herokuapp.com/dynamic_loading/2";
+
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/dynamic_loading");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/dynamic_loading", URL);
+        page = new DynamicLoadingPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, driver.getCurrentUrl());
     }
 
     @Test
     public void verifyHiddenElement()
     {
-        driver.get("https://the-internet.herokuapp.com/dynamic_loading/1");
+        page.navigateTo(URLTest1);
 
-        WebElement startButton = driver.findElement(By.xpath("//button"));
-        WebElement hiddenElement = driver.findElement(By.id("finish"));
+        assertFalse(page.isHiddenElementVisible());
 
-        assertFalse(hiddenElement.isDisplayed());
+        page.clickStartButton();
 
-        startButton.click();
-
-        wait.until(ExpectedConditions.visibilityOf(hiddenElement));
-        assertTrue(hiddenElement.isDisplayed());
+        assertTrue(page.isHiddenElementVisible());
     }
 
     @Test
     public void verifyElementExistsAfterLoad()
     {
-        driver.get("https://the-internet.herokuapp.com/dynamic_loading/2");
+        page.navigateTo(URLTest2);
 
-        WebElement startButton = driver.findElement(By.xpath("//button"));
-        List<WebElement> hiddenElement = driver.findElements(By.id("finish"));
+        assertEquals(0, page.getHiddenElementSize());
 
-        assertEquals(0, hiddenElement.size());
+        page.clickStartButton();
 
-        startButton.click();
-
-        WebElement finalElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("finish")));
-        assertTrue(finalElement.isDisplayed());
+        assertTrue(page.isHiddenElementVisible());
     }
 }

@@ -1,73 +1,56 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.DynamicControlsPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DynamicControls_Test extends BaseTest
 {
+    private DynamicControlsPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/dynamic_controls";
+
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/dynamic_controls");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/dynamic_controls", URL);
+        page = new DynamicControlsPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, driver.getCurrentUrl());
     }
 
     @Test
     public void verifyDynamicCheckbox()
     {
-        List<WebElement> checkbox = driver.findElements(By.id("checkbox"));
-        WebElement swapButton = driver.findElement(By.xpath("//button[@onclick='swapCheckbox()']"));
+        assertEquals(1, page.getCheckboxSize());
 
-        assertEquals(1, checkbox.size());
+        page.clickSwapCheckboxButton();
 
-        swapButton.click();
+        assertTrue(page.isSuccessMessageVisible());
+        assertEquals("It's gone!", page.getSuccessText());
 
-        WebElement successMessage = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("message")));
+        assertEquals(0, page.getCheckboxSize());
 
-        assertTrue(successMessage.isDisplayed());
-        assertEquals("It's gone!", successMessage.getText());
+        page.clickSwapCheckboxButton();
 
-        checkbox = driver.findElements(By.id("checkbox"));
-        assertEquals(0, checkbox.size());
+        assertTrue(page.isSuccessMessageVisible());
+        assertEquals("It's back!", page.getSuccessText());
 
-        swapButton.click();
-
-        successMessage = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("message")));
-
-        assertTrue(successMessage.isDisplayed());
-        assertEquals("It's back!", successMessage.getText());
-
-        checkbox = driver.findElements(By.id("checkbox"));
-        assertEquals(1, checkbox.size());
+        assertEquals(1, page.getCheckboxSize());
     }
 
     @Test
     public void verifyDynamicInput()
     {
-        WebElement inputField = driver.findElement(By.xpath("//input[@type='text']"));
-        WebElement swapButton = driver.findElement(By.xpath("//button[@onclick='swapInput()']"));
+        assertTrue(page.isInputFieldDisabled());
 
-        assertFalse(inputField.isEnabled());
+        page.clickSwapInputButton();
 
-        swapButton.click();
+        assertTrue(page.isInputFieldEnabled());
 
-        wait.until(ExpectedConditions.elementToBeClickable(inputField));
+        page.clickSwapInputButton();
 
-        assertTrue(inputField.isEnabled());
-
-        swapButton.click();
-
-        wait.until(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(inputField)));
-
-        assertFalse(inputField.isEnabled());
+        assertTrue(page.isInputFieldDisabled());
     }
 }

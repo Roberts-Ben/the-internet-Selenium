@@ -1,47 +1,36 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.DragAndDropPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DragAndDrop_Test extends BaseTest
 {
+    private DragAndDropPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/drag_and_drop";
+
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/drag_and_drop");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/drag_and_drop", URL);
+        page = new DragAndDropPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, driver.getCurrentUrl());
     }
 
     @Test
     public void verifyDragDropSwap()
     {
-        // The draggable elements
-        WebElement dragColumnA = driver.findElement(By.id("column-a"));
-        WebElement dragColumnB = driver.findElement(By.id("column-b"));
+        assertEquals("A",page.getHeaderAText());
+        assertEquals("B",page.getHeaderBText());
 
-        // The content of each drag/drop space
-        WebElement dragHeaderA = driver.findElement(By.cssSelector("#column-a > header"));
-        WebElement dragHeaderB = driver.findElement(By.cssSelector("#column-b > header"));
-
-        assertEquals("A",dragHeaderA.getText());
-        assertEquals("B",dragHeaderB.getText());
-
-        Actions dragDropAction = new Actions(driver);
-        dragDropAction.dragAndDrop(dragColumnA, dragColumnB).build().perform();
+        page.dragAndDrop();
 
         // Re-assess which content is in each drag/rop space
-        dragHeaderA = driver.findElement(By.cssSelector("#column-a > header"));
-        dragHeaderB = driver.findElement(By.cssSelector("#column-b > header"));
-
-        assertEquals("B",dragHeaderA.getText());
-        assertEquals("A",dragHeaderB.getText());
+        assertEquals("B",page.getHeaderAText());
+        assertEquals("A",page.getHeaderBText());
     }
 }
 

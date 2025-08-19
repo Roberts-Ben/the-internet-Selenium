@@ -64,6 +64,24 @@ public class BasePage
         }
     }
 
+    // Check if element is enabled
+    protected boolean isEnabled(WebElement element)
+    {
+        return element.isEnabled();
+    }
+
+    // Check if element is clickable
+    protected WebElement waitForClickable(By locator)
+    {
+        return wait.until(ExpectedConditions.elementToBeClickable(locator));
+    }
+
+    protected void waitForNotClickable(By locator)
+    {
+        wait.until(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(locator)));
+    }
+
+    // Check status code of target URL
     protected int getStatusCode(String URL)
     {
         return RestAssured.given().when().get(URL).statusCode();

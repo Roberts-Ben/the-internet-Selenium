@@ -1,6 +1,5 @@
 package com.br.theinternet.tests;
 
-import com.br.theinternet.pages.AddRemoveElementsPage;
 import com.br.theinternet.pages.BrokenImagesPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

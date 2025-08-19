@@ -3,10 +3,6 @@ package com.br.theinternet.tests;
 import com.br.theinternet.pages.ContextMenuPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 
 import static org.junit.jupiter.api.Assertions.*;
 
