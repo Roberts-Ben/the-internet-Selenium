@@ -31,7 +31,7 @@ public class BrokenImages_Test extends BaseTest
 
         for (WebElement image : images)
         {
-            String imageURL = image.getAttribute("src");
+            String imageURL = page.getImageURL(image);
 
             if(imageURL != null)
             {

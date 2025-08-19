@@ -3,9 +3,11 @@ package com.br.theinternet.pages;
 import io.restassured.RestAssured;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
+import java.util.List;
 
 public class BasePage
 {
@@ -21,6 +23,17 @@ public class BasePage
     public void navigateTo(String url)
     {
         driver.get(url);
+    }
+
+    // Find element(s)
+    protected WebElement find(By locator)
+    {
+        return driver.findElement(locator);
+    }
+
+    protected List<WebElement> findAll(By locator)
+    {
+        return driver.findElements(locator);
     }
 
     // Click element

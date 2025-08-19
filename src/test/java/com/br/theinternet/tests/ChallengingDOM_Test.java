@@ -1,82 +1,67 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.ChallengingDOMPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ChallengingDOM_Test extends BaseTest
 {
+    private ChallengingDOMPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/challenging_dom";
+
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/challenging_dom");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/challenging_dom", URL);
+        page = new ChallengingDOMPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, driver.getCurrentUrl());
     }
 
     @Test
     public void verifyButton()
     {
-        WebElement button = driver.findElement(By.xpath("//a[@class='button']"));
-        assertTrue(button.isDisplayed());
-
-        button.click();
+        assertTrue(page.isButtonVisible());
+        page.clickButton();
     }
 
     @Test
     public void verifyAlertButton()
     {
-        WebElement alertButton = driver.findElement(By.xpath("//a[@class='button alert']"));
-        assertTrue(alertButton.isDisplayed());
-
-        alertButton.click();
+        assertTrue(page.isAlertButtonVisible());
+        page.clickAlertButton();
     }
 
     @Test
     public void verifySuccessButton()
     {
-        WebElement successButton = driver.findElement(By.xpath("//a[@class='button success']"));
-        assertTrue(successButton.isDisplayed());
-
-        successButton.click();
+        assertTrue(page.isSuccessButtonVisible());
+        page.clickSuccessButton();
     }
 
     @Test
     public void verifyTable()
     {
         int tableSize = 10;
-        String baseURL = driver.getCurrentUrl();
 
-        WebElement tableLoremHeader = driver.findElement(By.xpath("//th[contains(text(),'Lorem')]"));
-        List<WebElement> tableLorem = driver.findElements(By.xpath("//td[contains(text(),'Iuvaret')]"));
+        assertTrue(page.isLoremHeaderVisible());
 
-        List<WebElement> tableEditAction = driver.findElements(By.xpath("//a[text()='edit']"));
-        List<WebElement> tableDeleteAction = driver.findElements(By.xpath("//a[text()='delete']"));
+        page.clickFirstEdit();
+        assertEquals(URL + "#edit", driver.getCurrentUrl());
 
-        assertTrue(tableLoremHeader.isDisplayed());
+        page.clickFirstDelete();
+        assertEquals(URL + "#delete", driver.getCurrentUrl());
 
-        tableEditAction.getFirst().click();
-        assertEquals(baseURL +  "#edit", driver.getCurrentUrl());
-
-        tableDeleteAction.getFirst().click();
-        assertEquals(baseURL +  "#delete", driver.getCurrentUrl());
-
-        for(int i = 0; i < tableSize; i++)
-        {
-            assertEquals("Iuvaret" + i, tableLorem.get(i).getText());
+        for (int i = 0; i < tableSize; i++) {
+            assertEquals("Iuvaret" + i, page.getLoremCellText(i));
         }
     }
 
     @Test
     public void verifyCanvas()
     {
-        WebElement canvas = driver.findElement(By.id("canvas"));
-        assertTrue(canvas.isDisplayed());
+        assertTrue(page.isCanvasVisible());
     }
 }

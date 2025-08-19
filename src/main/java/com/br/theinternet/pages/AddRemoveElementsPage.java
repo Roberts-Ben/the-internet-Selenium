@@ -29,7 +29,7 @@ public class AddRemoveElementsPage extends BasePage
 
     public List<WebElement> getDeleteButtons()
     {
-        return driver.findElements(deleteButtonsBy);
+        return findAll(deleteButtonsBy);
     }
 
     public boolean isElementStale(WebElement element)

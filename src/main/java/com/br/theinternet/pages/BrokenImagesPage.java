@@ -17,7 +17,12 @@ public class BrokenImagesPage extends BasePage
 
     public List<WebElement> getAllImages()
     {
-        return driver.findElements(imagesBy);
+        return findAll(imagesBy);
+    }
+    
+    public String getImageURL(WebElement image)
+    {
+        return image.getAttribute("src");
     }
 
     public int verifyImageStatus(String imgURL)

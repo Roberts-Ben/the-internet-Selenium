@@ -1,35 +1,38 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.AuthPage;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.*;
+import org.openqa.selenium.HasAuthentication;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DigestAuth_Test extends BaseTest
 {
-    String baseURL = "the-internet.herokuapp.com/digest_auth";;
+    private AuthPage page;
+
+    private static final String baseURL = "the-internet.herokuapp.com/digest_auth";
+
     String username = "admin";
     String password = "admin";
+
+    @BeforeEach
+    public void setup() throws Exception
+    {
+        page = new AuthPage(driver);
+    }
 
     @Test
     public void verifyAuthSuccessViaDirectURL()
     {
-        String authURL = "https://" + username + ":" + password + "@" + baseURL;
-
-        driver.get(authURL);
-
-        WebElement authSuccessContent = driver.findElement(By.cssSelector("p"));
-        assertEquals("Congratulations! You must have the proper credentials.", authSuccessContent.getText());
+        page.navigateWithCredentials(username, password, baseURL);
+        assertEquals("Congratulations! You must have the proper credentials.", page.getSuccessMessage());
     }
 
     @Test
     public void verifyAuthSuccessViaHasAuthentication()
     {
-        ((HasAuthentication)driver).register(UsernameAndPassword.of(username, password));
-
-        driver.get("https://" + baseURL);
-
-        WebElement authSuccessContent = driver.findElement(By.cssSelector("p"));
-        assertEquals("Congratulations! You must have the proper credentials.", authSuccessContent.getText());
+        page.navigateWithAuth((HasAuthentication) driver, username, password, baseURL);
+        assertEquals("Congratulations! You must have the proper credentials.", page.getSuccessMessage());
     }
 }

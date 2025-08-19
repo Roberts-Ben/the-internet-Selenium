@@ -1,5 +1,6 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.ContextMenuPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Alert;
@@ -11,25 +12,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ContextMenu_Test extends BaseTest
 {
+    private ContextMenuPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/context_menu";
+
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/context_menu");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/context_menu", URL);
+        page = new ContextMenuPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, driver.getCurrentUrl());
     }
 
     @Test
     public void verifyContextMenuAppears()
     {
-        Actions action = new Actions(driver);
-        WebElement contextMenuArea = driver.findElement(By.id("hot-spot"));
+        page.rightClickHotSpot();
 
-        action.contextClick(contextMenuArea).perform();
-
-        Alert alert = driver.switchTo().alert();
-
-        alert.accept();
+        page.switchToAlert().accept();
     }
 }
