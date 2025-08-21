@@ -31,7 +31,7 @@ public class DynamicLoading_Test extends BaseTest
 
         page.clickStartButton();
 
-        assertTrue(page.isHiddenElementVisible());
+        assertTrue(page.waitForHiddenElementVisible());
     }
 
     @Test
@@ -43,6 +43,6 @@ public class DynamicLoading_Test extends BaseTest
 
         page.clickStartButton();
 
-        assertTrue(page.isHiddenElementVisible());
+        assertTrue(page.waitForHiddenElementVisible());
     }
 }

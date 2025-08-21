@@ -62,8 +62,4 @@ public class DynamicContentPage extends BasePage
         }
         return false;
     }
-
-    public void refreshPage() {
-        driver.navigate().refresh();
-    }
 }

@@ -57,33 +57,84 @@ public class BasePage
     // Check if element is visible
     protected boolean isDisplayed(By locator)
     {
+        return driver.findElement(locator).isDisplayed();
+    }
+
+    // Check if element is enabled
+    protected boolean isEnabled(By locator)
+    {
+        return driver.findElement(locator).isEnabled();
+    }
+
+    // Wait checks
+    protected boolean waitForClickable(By locator)
+    {
         try {
-            return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).isDisplayed();
+            wait.until(ExpectedConditions.elementToBeClickable(locator));
+            return true;
         } catch (Exception e) {
             return false;
         }
     }
 
-    // Check if element is enabled
-    protected boolean isEnabled(WebElement element)
+    protected boolean waitForNotClickable(By locator)
     {
-        return element.isEnabled();
+        try {
+            wait.until(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(locator)));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    // Check if element is clickable
-    protected WebElement waitForClickable(By locator)
+    protected boolean waitForEnabled(By locator)
     {
-        return wait.until(ExpectedConditions.elementToBeClickable(locator));
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(locator)).isEnabled();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    protected void waitForNotClickable(By locator)
+    protected boolean waitForVisible(By locator)
     {
-        wait.until(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(locator)));
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    protected boolean waitForInvisible(By locator)
+    {
+        try {
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    protected boolean waitForStaleness(WebElement element)
+    {
+        try {
+            wait.until(ExpectedConditions.stalenessOf(element));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     // Check status code of target URL
     protected int getStatusCode(String URL)
     {
         return RestAssured.given().when().get(URL).statusCode();
+    }
+
+    public void refreshPage()
+    {
+        driver.navigate().refresh();
     }
 }

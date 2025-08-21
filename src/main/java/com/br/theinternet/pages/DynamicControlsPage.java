@@ -35,12 +35,12 @@ public class DynamicControlsPage extends BasePage
 
     public boolean isSuccessMessageVisible()
     {
-        return isDisplayed(successMessageBy);
+        return waitForVisible(successMessageBy);
     }
 
     public boolean isInputFieldEnabled()
     {
-        return isEnabled(waitForClickable(inputFieldBy));
+        return waitForEnabled(inputFieldBy);
     }
 
     public boolean isInputFieldDisabled()
