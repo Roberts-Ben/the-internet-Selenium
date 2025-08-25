@@ -8,16 +8,21 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class BasePage
 {
     protected WebDriver driver;
     protected WebDriverWait wait;
 
+    public Pattern pattern;
+
     public BasePage(WebDriver driver)
     {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        pattern = Pattern.compile("\\.(jpg|png|txt|json|xlsx|pdf|mp4|zip|py|exe|docx|jpeg|csv|sol|tmp|java|doc|class|bin|mov|xml)$", Pattern.CASE_INSENSITIVE);
     }
 
     public void navigateTo(String url)

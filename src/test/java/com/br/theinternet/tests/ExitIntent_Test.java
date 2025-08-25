@@ -1,43 +1,37 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.ExitIntentPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ExitIntent_Test extends BaseTest
 {
+    private ExitIntentPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/exit_intent";
+
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/exit_intent");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/exit_intent", URL);
+        page = new ExitIntentPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, driver.getCurrentUrl());
     }
 
     @Test
     public void verifyModal()
     {
-        WebElement modal = driver.findElement(By.id("ouibounce-modal"));
-        WebElement modalCloseButton = driver.findElement(By.className("modal-footer"));
-
-        assertFalse(modal.isDisplayed());
+        assertFalse(page.isModalVisible());
 
         // Force the modal as if we moved cursor outside the window
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("_ouibounce.fire();");
+        page.forceModal();
 
-        wait.until(ExpectedConditions.elementToBeClickable(modalCloseButton));
-        assertTrue(modal.isDisplayed());
+        assertTrue(page.isModalInteractive());
 
-        modalCloseButton.click();
+        page.closeModal();
 
-        wait.until(ExpectedConditions.invisibilityOf(modal));
-        assertFalse(modal.isDisplayed());
+        assertFalse(page.isModalVisible());
     }
 }

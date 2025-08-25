@@ -1,13 +1,10 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.FileDownloadPage;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.regex.Matcher;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,11 +17,13 @@ public class SecureFileDownload_Test extends BaseTest
     @Test
     public void verifySecureLoginDownload()
     {
+        FileDownloadPage page = new FileDownloadPage(driver);
+
         String authURL = "https://" + username + ":" + password + "@" + baseURL;
 
         driver.get(authURL);
 
-        List<WebElement> downloadButtons = driver.findElements(By.xpath("//a[@href]"));
+        List<WebElement> downloadButtons = page.getDownloadButtons();
 
         int totalFiles = downloadButtons.size();
         int currentFile = 0;
@@ -32,17 +31,13 @@ public class SecureFileDownload_Test extends BaseTest
         // Download and verify files
         for (WebElement downloadButton : downloadButtons)
         {
-            String downloadLink = downloadButton.getAttribute("href");
-            String encodedFileName = downloadLink.substring(downloadLink.lastIndexOf('/') + 1);
-            String fileName = URLDecoder.decode(encodedFileName, StandardCharsets.UTF_8);
+            String fileName = page.extractFileName(downloadButton);
 
-            Matcher matcher = pattern.matcher(fileName);
-
-            if (matcher.find())
+            if (page.isValidFileName(fileName))
             {
                 assertFalse(isFileDownloaded(fileName, false));
 
-                downloadButton.click();
+                page.clickDownload(downloadButton);
                 System.out.println(fileName + " - " + currentFile + "/" + totalFiles);
 
                 assertTrue(isFileDownloaded(fileName, true));

@@ -28,11 +28,6 @@ public class DynamicLoadingPage extends BasePage
         return waitForVisible(hiddenElementBy);
     }
 
-    public boolean waitForHiddenElementHidden()
-    {
-        return waitForInvisible(hiddenElementBy);
-    }
-
     public int getHiddenElementSize()
     {
         return findAll(hiddenElementBy).size();

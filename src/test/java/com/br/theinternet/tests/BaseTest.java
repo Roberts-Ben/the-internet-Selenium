@@ -14,7 +14,6 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 public class BaseTest
 {
@@ -24,15 +23,11 @@ public class BaseTest
     public Path tempProfile;
     public String downloadDirectory;
 
-    public Pattern pattern;
-
     @BeforeEach
     public void setUp() throws Exception
     {
         tempProfile = Files.createTempDirectory("chrome-profile-");
         downloadDirectory = Files.createTempDirectory("downloads").toAbsolutePath().toString();
-
-        pattern = Pattern.compile("\\.(jpg|png|txt|json|xlsx|pdf|mp4|zip|py|exe|docx|jpeg|csv|sol|tmp|java|doc)$", Pattern.CASE_INSENSITIVE);
 
         ChromeOptions options = getChromeOptions();
         options.addArguments("--headless=new");
