@@ -59,6 +59,12 @@ public class BasePage
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).getText();
     }
 
+    // Get attribute text
+    protected String getAttribute(By locator, String attribute)
+    {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).getAttribute(attribute);
+    }
+
     // Check if element is visible
     protected boolean isDisplayed(By locator)
     {

@@ -1,38 +1,36 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.ForgotPasswordPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ForgotPassword_Test extends BaseTest
 {
+    private ForgotPasswordPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/forgot_password";
+
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/forgot_password");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/forgot_password", URL);
+        page = new ForgotPasswordPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, driver.getCurrentUrl());
     }
 
     @Test
     public void verifyForgotPassword()
     {
         String email = "TestUser@TestEmail.com";
-        WebElement inputField = driver.findElement(By.id("email"));;
-        WebElement retrieveButton = driver.findElement(By.id("form_submit"));
 
-        inputField.sendKeys(email);
-        assertEquals(email, inputField.getAttribute("value"));
+        page.inputEmail(email);
 
-        retrieveButton.click();
+        assertEquals(email, page.getInputFieldValue());
 
-        WebElement pageRefreshHeader = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h1")));
+        page.clickRetrieve();
 
-        assertEquals("Internal Server Error", pageRefreshHeader.getText());
+        assertEquals("Internal Server Error", page.getHeaderText());
     }
 }

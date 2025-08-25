@@ -1,40 +1,34 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.FloatingMenuPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FloatingMenu_Test extends BaseTest
 {
+    private FloatingMenuPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/floating_menu";
+
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/floating_menu");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/floating_menu", URL);
+        page = new FloatingMenuPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, driver.getCurrentUrl());
     }
 
     @Test
     public void verifyFloatingHeader() throws InterruptedException
     {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        int scrollPauseTime = 100; // ms
+        assertEquals("top: 0px;", page.getMenuPosition());
 
-        WebElement floatingMenu = driver.findElement(By.id("menu"));
-        var menuPos = floatingMenu.getAttribute("style");
+        page.scrollWindow();
 
-        assertEquals("top: 0px;", menuPos);
+        page.delay();
 
-        js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
-
-        Thread.sleep(scrollPauseTime);
-        menuPos = floatingMenu.getAttribute("style");
-
-        assertNotEquals("top: 0px;", menuPos);
+        assertNotEquals("top: 0px;", page.getMenuPosition());
     }
 }
