@@ -78,23 +78,21 @@ public class BasePage
     }
 
     // Wait checks
-    protected boolean waitForClickable(By locator)
+    protected void waitForClickable(By locator)
     {
         try {
             wait.until(ExpectedConditions.elementToBeClickable(locator));
-            return true;
         } catch (Exception e) {
-            return false;
+            System.out.println("locator should have been clickable: " + e);
         }
     }
 
-    protected boolean waitForNotClickable(By locator)
+    protected void waitForNotClickable(By locator)
     {
         try {
             wait.until(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(locator)));
-            return true;
         } catch (Exception e) {
-            return false;
+            System.out.println("locator should not have been clickable: " + e);
         }
     }
 

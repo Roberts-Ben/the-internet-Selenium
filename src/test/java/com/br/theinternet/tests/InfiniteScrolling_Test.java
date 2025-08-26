@@ -1,5 +1,6 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.InfiniteScrollingPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.JavascriptExecutor;
@@ -8,32 +9,33 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class InfiniteScrolling_Test extends BaseTest
 {
+    private InfiniteScrollingPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/infinite_scroll";
+
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/infinite_scroll");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/infinite_scroll", URL);
+        page = new InfiniteScrollingPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test
     public void verifyInfiniteScroll() throws InterruptedException
     {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-
         int numberOfTimesToScroll = 5;
-        int scrollPauseTime = 100; // ms
-        long screenHeight = (long)js.executeScript("return document.body.scrollHeight");
+
+        long screenHeight = page.getScreenHeight();
         long newScreenHeight;
 
         for(int i = 0; i < numberOfTimesToScroll; i++)
         {
-            js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
+            page.scrollWindow();
 
-            Thread.sleep(scrollPauseTime);
+            page.delay(100);
 
-            newScreenHeight = (long)js.executeScript("return document.body.scrollHeight");
+            newScreenHeight = page.getScreenHeight();
 
             assertTrue(newScreenHeight > screenHeight);
 
