@@ -1,110 +1,69 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.FormAuthPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FormAuth_Test extends BaseTest
 {
-    String username = "tomsmith";
-    String password = "SuperSecretPassword!";
-    String invalidUsername = "test";
-    String invalidPassword = "pass";
+    private FormAuthPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/login";
+    private static final String bypassURL = "https://the-internet.herokuapp.com/secure";
+
+    private static final String username = "tomsmith";
+    private static final String password = "SuperSecretPassword!";
+    private static final String invalidUsername = "test";
+    private static final String invalidPassword = "pass";
 
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/login");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/login", URL);
+        page = new FormAuthPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, driver.getCurrentUrl());
     }
 
     @Test
     public void verifyValidAuth()
     {
-        WebElement loginButton = driver.findElement(By.className("fa-sign-in"));
+        page.inputCredentials(username, password);
 
-        InputCredentials(true);
+        page.clickLogin();
 
-        loginButton.click();
-
-        CheckAlert("Success");
+        assertTrue(page.getAlertText().contains("You logged into a secure area!"));
     }
 
     @Test
     public void verifyInvalidAuth()
     {
-        WebElement loginButton = driver.findElement(By.className("fa-sign-in"));
+        page.inputCredentials(invalidUsername, invalidPassword);
 
-        InputCredentials(false);
+        page.clickLogin();
 
-        loginButton.click();
-
-        CheckAlert("Invalid");
+        assertTrue(page.getAlertText().contains("Your username is invalid!"));
     }
 
     @Test
     public void verifyLogout()
     {
-        WebElement loginButton = driver.findElement(By.className("fa-sign-in"));
+        page.inputCredentials(username, password);
 
-        InputCredentials(true);
+        page.clickLogin();
 
-        loginButton.click();
+        page.clickLogout();
 
-        WebElement logoutButton = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("a[href*='/logout']")));
-
-        logoutButton.click();
-
-        CheckAlert("Logout");
+        assertTrue(page.getAlertText().contains("You logged out of the secure area!"));
     }
 
     @Test
     public void verifyUnableToBypass()
     {
-        driver.get("https://the-internet.herokuapp.com/secure");
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/login", URL);
+        page.navigateTo(bypassURL);
+        assertEquals(URL, driver.getCurrentUrl());
 
-        CheckAlert("Bypass");
-    }
-
-    private void InputCredentials(boolean validCredentials)
-    {
-        WebElement usernameField = driver.findElement(By.id("username"));
-        WebElement passwordField = driver.findElement(By.id("password"));
-
-        usernameField.sendKeys(validCredentials ? username : invalidUsername);
-        passwordField.sendKeys(validCredentials ? password : invalidPassword);
-    }
-
-    private void CheckAlert(String alertType)
-    {
-        WebElement alert = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("div#flash")));
-        String alertText = alert.getText();
-
-        assertTrue(alert.isDisplayed());
-
-        switch (alertType)
-        {
-            case "Success":
-                assertTrue(alertText.contains("You logged into a secure area!"));
-                break;
-            case "Invalid":
-                assertTrue(alertText.contains("Your username is invalid!"));
-                break;
-            case "Bypass":
-                assertTrue(alertText.contains("You must login to view the secure area!"));
-                break;
-            case "Logout":
-                assertTrue(alertText.contains("You logged out of the secure area!"));
-            default:
-                break;
-        }
+        assertTrue(page.getAlertText().contains("You must login to view the secure area!"));
     }
 }

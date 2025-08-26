@@ -19,7 +19,7 @@ public class ABTesting_Test extends BaseTest
     {
         page = new ABTestingPage(driver);
         page.navigateTo(URL);
-        assertEquals(URL, driver.getCurrentUrl());
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

@@ -148,4 +148,14 @@ public class BasePage
     {
         driver.navigate().refresh();
     }
+
+    public void delay(int duration) throws InterruptedException
+    {
+        Thread.sleep(duration);
+    }
+
+    public String getCurrentURL()
+    {
+        return driver.getCurrentUrl();
+    }
 }

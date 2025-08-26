@@ -13,6 +13,7 @@ public class FileUpload_Test extends BaseTest
     private FileUploadPage page;
 
     private static final String URL = "https://the-internet.herokuapp.com/upload";
+    private static final String fileName = "src/main/resources/testuploadfile/testFile.txt";
 
     @BeforeEach
     public void setup() throws Exception
@@ -25,7 +26,7 @@ public class FileUpload_Test extends BaseTest
     @Test
     public void verifyUpload()
     {
-        File fileToUpload = new File("src/main/resources/testuploadfile/testFile.txt");
+        File fileToUpload = new File(fileName);
         String fileName = fileToUpload.getName();
 
         System.out.println("Attempting to upload file: " + fileToUpload.getAbsolutePath());

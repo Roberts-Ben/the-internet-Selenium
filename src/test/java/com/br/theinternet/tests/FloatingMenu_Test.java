@@ -27,7 +27,7 @@ public class FloatingMenu_Test extends BaseTest
 
         page.scrollWindow();
 
-        page.delay();
+        page.delay(100);
 
         assertNotEquals("top: 0px;", page.getMenuPosition());
     }

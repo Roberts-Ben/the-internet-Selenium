@@ -7,9 +7,7 @@ public class DynamicControlsPage extends BasePage
 {
     private By checkboxBy = By.id("checkbox");
     private By swapCheckboxButtonBy = By.xpath("//button[@onclick='swapCheckbox()']");
-
     private By successMessageBy = By.id("message");
-
     private By inputFieldBy = By.xpath("//input[@type='text']");
     private By swapInputButtonBy = By.xpath("//button[@onclick='swapInput()']");
 

@@ -20,7 +20,7 @@ public class BrokenImages_Test extends BaseTest
     {
         page = new BrokenImagesPage(driver);
         page.navigateTo(URL);
-        assertEquals(URL, driver.getCurrentUrl());
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test
