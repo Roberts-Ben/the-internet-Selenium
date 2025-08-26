@@ -27,6 +27,6 @@ public class HorizontalSliderPage extends BasePage
 
     public void moveSliderViaKeys(Keys key)
     {
-        type(sliderBy, String.valueOf(key));
+        sendKeys(sliderBy, key);
     }
 }

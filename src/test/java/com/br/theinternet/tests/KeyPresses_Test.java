@@ -27,28 +27,24 @@ public class KeyPresses_Test extends BaseTest
     @Test
     public void verifyValidKeyPress()
     {
-        WebElement inputField = driver.findElement(By.id("target"));
-        WebElement resultLabel = driver.findElement(By.id("result"));
+        assertFalse(page.isResultVisible());
 
-        assertFalse(resultLabel.isDisplayed());
+        page.sendInput(Keys.ARROW_UP);
+        assertEquals("You entered: UP", page.getResult());
 
-        inputField.sendKeys(Keys.ARROW_UP);
-        assertEquals("You entered: UP", resultLabel.getText());
+        page.sendInput(Keys.BACK_SPACE);
+        assertEquals("You entered: BACK_SPACE", page.getResult());
 
-        inputField.sendKeys(Keys.BACK_SPACE);
-        assertEquals("You entered: BACK_SPACE", resultLabel.getText());
+        page.sendInput(Keys.TAB);
+        assertEquals("You entered: TAB", page.getResult());
 
-        inputField.sendKeys(Keys.TAB);
-        assertEquals("You entered: TAB", resultLabel.getText());
+        page.sendInput(Keys.ESCAPE);
+        assertEquals("You entered: ESCAPE", page.getResult());
 
-        inputField.sendKeys(Keys.ESCAPE);
-        assertEquals("You entered: ESCAPE", resultLabel.getText());
+        page.sendInput(Keys.ENTER);
 
-        inputField.sendKeys(Keys.ENTER);
+        page.waitForPageStaleness();
 
-        wait.until(ExpectedConditions.stalenessOf(resultLabel));
-        resultLabel = driver.findElement(By.id("result"));
-
-        assertFalse(resultLabel.isDisplayed());
+        assertFalse(page.isResultVisible());
     }
 }

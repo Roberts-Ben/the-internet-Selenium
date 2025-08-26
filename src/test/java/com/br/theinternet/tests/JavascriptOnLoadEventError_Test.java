@@ -6,7 +6,6 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.logging.LogEntry;
-import org.openqa.selenium.logging.LogType;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,12 +42,8 @@ public class JavascriptOnLoadEventError_Test extends BaseTest
                 "URIError"
         );
 
-        // Get browser logs
-        List<LogEntry> browserLogs = driver.manage().logs().get(LogType.BROWSER).getAll();
-
-        // Filter logs for JS errors
-        List<LogEntry> jsErrors = browserLogs.stream()
-                .filter(log -> errorStrings.stream().anyMatch(err -> log.getMessage().contains(err)))
+        List<LogEntry> jsErrors = page.getBrowserLogs().stream()
+                .filter(entry -> errorStrings.stream().anyMatch(err -> entry.getMessage().contains(err)))
                 .toList();
 
         // If JS errors found, log

@@ -4,8 +4,6 @@ import com.br.theinternet.pages.StatusCodesPage;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import java.io.IOException;
 import java.net.*;
@@ -29,52 +27,39 @@ public class StatusCodes_Test extends BaseTest
     @Test
     public void verifyCode200()
     {
-        WebElement code200Link = driver.findElement(By.xpath("//a[@href='status_codes/200']"));
-
-        code200Link.click();
-
-        ConfirmCode(200);
+        clickAndConfirmCode(200);
     }
 
     @Test
     public void verifyCode301()
     {
-        WebElement code301Link = driver.findElement(By.xpath("//a[@href='status_codes/301']"));
-
-        code301Link.click();
-
-        ConfirmRedirectCode(301);
+        clickAndConfirmRedirectCode(301);
     }
 
     @Test
     public void verifyCode404()
     {
-        WebElement code404Link = driver.findElement(By.xpath("//a[@href='status_codes/404']"));
-
-        code404Link.click();
-
-        ConfirmCode(404);
+        clickAndConfirmCode(404);
     }
 
     @Test
     public void verifyCode500()
     {
-        WebElement code500Link = driver.findElement(By.xpath("//a[@href='status_codes/500']"));
-
-        code500Link.click();
-
-        ConfirmCode(500);
+        clickAndConfirmCode(500);
     }
 
-    private void ConfirmCode(int expectedCode)
+    private void clickAndConfirmCode(int expectedCode)
     {
-        int statusCode = RestAssured.given().when().get(page.getCurrentURL()).statusCode();
+        page.clickLink(expectedCode);
 
+        int statusCode = RestAssured.given().when().get(page.getCurrentURL()).statusCode();
         assertEquals(expectedCode, statusCode);
     }
 
-    private void ConfirmRedirectCode(int expectedCode)
+    private void clickAndConfirmRedirectCode(int expectedCode)
     {
+        page.clickLink(expectedCode);
+
         try {
             // Verify 301 with no redirect
             URL url = new URL(page.getCurrentURL());

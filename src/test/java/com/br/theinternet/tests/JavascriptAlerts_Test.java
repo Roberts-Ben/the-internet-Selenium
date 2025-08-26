@@ -3,9 +3,6 @@ package com.br.theinternet.tests;
 import com.br.theinternet.pages.JavascriptAlertsPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,110 +23,73 @@ public class JavascriptAlerts_Test extends BaseTest
     @Test
     public void verifyJSAlert()
     {
-        WebElement jsAlert = driver.findElement(By.xpath("//button[@onclick='jsAlert()']"));
+        page.clickJSAlert();
 
-        jsAlert.click();
+        assertEquals("I am a JS Alert", page.getAlertText());
 
-        Alert alert = driver.switchTo().alert();
+        page.acceptAlert();
 
-        assertEquals("I am a JS Alert", alert.getText());
-
-        alert.accept();
-
-        WebElement alertSuccessLabel = driver.findElement(By.id("result"));
-
-        assertEquals("You successfully clicked an alert", alertSuccessLabel.getText());
+        assertEquals("You successfully clicked an alert", page.getResultText());
     }
 
     @Test
     public void verifyJSConfirmOK()
     {
-        WebElement jsAlert = driver.findElement(By.xpath("//button[@onclick='jsConfirm()']"));
+        page.clickJSConfirm();
 
-        jsAlert.click();
+        assertEquals("I am a JS Confirm", page.getAlertText());
 
-        Alert alert = driver.switchTo().alert();
+        page.acceptAlert();
 
-        assertEquals("I am a JS Confirm", alert.getText());
-
-        alert.accept();
-
-        WebElement alertSuccessLabel = driver.findElement(By.id("result"));
-
-        assertEquals("You clicked: Ok", alertSuccessLabel.getText());
+        assertEquals("You clicked: Ok", page.getResultText());
     }
 
     @Test
     public void verifyJSConfirmCancel()
     {
-        WebElement jsAlert = driver.findElement(By.xpath("//button[@onclick='jsConfirm()']"));
+        page.clickJSConfirm();
 
-        jsAlert.click();
+        assertEquals("I am a JS Confirm", page.getAlertText());
 
-        Alert alert = driver.switchTo().alert();
+        page.dismissAlert();
 
-        assertEquals("I am a JS Confirm", alert.getText());
-
-        alert.dismiss();
-
-        WebElement alertSuccessLabel = driver.findElement(By.id("result"));
-
-        assertEquals("You clicked: Cancel", alertSuccessLabel.getText());
+        assertEquals("You clicked: Cancel", page.getResultText());
     }
 
     @Test
     public void verifyJSPromptAccept()
     {
-        WebElement jsAlert = driver.findElement(By.xpath("//button[@onclick='jsPrompt()']"));
+         page.clickJSPrompt();
 
-        jsAlert.click();
+        assertEquals("I am a JS prompt", page.getAlertText());
 
-        Alert alert = driver.switchTo().alert();
+        page.enterText("Test");
+        page.acceptAlert();
 
-        assertEquals("I am a JS prompt", alert.getText());
-
-        alert.sendKeys("Test");
-
-        alert.accept();
-
-        WebElement alertSuccessLabel = driver.findElement(By.id("result"));
-
-        assertEquals("You entered: Test", alertSuccessLabel.getText());
+        assertEquals("You entered: Test", page.getResultText());
     }
 
     @Test
     public void verifyJSPromptEmpty()
     {
-        WebElement jsAlert = driver.findElement(By.xpath("//button[@onclick='jsPrompt()']"));
+        page.clickJSPrompt();
 
-        jsAlert.click();
+        assertEquals("I am a JS prompt", page.getAlertText());
 
-        Alert alert = driver.switchTo().alert();
+        page.acceptAlert();
 
-        assertEquals("I am a JS prompt", alert.getText());
-
-        alert.accept();
-
-        WebElement alertSuccessLabel = driver.findElement(By.id("result"));
-
-        assertEquals("You entered:", alertSuccessLabel.getText());
+        assertEquals("You entered:", page.getResultText());
     }
 
     @Test
     public void verifyJSPromptCancel()
     {
-        WebElement jsAlert = driver.findElement(By.xpath("//button[@onclick='jsPrompt()']"));
+        page.clickJSPrompt();
 
-        jsAlert.click();
+        assertEquals("I am a JS prompt", page.getAlertText());
 
-        Alert alert = driver.switchTo().alert();
+        page.dismissAlert();
 
-        assertEquals("I am a JS prompt", alert.getText());
-
-        alert.dismiss();
-
-        WebElement alertSuccessLabel = driver.findElement(By.id("result"));
-
-        assertEquals("You entered: null", alertSuccessLabel.getText());
+        assertEquals("You entered: null", page.getResultText());
     }
 }

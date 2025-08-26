@@ -14,6 +14,9 @@ public class Typos_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/typos";
 
+    private static final String expectedText = "Sometimes you'll see a typo, other times you won't.";
+    private static final String typoText = "Sometimes you'll see a typo, other times you won,t.";
+
     @BeforeEach
     public void setup() throws Exception
     {
@@ -25,19 +28,8 @@ public class Typos_Test extends BaseTest
     @Test
     public void verifyText()
     {
-        WebElement content = driver.findElement(By.xpath("//*[@id=\"content\"]/div/p[2]"));
-        String actualText = content.getText();
-        String expectedText = "Sometimes you'll see a typo, other times you won't.";
+        String actualText = page.getContent();
 
-        if(expectedText.equals(actualText))
-        {
-            System.out.println("Content matches");
-            assertEquals(expectedText, actualText);
-        }
-        else
-        {
-            System.out.println("Typo in: " + actualText);
-            assertNotEquals(expectedText, actualText);
-        }
+        assertTrue(actualText.equals(expectedText) || actualText.equals(typoText));
     }
 }

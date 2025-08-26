@@ -3,7 +3,6 @@ package com.br.theinternet.tests;
 import com.br.theinternet.pages.InfiniteScrollingPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.JavascriptExecutor;
 
 import static org.junit.jupiter.api.Assertions.*;
 

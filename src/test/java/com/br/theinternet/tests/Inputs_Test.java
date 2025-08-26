@@ -3,8 +3,6 @@ package com.br.theinternet.tests;
 import com.br.theinternet.pages.InputsPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,36 +23,30 @@ public class Inputs_Test extends BaseTest
     @Test
     public void verifyValidInput()
     {
-        WebElement inputField = driver.findElement(By.xpath("//input[@type='number']"));
+        assertEquals("", page.getInputValue());
 
-        assertEquals("", inputField.getAttribute("value"));
+        page.inputValue("55");
 
-        inputField.sendKeys("55");
-
-        assertEquals("55", inputField.getAttribute("value"));
+        assertEquals("55", page.getInputValue());
     }
 
     @Test
     public void verifyValidNegativeInput()
     {
-        WebElement inputField = driver.findElement(By.xpath("//input[@type='number']"));
+        assertEquals("", page.getInputValue());
 
-        assertEquals("", inputField.getAttribute("value"));
+        page.inputValue("-91");
 
-        inputField.sendKeys("-91");
-
-        assertEquals("-91", inputField.getAttribute("value"));
+        assertEquals("-91", page.getInputValue());
     }
 
     @Test
     public void verifyInvalidInput()
     {
-        WebElement inputField = driver.findElement(By.xpath("//input[@type='number']"));
+        assertEquals("", page.getInputValue());
 
-        assertEquals("", inputField.getAttribute("value"));
+        page.inputValue("abc");
 
-        inputField.sendKeys("abc");
-
-        assertEquals("", inputField.getAttribute("value"));
+        assertEquals("", page.getInputValue());
     }
 }

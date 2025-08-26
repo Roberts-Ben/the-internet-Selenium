@@ -2,10 +2,12 @@ package com.br.theinternet.pages;
 
 import io.restassured.RestAssured;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.time.Duration;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -51,6 +53,12 @@ public class BasePage
     protected void type(By locator, String text)
     {
         wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).sendKeys(text);
+    }
+
+    // Send keypresses into input
+    protected void sendKeys(By locator, Keys key)
+    {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).sendKeys(key);
     }
 
     // Get element text
