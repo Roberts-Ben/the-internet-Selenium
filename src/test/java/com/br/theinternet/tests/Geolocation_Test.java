@@ -18,7 +18,7 @@ public class Geolocation_Test extends BaseTest
     {
         page = new GeolocationPage(driver);
         page.navigateTo(URL);
-        assertEquals(URL, driver.getCurrentUrl());
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

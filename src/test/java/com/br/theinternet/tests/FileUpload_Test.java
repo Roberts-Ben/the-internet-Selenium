@@ -20,7 +20,7 @@ public class FileUpload_Test extends BaseTest
     {
         page = new FileUploadPage(driver);
         page.navigateTo(URL);
-        assertEquals(URL, driver.getCurrentUrl());
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

@@ -17,7 +17,7 @@ public class DragAndDrop_Test extends BaseTest
     {
         page = new DragAndDropPage(driver);
         page.navigateTo(URL);
-        assertEquals(URL, driver.getCurrentUrl());
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

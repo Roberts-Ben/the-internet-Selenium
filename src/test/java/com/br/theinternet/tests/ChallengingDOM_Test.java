@@ -17,7 +17,7 @@ public class ChallengingDOM_Test extends BaseTest
     {
         page = new ChallengingDOMPage(driver);
         page.navigateTo(URL);
-        assertEquals(URL, driver.getCurrentUrl());
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test
@@ -49,10 +49,10 @@ public class ChallengingDOM_Test extends BaseTest
         assertTrue(page.isLoremHeaderVisible());
 
         page.clickFirstEdit();
-        assertEquals(URL + "#edit", driver.getCurrentUrl());
+        assertEquals(URL + "#edit", page.getCurrentURL());
 
         page.clickFirstDelete();
-        assertEquals(URL + "#delete", driver.getCurrentUrl());
+        assertEquals(URL + "#delete", page.getCurrentURL());
 
         for (int i = 0; i < tableSize; i++) {
             assertEquals("Iuvaret" + i, page.getLoremCellText(i));

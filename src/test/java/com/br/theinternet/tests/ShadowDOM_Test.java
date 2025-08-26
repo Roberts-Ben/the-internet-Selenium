@@ -1,5 +1,6 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.ShadowDOMPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
@@ -10,13 +11,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ShadowDOM_Test extends BaseTest
 {
+    private ShadowDOMPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/shadowdom";
+
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/shadowdom");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/shadowdom", URL);
+        page = new ShadowDOMPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

@@ -20,7 +20,7 @@ public class FileDownload_Test extends BaseTest
     {
         page = new FileDownloadPage(driver);
         page.navigateTo(URL);
-        assertEquals(URL, driver.getCurrentUrl());
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

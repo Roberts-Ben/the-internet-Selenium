@@ -17,7 +17,7 @@ public class ForgotPassword_Test extends BaseTest
     {
         page = new ForgotPasswordPage(driver);
         page.navigateTo(URL);
-        assertEquals(URL, driver.getCurrentUrl());
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

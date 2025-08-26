@@ -17,8 +17,4 @@ public class DisappearingElementsPage extends BasePage
         return findAll(buttonsBy).size();
     }
 
-    public void refreshPage()
-    {
-        driver.navigate().refresh();
-    }
 }

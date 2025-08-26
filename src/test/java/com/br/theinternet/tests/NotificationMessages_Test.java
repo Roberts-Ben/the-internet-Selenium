@@ -1,5 +1,6 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.NotificationMessagesPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -9,13 +10,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class NotificationMessages_Test extends BaseTest
 {
+    private NotificationMessagesPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/notification_message_rendered";
+
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/notification_message_rendered");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/notification_message_rendered", URL);
+        page = new NotificationMessagesPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

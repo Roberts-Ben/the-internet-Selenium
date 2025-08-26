@@ -1,5 +1,6 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.SlowResourcesPage;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,14 +15,16 @@ import static org.junit.jupiter.api.Assertions.*;
 // Navigate directly to the page that calls the GET request and validating that it fails after 30 seconds instead of loading the content
 public class SlowResources_Test extends BaseTest
 {
+    private SlowResourcesPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/low";
+
     @BeforeEach
     public void setup() throws Exception
     {
-        wait = new WebDriverWait(driver, Duration.ofSeconds(40));
-        driver.get("https://the-internet.herokuapp.com/slow");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/slow", URL);
+        page = new SlowResourcesPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

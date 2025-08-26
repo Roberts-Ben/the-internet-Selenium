@@ -19,7 +19,7 @@ public class Frames_Test extends BaseTest
     {
         page = new FramesPage(driver);
         page.navigateTo(URL);
-        assertEquals(URL, driver.getCurrentUrl());
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test
@@ -27,7 +27,7 @@ public class Frames_Test extends BaseTest
     {
         page.clickNestedFramesLink();
 
-        assertEquals(nestedFrameURL, driver.getCurrentUrl());
+        assertEquals(nestedFrameURL, page.getCurrentURL());
     }
 
     @Test

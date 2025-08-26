@@ -1,5 +1,6 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.InputsPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -9,13 +10,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class Inputs_Test extends BaseTest
 {
+    private InputsPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/inputs";
+
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/inputs");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/inputs", URL);
+        page = new InputsPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

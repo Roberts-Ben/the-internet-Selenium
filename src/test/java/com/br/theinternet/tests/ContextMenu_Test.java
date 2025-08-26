@@ -17,7 +17,7 @@ public class ContextMenu_Test extends BaseTest
     {
         page = new ContextMenuPage(driver);
         page.navigateTo(URL);
-        assertEquals(URL, driver.getCurrentUrl());
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

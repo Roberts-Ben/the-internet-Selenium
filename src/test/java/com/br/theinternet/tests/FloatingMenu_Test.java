@@ -17,7 +17,7 @@ public class FloatingMenu_Test extends BaseTest
     {
         page = new FloatingMenuPage(driver);
         page.navigateTo(URL);
-        assertEquals(URL, driver.getCurrentUrl());
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

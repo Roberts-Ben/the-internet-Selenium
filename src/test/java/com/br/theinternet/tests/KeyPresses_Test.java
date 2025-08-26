@@ -1,5 +1,6 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.KeyPressesPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -11,13 +12,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class KeyPresses_Test extends BaseTest
 {
+    private KeyPressesPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/key_presses";
+
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/key_presses");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/key_presses", URL);
+        page = new KeyPressesPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

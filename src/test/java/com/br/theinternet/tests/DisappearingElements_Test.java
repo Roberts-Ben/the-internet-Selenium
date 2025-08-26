@@ -17,7 +17,7 @@ public class DisappearingElements_Test extends BaseTest
     {
         page = new DisappearingElementsPage(driver);
         page.navigateTo(URL);
-        assertEquals(URL, driver.getCurrentUrl());
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test
@@ -41,7 +41,7 @@ public class DisappearingElements_Test extends BaseTest
                 verified4Elements = true;
             }
 
-            driver.navigate().refresh();
+            page.refreshPage();
         }
     }
 }

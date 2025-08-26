@@ -17,7 +17,7 @@ public class DynamicControls_Test extends BaseTest
     {
         page = new DynamicControlsPage(driver);
         page.navigateTo(URL);
-        assertEquals(URL, driver.getCurrentUrl());
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

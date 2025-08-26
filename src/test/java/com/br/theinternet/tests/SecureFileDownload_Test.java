@@ -21,7 +21,7 @@ public class SecureFileDownload_Test extends BaseTest
 
         String authURL = "https://" + username + ":" + password + "@" + baseURL;
 
-        driver.get(authURL);
+        page.navigateTo(authURL);
 
         List<WebElement> downloadButtons = page.getDownloadButtons();
 

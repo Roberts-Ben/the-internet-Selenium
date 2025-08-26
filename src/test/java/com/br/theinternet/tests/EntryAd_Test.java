@@ -17,7 +17,7 @@ public class EntryAd_Test extends BaseTest
     {
         page = new EntryAdPage(driver);
         page.navigateTo(URL);
-        assertEquals(URL, driver.getCurrentUrl());
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.NestedFramesPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -12,13 +13,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class NestedFrames_Test extends BaseTest
 {
+    private NestedFramesPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/nested_frames";
+
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/nested_frames");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/nested_frames", URL);
+        page = new NestedFramesPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

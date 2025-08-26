@@ -23,7 +23,7 @@ public class FormAuth_Test extends BaseTest
     {
         page = new FormAuthPage(driver);
         page.navigateTo(URL);
-        assertEquals(URL, driver.getCurrentUrl());
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test
@@ -62,7 +62,7 @@ public class FormAuth_Test extends BaseTest
     public void verifyUnableToBypass()
     {
         page.navigateTo(bypassURL);
-        assertEquals(URL, driver.getCurrentUrl());
+        assertEquals(URL, page.getCurrentURL());
 
         assertTrue(page.getAlertText().contains("You must login to view the secure area!"));
     }

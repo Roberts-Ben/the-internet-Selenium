@@ -1,5 +1,6 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.ShiftingContentPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -13,18 +14,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ShiftingContent_Test extends BaseTest
 {
+    private ShiftingContentPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/shifting_content";
+    private static final String baseURL = "https://the-internet.herokuapp.com";
+
     JavascriptExecutor js;
-    String baseURL;
+
 
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/shifting_content");
+        page = new ShiftingContentPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, page.getCurrentURL());
 
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/shifting_content", URL);
-
-        baseURL = "https://the-internet.herokuapp.com";
         js = (JavascriptExecutor) driver;
     }
 
@@ -34,7 +38,7 @@ public class ShiftingContent_Test extends BaseTest
         WebElement menuLink = driver.findElement(By.xpath("//a[@href='/shifting_content/menu']"));
 
         menuLink.click();
-        assertEquals("https://the-internet.herokuapp.com/shifting_content/menu", driver.getCurrentUrl());
+        assertEquals("https://the-internet.herokuapp.com/shifting_content/menu", page.getCurrentURL());
 
         ConfirmButtonElements();
 
@@ -51,7 +55,7 @@ public class ShiftingContent_Test extends BaseTest
         WebElement imageLink = driver.findElement(By.xpath("//a[@href='/shifting_content/image']"));
 
         imageLink.click();
-        assertEquals("https://the-internet.herokuapp.com/shifting_content/image", driver.getCurrentUrl());
+        assertEquals("https://the-internet.herokuapp.com/shifting_content/image", page.getCurrentURL());
 
         ConfirmImageElement();
 
@@ -68,11 +72,11 @@ public class ShiftingContent_Test extends BaseTest
         WebElement listLink = driver.findElement(By.xpath("//a[@href='/shifting_content/list']"));
 
         listLink.click();
-        assertEquals("https://the-internet.herokuapp.com/shifting_content/list", driver.getCurrentUrl());
+        assertEquals("https://the-internet.herokuapp.com/shifting_content/list", page.getCurrentURL());
 
         ConfirmListElement();
 
-        driver.navigate().refresh();
+        page.refreshPage();
 
         ConfirmListElement();
     }
@@ -90,8 +94,8 @@ public class ShiftingContent_Test extends BaseTest
             Object[] windowHandles = driver.getWindowHandles().toArray();
             driver.switchTo().window((String) windowHandles[1]);
 
-            driver.get(newURL);
-            assertEquals(newURL, driver.getCurrentUrl());
+            page.navigateTo(newURL);
+            assertEquals(newURL, page.getCurrentURL());
 
             driver.close();
 

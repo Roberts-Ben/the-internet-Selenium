@@ -18,7 +18,7 @@ public class HorizontalSlider_Test extends BaseTest
     {
         page = new HorizontalSliderPage(driver);
         page.navigateTo(URL);
-        assertEquals(URL, driver.getCurrentUrl());
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

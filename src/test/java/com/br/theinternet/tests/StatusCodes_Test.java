@@ -1,5 +1,6 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.StatusCodesPage;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,13 +14,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class StatusCodes_Test extends BaseTest
 {
+    private StatusCodesPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/status_codes";
+
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/status_codes");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/status_codes", URL);
+        page = new StatusCodesPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test
@@ -64,7 +68,7 @@ public class StatusCodes_Test extends BaseTest
 
     private void ConfirmCode(int expectedCode)
     {
-        int statusCode = RestAssured.given().when().get(driver.getCurrentUrl()).statusCode();
+        int statusCode = RestAssured.given().when().get(page.getCurrentURL()).statusCode();
 
         assertEquals(expectedCode, statusCode);
     }
@@ -73,7 +77,7 @@ public class StatusCodes_Test extends BaseTest
     {
         try {
             // Verify 301 with no redirect
-            URL url = new URL(driver.getCurrentUrl());
+            URL url = new URL(page.getCurrentURL());
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("HEAD");

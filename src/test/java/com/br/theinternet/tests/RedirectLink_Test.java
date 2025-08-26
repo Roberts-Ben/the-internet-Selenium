@@ -1,5 +1,6 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.RedirectLinkPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -9,13 +10,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class RedirectLink_Test extends BaseTest
 {
+    private RedirectLinkPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/redirector";
+
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/redirector");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/redirector", URL);
+        page = new RedirectLinkPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test
@@ -26,6 +30,6 @@ public class RedirectLink_Test extends BaseTest
 
         redirectLink.click();
 
-        assertEquals(redirectURL, driver.getCurrentUrl());
+        assertEquals(redirectURL, page.getCurrentURL());
     }
 }

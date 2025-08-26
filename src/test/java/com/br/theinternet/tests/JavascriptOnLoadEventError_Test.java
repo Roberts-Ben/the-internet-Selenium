@@ -1,5 +1,6 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.JavascriptOnLoadEventErrorPage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,15 +16,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class JavascriptOnLoadEventError_Test extends BaseTest
 {
+    private JavascriptOnLoadEventErrorPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/javascript_error";
+
     private static final Log log = LogFactory.getLog(JavascriptOnLoadEventError_Test.class);
 
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/javascript_error");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/javascript_error", URL);
+        page = new JavascriptOnLoadEventErrorPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

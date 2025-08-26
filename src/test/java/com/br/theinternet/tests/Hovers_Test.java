@@ -18,7 +18,7 @@ public class Hovers_Test extends BaseTest
     {
         page = new HoversPage(driver);
         page.navigateTo(URL);
-        assertEquals(URL, driver.getCurrentUrl());
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.JavascriptAlertsPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Alert;
@@ -10,13 +11,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class JavascriptAlerts_Test extends BaseTest
 {
+    private JavascriptAlertsPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/javascript_alerts";
+
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/javascript_alerts");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/javascript_alerts", URL);
+        page = new JavascriptAlertsPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

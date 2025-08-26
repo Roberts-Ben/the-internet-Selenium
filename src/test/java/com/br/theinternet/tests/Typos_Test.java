@@ -1,5 +1,6 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.TyposPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -9,13 +10,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class Typos_Test extends BaseTest
 {
+    private TyposPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/typos";
+
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/typos");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/typos", URL);
+        page = new TyposPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

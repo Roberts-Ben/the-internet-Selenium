@@ -1,5 +1,6 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.WYSIWYGEditorPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -10,13 +11,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class WYSIWYGEditor_Test extends BaseTest
 {
+    private WYSIWYGEditorPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/tinymce";
+
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/tinymce");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/tinymce", URL);
+        page = new WYSIWYGEditorPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

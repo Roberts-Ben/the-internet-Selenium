@@ -17,7 +17,7 @@ public class Dropdown_Test extends BaseTest
     {
         page = new DropdownPage(driver);
         page.navigateTo(URL);
-        assertEquals(URL, driver.getCurrentUrl());
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

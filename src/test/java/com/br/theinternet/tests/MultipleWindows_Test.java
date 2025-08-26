@@ -1,5 +1,6 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.MultipleWindowsPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -10,13 +11,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class MultipleWindows_Test extends BaseTest
 {
+    private MultipleWindowsPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/windows";
+
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/windows");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/windows", URL);
+        page = new MultipleWindowsPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.JQueryUIMenuPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -16,6 +17,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class JQueryUIMenu_Test extends BaseTest
 {
+    private JQueryUIMenuPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/jqueryui/menu";
+
     List<WebElement> menuItems;
     WebElement menuRoot;
     Actions hoverAction;
@@ -23,10 +28,9 @@ public class JQueryUIMenu_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/jqueryui/menu");
-
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/jqueryui/menu", URL);
+        page = new JQueryUIMenuPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test
@@ -82,7 +86,7 @@ public class JQueryUIMenu_Test extends BaseTest
                 hoverMenuPath(2, 7);
                 menuItems.get(index).click();
                 wait.until(ExpectedConditions.stalenessOf(menuRoot));
-                assertEquals("https://the-internet.herokuapp.com/jqueryui", driver.getCurrentUrl());
+                assertEquals("https://the-internet.herokuapp.com/jqueryui", page.getCurrentURL());
                 break;
         }
     }

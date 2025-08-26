@@ -17,7 +17,7 @@ public class ExitIntent_Test extends BaseTest
     {
         page = new ExitIntentPage(driver);
         page.navigateTo(URL);
-        assertEquals(URL, driver.getCurrentUrl());
+        assertEquals(URL, page.getCurrentURL());
     }
 
     @Test

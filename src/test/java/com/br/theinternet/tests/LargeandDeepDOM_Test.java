@@ -1,5 +1,6 @@
 package com.br.theinternet.tests;
 
+import com.br.theinternet.pages.LargeAndDeepDOMPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -12,16 +13,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class LargeandDeepDOM_Test extends BaseTest
 {
+    private LargeAndDeepDOMPage page;
+
+    private static final String URL = "https://the-internet.herokuapp.com/large";
+
     JavascriptExecutor js;
 
     @BeforeEach
     public void setup() throws Exception
     {
-        driver.get("https://the-internet.herokuapp.com/large");
-        js = (JavascriptExecutor) driver;
+        page = new LargeAndDeepDOMPage(driver);
+        page.navigateTo(URL);
+        assertEquals(URL, page.getCurrentURL());
 
-        String URL = driver.getCurrentUrl();
-        assertEquals("https://the-internet.herokuapp.com/large", URL);
+        js = (JavascriptExecutor) driver;
     }
 
     @Test
