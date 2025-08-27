@@ -149,15 +149,6 @@ public class BasePage
         }
     }
 
-    protected void waitForStaleness(WebElement element)
-    {
-        try {
-            wait.until(ExpectedConditions.stalenessOf(element));
-        } catch (Exception e) {
-            System.out.println("element should have been stale: " + e);
-        }
-    }
-
     // Check status code of target URL
     protected int getStatusCode(String URL)
     {

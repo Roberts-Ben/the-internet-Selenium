@@ -28,9 +28,4 @@ public class KeyPressesPage extends BasePage
     {
         sendKeys(inputFieldBy, key);
     }
-
-    public void waitForPageStaleness()
-    {
-        waitForStaleness(find(resultLabelBy));
-    }
 }

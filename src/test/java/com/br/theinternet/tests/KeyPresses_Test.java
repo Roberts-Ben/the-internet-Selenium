@@ -3,10 +3,7 @@ package com.br.theinternet.tests;
 import com.br.theinternet.pages.KeyPressesPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -42,8 +39,6 @@ public class KeyPresses_Test extends BaseTest
         assertEquals("You entered: ESCAPE", page.getResult());
 
         page.sendInput(Keys.ENTER);
-
-        page.waitForPageStaleness();
 
         assertFalse(page.isResultVisible());
     }
