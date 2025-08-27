@@ -21,7 +21,7 @@ public class ExitIntent_Test extends BaseTest
     }
 
     @Test
-    public void verifyModal()
+    public void verifyModal() throws InterruptedException
     {
         assertFalse(page.isModalVisible());
 
@@ -29,6 +29,8 @@ public class ExitIntent_Test extends BaseTest
         page.forceModal();
 
         assertTrue(page.isModalInteractive());
+
+        page.delay(100);
 
         page.closeModal();
 

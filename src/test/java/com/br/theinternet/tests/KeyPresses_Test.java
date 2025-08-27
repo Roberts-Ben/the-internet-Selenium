@@ -22,7 +22,7 @@ public class KeyPresses_Test extends BaseTest
     }
 
     @Test
-    public void verifyValidKeyPress()
+    public void verifyValidKeyPress() throws InterruptedException
     {
         assertFalse(page.isResultVisible());
 
@@ -39,6 +39,8 @@ public class KeyPresses_Test extends BaseTest
         assertEquals("You entered: ESCAPE", page.getResult());
 
         page.sendInput(Keys.ENTER);
+
+        page.delay(100);
 
         assertFalse(page.isResultVisible());
     }
