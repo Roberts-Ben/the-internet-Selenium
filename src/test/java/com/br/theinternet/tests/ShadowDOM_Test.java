@@ -26,29 +26,20 @@ public class ShadowDOM_Test extends BaseTest
     @Test
     public void verifyShadowDOM()
     {
-        List<WebElement> shadowHosts = driver.findElements(By.cssSelector("my-paragraph"));
+        List<WebElement> shadowHosts = page.getShadowHosts();
 
-        // First root is a single element
-        SearchContext firstShadowRoot = shadowHosts.getFirst().getShadowRoot();
+        // First shadow element
+        assertEquals("My default text", page.getShadowText(shadowHosts.getFirst()));
 
-        // Find child element inside the shadow DOM
-        WebElement slotInsideFirstShadow = firstShadowRoot.findElement(By.name("my-text"));
-        assertEquals("My default text", slotInsideFirstShadow.getText());
+        // First projected light
+        assertEquals("Let's have some different text!", page.getLightSpanText());
 
-        // Find projected light DOM element
-        WebElement slotInsideFirstLight = driver.findElement(By.cssSelector("my-paragraph > span[slot='my-text']"));
-        assertEquals("Let's have some different text!", slotInsideFirstLight.getText());
+        // Second shadow element
+        assertEquals("My default text", page.getShadowText(shadowHosts.getLast()));
 
-        // Second root is a list of elements
-        SearchContext secondShadowRoot = shadowHosts.getLast().getShadowRoot();
-
-        // Find child element inside the shadow DOM
-        WebElement slotInsideSecondShadow = secondShadowRoot.findElement(By.name("my-text"));
-        assertEquals("My default text", slotInsideSecondShadow.getText());
-
-        // Find projected light DOM elements
-        List<WebElement> listInsideSecondLight = driver.findElements(By.cssSelector("my-paragraph > ul[slot='my-text'] > li"));
-        assertEquals("Let's have some different text!", listInsideSecondLight.getFirst().getText());
-        assertEquals("In a list!", listInsideSecondLight.getLast().getText());
+        // Second projected light
+        List<WebElement> listItems = page.getLightListItems();
+        assertEquals("Let's have some different text!", listItems.getFirst().getText());
+        assertEquals("In a list!", listItems.getLast().getText());
     }
 }

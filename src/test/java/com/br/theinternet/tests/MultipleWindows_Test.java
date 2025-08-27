@@ -3,9 +3,6 @@ package com.br.theinternet.tests;
 import com.br.theinternet.pages.MultipleWindowsPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,16 +23,15 @@ public class MultipleWindows_Test extends BaseTest
     @Test
     public void verifyNewWindow()
     {
-        WebElement newTabButton = driver.findElement(By.xpath("//a[@href='/windows/new']"));
+        page.clickNewTabButton();
 
-        newTabButton.click();
+        page.switchWindow(1);
 
-        Object[] windowHandles = driver.getWindowHandles().toArray();
-        driver.switchTo().window((String) windowHandles[1]);
+        assertEquals("New Window",page.getHeaderText());
 
-        WebElement newTabHeader = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h3")));
-        assertEquals("New Window",newTabHeader.getText());
+        page.closeWindow();
+        page.switchWindow(0);
 
-        driver.close();
+        assertEquals(URL, page.getCurrentURL());
     }
 }

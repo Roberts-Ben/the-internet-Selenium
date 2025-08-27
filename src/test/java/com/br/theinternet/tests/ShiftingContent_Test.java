@@ -3,11 +3,7 @@ package com.br.theinternet.tests;
 import com.br.theinternet.pages.ShiftingContentPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,10 +13,11 @@ public class ShiftingContent_Test extends BaseTest
     private ShiftingContentPage page;
 
     private static final String URL = "https://the-internet.herokuapp.com/shifting_content";
+
     private static final String baseURL = "https://the-internet.herokuapp.com";
-
-    JavascriptExecutor js;
-
+    private static final String menuURL = "https://the-internet.herokuapp.com/shifting_content/menu";
+    private static final String imageURL = "https://the-internet.herokuapp.com/shifting_content/image";
+    private static final String listURL = "https://the-internet.herokuapp.com/shifting_content/list";
 
     @BeforeEach
     public void setup() throws Exception
@@ -28,108 +25,68 @@ public class ShiftingContent_Test extends BaseTest
         page = new ShiftingContentPage(driver);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
-
-        js = (JavascriptExecutor) driver;
     }
 
     @Test
     public void verifyMenuElement()
     {
-        WebElement menuLink = driver.findElement(By.xpath("//a[@href='/shifting_content/menu']"));
+        page.clickMenuLink();
+        assertEquals(menuURL, page.getCurrentURL());
 
-        menuLink.click();
-        assertEquals("https://the-internet.herokuapp.com/shifting_content/menu", page.getCurrentURL());
+        confirmButtonElements();
 
-        ConfirmButtonElements();
+        page.clickMenuShift();
 
-        WebElement shiftElementButton = driver.findElement(By.xpath("//a[@href='/shifting_content/menu?pixel_shift=100']"));
-
-        shiftElementButton.click();
-
-        ConfirmButtonElements();
+        confirmButtonElements();
     }
 
     @Test
     public void verifyImageElement()
     {
-        WebElement imageLink = driver.findElement(By.xpath("//a[@href='/shifting_content/image']"));
+        page.clickImageLink();
+        assertEquals(imageURL, page.getCurrentURL());
 
-        imageLink.click();
-        assertEquals("https://the-internet.herokuapp.com/shifting_content/image", page.getCurrentURL());
+        assertTrue(page.isImageDisplayed());
 
-        ConfirmImageElement();
+        page.clickImageShift();
 
-        WebElement shiftElementButton = driver.findElement(By.xpath("//a[@href='/shifting_content/image?pixel_shift=100']"));
-
-        shiftElementButton.click();
-
-        ConfirmImageElement();
+        assertTrue(page.isImageDisplayed());
     }
 
     @Test
     public void verifyListElement()
     {
-        WebElement listLink = driver.findElement(By.xpath("//a[@href='/shifting_content/list']"));
+        page.clickListLink();
+        assertEquals(listURL, page.getCurrentURL());
 
-        listLink.click();
-        assertEquals("https://the-internet.herokuapp.com/shifting_content/list", page.getCurrentURL());
-
-        ConfirmListElement();
+        confirmListElement();
 
         page.refreshPage();
 
-        ConfirmListElement();
+        confirmListElement();
     }
 
-    private void ConfirmButtonElements()
+    private void confirmButtonElements()
     {
-        WebElement listRoot = driver.findElement(By.tagName("ul"));
-        List<WebElement> buttons = listRoot.findElements(By.xpath(".//a[@href]"));
+        List<String> menuLinks = page.getMenuLinks();
 
-        for(WebElement button : buttons)
+        for (String newURL : menuLinks)
         {
-            String newURL = button.getAttribute("href");
-            js.executeScript("window.open()");
+            // Switch to new tab
+            page.openWindowAndNavigate(newURL);
 
-            Object[] windowHandles = driver.getWindowHandles().toArray();
-            driver.switchTo().window((String) windowHandles[1]);
-
-            page.navigateTo(newURL);
             assertEquals(newURL, page.getCurrentURL());
 
-            driver.close();
-
-            driver.switchTo().window((String) windowHandles[0]);
+            // Close and return
+            page.closeWindowAndNavigate();
         }
     }
 
-    private void ConfirmImageElement()
+    private void confirmListElement()
     {
-        WebElement image = driver.findElement(By.className("shift"));
+        List<String> lines = page.getListItems();
+        String expected = "Important Information You're Looking For";
 
-        assertTrue(image.isDisplayed());
-    }
-
-    private void ConfirmListElement()
-    {
-        WebElement contentDiv = driver.findElement(By.cssSelector("div.large-6.columns.large-centered"));
-        String innerHTML = contentDiv.getAttribute("innerHTML");
-
-        String[] parts = innerHTML.split("<br\\s*/?>\\s*");
-        List<String> lines = Arrays.stream(parts).map(String::trim).filter(s -> !s.isEmpty()).toList();
-        String expectedString = "Important Information You're Looking For";
-
-        boolean stringFound = false;
-
-        for (String line : lines)
-        {
-            if(line.equals(expectedString))
-            {
-                stringFound = true;
-                break;
-            }
-        }
-
-        assertTrue(stringFound);
+        assertTrue(lines.stream().anyMatch(line -> line.equals(expected)));
     }
 }

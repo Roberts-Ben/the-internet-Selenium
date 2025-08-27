@@ -1,12 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.SlowResourcesPage;
-import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,7 +13,8 @@ public class SlowResources_Test extends BaseTest
 {
     private SlowResourcesPage page;
 
-    private static final String URL = "https://the-internet.herokuapp.com/low";
+    private static final String URL = "https://the-internet.herokuapp.com/slow";
+    private static final String slowURL = "https://the-internet.herokuapp.com/slow_external";
 
     @BeforeEach
     public void setup() throws Exception
@@ -30,8 +27,6 @@ public class SlowResources_Test extends BaseTest
     @Test
     public void verifySlowElement()
     {
-        int status = RestAssured.get("https://the-internet.herokuapp.com/slow_external").getStatusCode();
-
-        assertEquals(503, status);
+        assertEquals(503, page.getSlowResourceStatus(slowURL));
     }
 }

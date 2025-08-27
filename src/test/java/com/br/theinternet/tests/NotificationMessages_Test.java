@@ -3,8 +3,6 @@ package com.br.theinternet.tests;
 import com.br.theinternet.pages.NotificationMessagesPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,6 +11,8 @@ public class NotificationMessages_Test extends BaseTest
     private NotificationMessagesPage page;
 
     private static final String URL = "https://the-internet.herokuapp.com/notification_message_rendered";
+    private static final String successNotif = "Action successful";
+    private static final String failNotif = "Action unsuccesful, please try again";
 
     @BeforeEach
     public void setup() throws Exception
@@ -25,21 +25,9 @@ public class NotificationMessages_Test extends BaseTest
     @Test
     public void verifyNotification()
     {
-        WebElement notificationTrigger = driver.findElement(By.xpath("//a[@href='/notification_message']"));
+        page.clickNotificationTrigger();
 
-        notificationTrigger.click();
-
-        WebElement notification = driver.findElement(By.id("flash"));
-        String notificationText = notification.getText();
-
-        if(notificationText.contains("Action successful"))
-        {
-            assertTrue(notificationText.contains("Action successful"));
-        }
-        else
-        {
-            // Note: Typo is intended
-            assertTrue(notificationText.contains("Action unsuccesful, please try again"));
-        }
+        String notificationText = page.getNotificationText();
+        assertTrue(notificationText.contains(successNotif) || notificationText.contains(failNotif));
     }
 }

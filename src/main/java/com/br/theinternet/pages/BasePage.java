@@ -32,6 +32,27 @@ public class BasePage
         driver.get(url);
     }
 
+    public void switchWindow(int index)
+    {
+        Object[] windowHandles = driver.getWindowHandles().toArray();
+        driver.switchTo().window((String)windowHandles[index]);
+    }
+
+    public void closeWindow()
+    {
+        driver.close();
+    }
+
+    public void refreshPage()
+    {
+        driver.navigate().refresh();
+    }
+
+    public String getCurrentURL()
+    {
+        return driver.getCurrentUrl();
+    }
+
     // Find element(s)
     protected WebElement find(By locator)
     {
@@ -77,12 +98,6 @@ public class BasePage
     protected boolean isDisplayed(By locator)
     {
         return driver.findElement(locator).isDisplayed();
-    }
-
-    // Check if element is enabled
-    protected boolean isEnabled(By locator)
-    {
-        return driver.findElement(locator).isEnabled();
     }
 
     // Wait checks
@@ -134,13 +149,12 @@ public class BasePage
         }
     }
 
-    protected boolean waitForStaleness(WebElement element)
+    protected void waitForStaleness(WebElement element)
     {
         try {
             wait.until(ExpectedConditions.stalenessOf(element));
-            return true;
         } catch (Exception e) {
-            return false;
+            System.out.println("element should have been stale: " + e);
         }
     }
 
@@ -150,18 +164,8 @@ public class BasePage
         return RestAssured.given().when().get(URL).statusCode();
     }
 
-    public void refreshPage()
-    {
-        driver.navigate().refresh();
-    }
-
     public void delay(int duration) throws InterruptedException
     {
         Thread.sleep(duration);
-    }
-
-    public String getCurrentURL()
-    {
-        return driver.getCurrentUrl();
     }
 }
