@@ -2,7 +2,7 @@ name: Java CI with Maven (Cross-Browser)
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "Cross-browser-setup" ]
   pull_request:
     branches: [ "master" ]
 
