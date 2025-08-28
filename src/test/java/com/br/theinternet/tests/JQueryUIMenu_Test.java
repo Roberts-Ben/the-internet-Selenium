@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.JQueryUIMenuPage;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,17 +13,15 @@ public class JQueryUIMenu_Test extends BaseTest
     private static final String URL = "https://the-internet.herokuapp.com/jqueryui/menu";
     private static final String baseURL = "https://the-internet.herokuapp.com/jqueryui";
 
-    @BeforeEach
-    public void setup() throws Exception
+    @ParameterizedTest(name = "verifyJQueryUIMenu: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyJQueryUIMenu(BrowserType browserType) throws Exception
     {
-        page = new JQueryUIMenuPage(driver);
-        page.navigateTo(URL);
+        // Setup
+        page = initPage(browserType, URL, JQueryUIMenuPage.class);
         assertEquals(URL, page.getCurrentURL());
-    }
 
-    @Test
-    public void verifyJQueryUIMenu() throws InterruptedException
-    {
+        // Test
         // Disabled element
         assertTrue(page.isDisabled(0));
 

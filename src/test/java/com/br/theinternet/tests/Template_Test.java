@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.TemplatePage;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,17 +12,14 @@ public class Template_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/";
 
-    @BeforeEach
-    public void setup() throws Exception
+    @ParameterizedTest(name = "TestCase: {0}")
+    @EnumSource(BrowserType.class)
+    public void TestCase(BrowserType browserType) throws Exception
     {
-        page = new TemplatePage(driver);
-        page.navigateTo(URL);
+        // Setup
+        page = initPage(browserType, URL, TemplatePage.class);
         assertEquals(URL, page.getCurrentURL());
-    }
 
-    @Test
-    public void TestCase()
-    {
-
+        // Test
     }
 }

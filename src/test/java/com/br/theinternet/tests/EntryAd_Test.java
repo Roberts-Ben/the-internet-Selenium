@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.EntryAdPage;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,17 +12,15 @@ public class EntryAd_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/entry_ad";
 
-    @BeforeEach
-    public void setup() throws Exception
+    @ParameterizedTest(name = "verifyAdOnFirstLoad: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyAdOnFirstLoad(BrowserType browserType) throws Exception
     {
-        page = new EntryAdPage(driver);
-        page.navigateTo(URL);
+        // Setup
+        page = initPage(browserType, URL, EntryAdPage.class);
         assertEquals(URL, page.getCurrentURL());
-    }
 
-    @Test
-    public void verifyAdOnFirstLoad() throws InterruptedException
-    {
+        // Test
         assertFalse(page.isModalVisible());
 
         // Wait for modal to appear
@@ -34,9 +32,15 @@ public class EntryAd_Test extends BaseTest
         assertTrue(page.waitForModalHidden());
     }
 
-    @Test
-    public void verifyAdOnlyAppearsOnce() throws InterruptedException
+    @ParameterizedTest(name = "verifyAdOnlyAppearsOnce: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyAdOnlyAppearsOnce(BrowserType browserType) throws Exception
     {
+        // Setup
+        page = initPage(browserType, URL, EntryAdPage.class);
+        assertEquals(URL, page.getCurrentURL());
+
+        // Test
         assertFalse(page.isModalVisible());
 
         // Wait for modal to appear
@@ -53,9 +57,15 @@ public class EntryAd_Test extends BaseTest
         assertFalse(page.waitForModalVisible());
     }
 
-    @Test
-    public void verifyAdAppearsAfterRefresh() throws InterruptedException
+    @ParameterizedTest(name = "verifyAdAppearsAfterRefresh: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyAdAppearsAfterRefresh(BrowserType browserType) throws Exception
     {
+        // Setup
+        page = initPage(browserType, URL, EntryAdPage.class);
+        assertEquals(URL, page.getCurrentURL());
+
+        // Test
         assertFalse(page.isModalVisible());
 
         // Wait for modal to appear

@@ -1,10 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.JavascriptOnLoadEventErrorPage;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.openqa.selenium.logging.LogEntry;
 
 import java.util.Arrays;
@@ -19,19 +17,15 @@ public class JavascriptOnLoadEventError_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/javascript_error";
 
-    private static final Log log = LogFactory.getLog(JavascriptOnLoadEventError_Test.class);
-
-    @BeforeEach
-    public void setup() throws Exception
+    @ParameterizedTest(name = "verifyError: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyError(BrowserType browserType) throws Exception
     {
-        page = new JavascriptOnLoadEventErrorPage(driver);
-        page.navigateTo(URL);
+        // Setup
+        page = initPage(browserType, URL, JavascriptOnLoadEventErrorPage.class);
         assertEquals(URL, page.getCurrentURL());
-    }
 
-    @Test
-    public void verifyError()
-    {
+        // Test
         // Define JavaScript error types to filter
         List<String> errorStrings = Arrays.asList(
                 "SyntaxError",

@@ -36,8 +36,7 @@ jobs:
         rm microsoft.gpg
 
     - name: Build and Run Tests
-      #run: mvn test -Dbrowser=${{ matrix.browser }} --batch-mode --fail-at-end
-      run: mvn test -Dbrowser=${{ matrix.browser }} -Dtest=com.br.theinternet.tests.ABTesting_Test --batch-mode --fail-at-end
+      run: mvn test -Dbrowser=${{ matrix.browser }} --batch-mode --fail-at-end
 
     - name: Publish Test Report
       if: success() || failure()

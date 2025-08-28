@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.ChallengingDOMPage;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,38 +12,54 @@ public class ChallengingDOM_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/challenging_dom";
 
-    @BeforeEach
-    public void setup() throws Exception
+    @ParameterizedTest(name = "verifyButton: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyButton(BrowserType browserType) throws Exception
     {
-        page = new ChallengingDOMPage(driver);
-        page.navigateTo(URL);
+        // Setup
+        page = initPage(browserType, URL, ChallengingDOMPage.class);
         assertEquals(URL, page.getCurrentURL());
-    }
 
-    @Test
-    public void verifyButton()
-    {
+        // Test
         assertTrue(page.isButtonVisible());
         page.clickButton();
     }
 
-    @Test
-    public void verifyAlertButton()
+    @ParameterizedTest(name = "verifyAlertButton: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyAlertButton(BrowserType browserType) throws Exception
     {
+        // Setup
+        page = initPage(browserType, URL, ChallengingDOMPage.class);
+        assertEquals(URL, page.getCurrentURL());
+
+        // Test
         assertTrue(page.isAlertButtonVisible());
         page.clickAlertButton();
     }
 
-    @Test
-    public void verifySuccessButton()
+    @ParameterizedTest(name = "verifySuccessButton: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifySuccessButton(BrowserType browserType) throws Exception
     {
+        // Setup
+        page = initPage(browserType, URL, ChallengingDOMPage.class);
+        assertEquals(URL, page.getCurrentURL());
+
+        // Test
         assertTrue(page.isSuccessButtonVisible());
         page.clickSuccessButton();
     }
 
-    @Test
-    public void verifyTable()
+    @ParameterizedTest(name = "verifyTable: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyTable(BrowserType browserType) throws Exception
     {
+        // Setup
+        page = initPage(browserType, URL, ChallengingDOMPage.class);
+        assertEquals(URL, page.getCurrentURL());
+
+        // Test
         int tableSize = 10;
 
         assertTrue(page.isLoremHeaderVisible());
@@ -59,9 +75,15 @@ public class ChallengingDOM_Test extends BaseTest
         }
     }
 
-    @Test
-    public void verifyCanvas()
+    @ParameterizedTest(name = "verifyCanvas: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyCanvas(BrowserType browserType) throws Exception
     {
+        // Setup
+        page = initPage(browserType, URL, ChallengingDOMPage.class);
+        assertEquals(URL, page.getCurrentURL());
+
+        // Test
         assertTrue(page.isCanvasVisible());
     }
 }

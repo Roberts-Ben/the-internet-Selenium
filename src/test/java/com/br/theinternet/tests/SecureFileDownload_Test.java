@@ -1,7 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.FileDownloadPage;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -10,15 +11,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SecureFileDownload_Test extends BaseTest
 {
+    private FileDownloadPage page;
+
     String baseURL = "the-internet.herokuapp.com/download_secure";
     String username = "admin";
     String password = "admin";
 
-    @Test
-    public void verifySecureLoginDownload()
+    @ParameterizedTest(name = "verifySecureLoginDownload: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifySecureLoginDownload(BrowserType browserType) throws Exception
     {
-        FileDownloadPage page = new FileDownloadPage(driver);
+        // Setup
+        page = initPage(browserType, "", FileDownloadPage.class);
 
+        // Test
         String authURL = "https://" + username + ":" + password + "@" + baseURL;
 
         page.navigateTo(authURL);

@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.ShadowDOMPage;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.openqa.selenium.*;
 
 import java.util.List;
@@ -15,17 +15,15 @@ public class ShadowDOM_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/shadowdom";
 
-    @BeforeEach
-    public void setup() throws Exception
+    @ParameterizedTest(name = "verifyShadowDOM: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyShadowDOM(BrowserType browserType) throws Exception
     {
-        page = new ShadowDOMPage(driver);
-        page.navigateTo(URL);
+        // Setup
+        page = initPage(browserType, URL, ShadowDOMPage.class);
         assertEquals(URL, page.getCurrentURL());
-    }
 
-    @Test
-    public void verifyShadowDOM()
-    {
+        // Test
         List<WebElement> shadowHosts = page.getShadowHosts();
 
         // First shadow element

@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.ShiftingContentPage;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import java.util.List;
 
@@ -19,17 +19,15 @@ public class ShiftingContent_Test extends BaseTest
     private static final String imageURL = "https://the-internet.herokuapp.com/shifting_content/image";
     private static final String listURL = "https://the-internet.herokuapp.com/shifting_content/list";
 
-    @BeforeEach
-    public void setup() throws Exception
+    @ParameterizedTest(name = "verifyMenuElement: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyMenuElement(BrowserType browserType) throws Exception
     {
-        page = new ShiftingContentPage(driver);
-        page.navigateTo(URL);
+        // Setup
+        page = initPage(browserType, URL, ShiftingContentPage.class);
         assertEquals(URL, page.getCurrentURL());
-    }
 
-    @Test
-    public void verifyMenuElement()
-    {
+        // Test
         page.clickMenuLink();
         assertEquals(menuURL, page.getCurrentURL());
 
@@ -40,9 +38,15 @@ public class ShiftingContent_Test extends BaseTest
         confirmButtonElements();
     }
 
-    @Test
-    public void verifyImageElement()
+    @ParameterizedTest(name = "verifyImageElement: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyImageElement(BrowserType browserType) throws Exception
     {
+        // Setup
+        page = initPage(browserType, URL, ShiftingContentPage.class);
+        assertEquals(URL, page.getCurrentURL());
+
+        // Test
         page.clickImageLink();
         assertEquals(imageURL, page.getCurrentURL());
 
@@ -53,9 +57,15 @@ public class ShiftingContent_Test extends BaseTest
         assertTrue(page.isImageDisplayed());
     }
 
-    @Test
-    public void verifyListElement()
+    @ParameterizedTest(name = "verifyListElement: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyListElement(BrowserType browserType) throws Exception
     {
+        // Setup
+        page = initPage(browserType, URL, ShiftingContentPage.class);
+        assertEquals(URL, page.getCurrentURL());
+
+        // Test
         page.clickListLink();
         assertEquals(listURL, page.getCurrentURL());
 

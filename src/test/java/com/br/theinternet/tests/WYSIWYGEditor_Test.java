@@ -1,11 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.FramesPage;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,17 +12,15 @@ public class WYSIWYGEditor_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/tinymce";
 
-    @BeforeEach
-    public void setup() throws Exception
+    @ParameterizedTest(name = "verifyEditor: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyEditor(BrowserType browserType) throws Exception
     {
-        page = new FramesPage(driver);
-        page.navigateTo(URL);
+        // Setup
+        page = initPage(browserType, URL, FramesPage.class);
         assertEquals(URL, page.getCurrentURL());
-    }
 
-    @Test
-    public void verifyEditor()
-    {
+        // Test
         // Need to close the TinyMCE read-only warning before interacting with other elements
         page.clickCloseButton();
 

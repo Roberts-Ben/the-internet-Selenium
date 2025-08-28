@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.InfiniteScrollingPage;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,17 +12,15 @@ public class InfiniteScrolling_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/infinite_scroll";
 
-    @BeforeEach
-    public void setup() throws Exception
+    @ParameterizedTest(name = "verifyInfiniteScroll: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyInfiniteScroll(BrowserType browserType) throws Exception
     {
-        page = new InfiniteScrollingPage(driver);
-        page.navigateTo(URL);
+        // Setup
+        page = initPage(browserType, URL, InfiniteScrollingPage.class);
         assertEquals(URL, page.getCurrentURL());
-    }
 
-    @Test
-    public void verifyInfiniteScroll() throws InterruptedException
-    {
+        // Test
         int numberOfTimesToScroll = 5;
 
         long screenHeight = page.getScreenHeight();

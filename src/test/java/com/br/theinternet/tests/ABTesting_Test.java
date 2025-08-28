@@ -20,11 +20,7 @@ public class ABTesting_Test extends BaseTest
     public void verifyHeaderText(BrowserType browserType) throws Exception
     {
         // Setup
-        this.browser = browserType;
-        initializeDriver();
-
-        page = new ABTestingPage(driver);
-        page.navigateTo(URL);
+        page = initPage(browserType, URL, ABTestingPage.class);
         assertEquals(URL, page.getCurrentURL());
 
         // Test

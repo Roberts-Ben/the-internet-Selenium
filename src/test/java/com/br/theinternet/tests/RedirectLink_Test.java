@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.RedirectLinkPage;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,17 +13,15 @@ public class RedirectLink_Test extends BaseTest
     private static final String URL = "https://the-internet.herokuapp.com/redirector";
     private static final String redirectURL = "https://the-internet.herokuapp.com/status_codes";
 
-    @BeforeEach
-    public void setup() throws Exception
+    @ParameterizedTest(name = "verifyRedirect: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyRedirect(BrowserType browserType) throws Exception
     {
-        page = new RedirectLinkPage(driver);
-        page.navigateTo(URL);
+        // Setup
+        page = initPage(browserType, URL, RedirectLinkPage.class);
         assertEquals(URL, page.getCurrentURL());
-    }
 
-    @Test
-    public void verifyRedirect()
-    {
+        // Test
         page.clickRedirectLink();
 
         assertEquals(redirectURL, page.getCurrentURL());

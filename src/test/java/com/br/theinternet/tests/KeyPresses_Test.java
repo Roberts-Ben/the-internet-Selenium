@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.KeyPressesPage;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.openqa.selenium.Keys;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,17 +13,15 @@ public class KeyPresses_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/key_presses";
 
-    @BeforeEach
-    public void setup() throws Exception
+    @ParameterizedTest(name = "verifyValidKeyPress: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyValidKeyPress(BrowserType browserType) throws Exception
     {
-        page = new KeyPressesPage(driver);
-        page.navigateTo(URL);
+        // Setup
+        page = initPage(browserType, URL, KeyPressesPage.class);
         assertEquals(URL, page.getCurrentURL());
-    }
 
-    @Test
-    public void verifyValidKeyPress() throws InterruptedException
-    {
+        // Test
         assertFalse(page.isResultVisible());
 
         page.sendInput(Keys.ARROW_UP);

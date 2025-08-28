@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.InputsPage;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,17 +12,15 @@ public class Inputs_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/inputs";
 
-    @BeforeEach
-    public void setup() throws Exception
+    @ParameterizedTest(name = "verifyValidInput: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyValidInput(BrowserType browserType) throws Exception
     {
-        page = new InputsPage(driver);
-        page.navigateTo(URL);
+        // Setup
+        page = initPage(browserType, URL, InputsPage.class);
         assertEquals(URL, page.getCurrentURL());
-    }
 
-    @Test
-    public void verifyValidInput()
-    {
+        // Test
         assertEquals("", page.getInputValue());
 
         page.inputValue("55");
@@ -30,9 +28,15 @@ public class Inputs_Test extends BaseTest
         assertEquals("55", page.getInputValue());
     }
 
-    @Test
-    public void verifyValidNegativeInput()
+    @ParameterizedTest(name = "verifyValidNegativeInput: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyValidNegativeInput(BrowserType browserType) throws Exception
     {
+        // Setup
+        page = initPage(browserType, URL, InputsPage.class);
+        assertEquals(URL, page.getCurrentURL());
+
+        // Test
         assertEquals("", page.getInputValue());
 
         page.inputValue("-91");
@@ -40,9 +44,15 @@ public class Inputs_Test extends BaseTest
         assertEquals("-91", page.getInputValue());
     }
 
-    @Test
-    public void verifyInvalidInput()
+    @ParameterizedTest(name = ": {0}")
+@EnumSource(BrowserType.class)
+    public void verifyInvalidInput(BrowserType browserType) throws Exception
     {
+        // Setup
+        page = initPage(browserType, URL, InputsPage.class);
+        assertEquals(URL, page.getCurrentURL());
+
+        // Test
         assertEquals("", page.getInputValue());
 
         page.inputValue("abc");

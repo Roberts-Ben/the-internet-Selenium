@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.NestedFramesPage;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,17 +12,15 @@ public class NestedFrames_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/nested_frames";
 
-    @BeforeEach
-    public void setup() throws Exception
+    @ParameterizedTest(name = "verifyNestedFrames: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyNestedFrames(BrowserType browserType) throws Exception
     {
-        page = new NestedFramesPage(driver);
-        page.navigateTo(URL);
+        // Setup
+        page = initPage(browserType, URL, NestedFramesPage.class);
         assertEquals(URL, page.getCurrentURL());
-    }
 
-    @Test
-    public void verifyNestedFrames()
-    {
+        // Test
         assertTrue(page.verifyFrameText("MIDDLE", "frame-top", "frame-middle"));
         assertTrue(page.verifyFrameText("LEFT", "frame-top", "frame-left"));
         assertTrue(page.verifyFrameText("RIGHT", "frame-top", "frame-right"));

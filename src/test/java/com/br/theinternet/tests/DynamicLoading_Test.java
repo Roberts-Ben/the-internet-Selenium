@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.DynamicLoadingPage;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,17 +14,15 @@ public class DynamicLoading_Test extends BaseTest
     private static final String URLTest1 = "https://the-internet.herokuapp.com/dynamic_loading/1";
     private static final String URLTest2 = "https://the-internet.herokuapp.com/dynamic_loading/2";
 
-    @BeforeEach
-    public void setup() throws Exception
+    @ParameterizedTest(name = "verifyHiddenElement: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyHiddenElement(BrowserType browserType) throws Exception
     {
-        page = new DynamicLoadingPage(driver);
-        page.navigateTo(URL);
+        // Setup
+        page = initPage(browserType, URL, DynamicLoadingPage.class);
         assertEquals(URL, page.getCurrentURL());
-    }
 
-    @Test
-    public void verifyHiddenElement()
-    {
+        // Test
         page.navigateTo(URLTest1);
 
         assertFalse(page.isHiddenElementVisible());
@@ -34,9 +32,15 @@ public class DynamicLoading_Test extends BaseTest
         assertTrue(page.waitForHiddenElementVisible());
     }
 
-    @Test
-    public void verifyElementExistsAfterLoad()
+    @ParameterizedTest(name = "verifyElementExistsAfterLoad: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyElementExistsAfterLoad(BrowserType browserType) throws Exception
     {
+        // Setup
+        page = initPage(browserType, URL, DynamicLoadingPage.class);
+        assertEquals(URL, page.getCurrentURL());
+
+        // Test
         page.navigateTo(URLTest2);
 
         assertEquals(0, page.getHiddenElementSize());

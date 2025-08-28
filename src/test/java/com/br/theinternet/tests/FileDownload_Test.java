@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.FileDownloadPage;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -15,17 +15,15 @@ public class FileDownload_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/download";
 
-    @BeforeEach
-    public void setup() throws Exception
+    @ParameterizedTest(name = "verifyFileDownload: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyFileDownload(BrowserType browserType) throws Exception
     {
-        page = new FileDownloadPage(driver);
-        page.navigateTo(URL);
+        // Setup
+        page = initPage(browserType, URL, FileDownloadPage.class);
         assertEquals(URL, page.getCurrentURL());
-    }
 
-    @Test
-    public void verifyFileDownload()
-    {
+        // Test
         List<WebElement> downloadButtons = page.getDownloadButtons();
 
         int totalFiles = downloadButtons.size();

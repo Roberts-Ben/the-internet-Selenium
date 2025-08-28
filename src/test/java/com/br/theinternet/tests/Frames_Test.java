@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.FramesPage;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,25 +14,29 @@ public class Frames_Test extends BaseTest
     private static final String iFrameURL = "https://the-internet.herokuapp.com/iframe";
     private static final String nestedFrameURL = "https://the-internet.herokuapp.com/nested_frames";
 
-    @BeforeEach
-    public void setup() throws Exception
+    @ParameterizedTest(name = "verifyNestedFramesLink: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyNestedFramesLink(BrowserType browserType) throws Exception
     {
-        page = new FramesPage(driver);
-        page.navigateTo(URL);
+        // Setup
+        page = initPage(browserType, URL, FramesPage.class);
         assertEquals(URL, page.getCurrentURL());
-    }
 
-    @Test
-    public void verifyNestedFramesLink()
-    {
+        // Test
         page.clickNestedFramesLink();
 
         assertEquals(nestedFrameURL, page.getCurrentURL());
     }
 
-    @Test
-    public void verifyiFrame()
+    @ParameterizedTest(name = "verifyiFrame: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyiFrame(BrowserType browserType) throws Exception
     {
+        // Setup
+        page = initPage(browserType, URL, FramesPage.class);
+        assertEquals(URL, page.getCurrentURL());
+
+        // Test
         page.navigateTo(iFrameURL);
 
         // Need to close the TinyMCE read-only warning before interacting with other elements

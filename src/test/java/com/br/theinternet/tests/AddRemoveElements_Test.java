@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.AddRemoveElementsPage;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -16,25 +16,29 @@ public class AddRemoveElements_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/add_remove_elements/";
 
-    @BeforeEach
-    public void setup() throws Exception
+    @ParameterizedTest(name = "verifyAddElement: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyAddElement(BrowserType browserType) throws Exception
     {
-        page = new AddRemoveElementsPage(driver);
-        page.navigateTo(URL);
+        // Setup
+        page = initPage(browserType, URL, AddRemoveElementsPage.class);
         assertEquals(URL, page.getCurrentURL());
-    }
 
-    @Test
-    public void verifyAddElement()
-    {
+        // Test
         page.addElement();
 
         assertTrue(page.getDeleteButtons().getFirst().isDisplayed());
     }
 
-    @Test
-    public void verifyAddMultipleElement()
+    @ParameterizedTest(name = "verifyAddMultipleElement: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyAddMultipleElement(BrowserType browserType) throws Exception
     {
+        // Setup
+        page = initPage(browserType, URL, AddRemoveElementsPage.class);
+        assertEquals(URL, page.getCurrentURL());
+
+        // Test
         int elementsToAdd = 10;
 
         for(int i = 0; i < elementsToAdd; i++)
@@ -45,9 +49,15 @@ public class AddRemoveElements_Test extends BaseTest
         assertEquals(elementsToAdd, page.getDeleteButtons().size());
     }
 
-    @Test
-    public void verifyDeleteElement()
+    @ParameterizedTest(name = "verifyDeleteElement: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyDeleteElement(BrowserType browserType) throws Exception
     {
+        // Setup
+        page = initPage(browserType, URL, AddRemoveElementsPage.class);
+        assertEquals(URL, page.getCurrentURL());
+
+        // Test
         page.addElement();
 
         List<WebElement> deleteButtons = page.getDeleteButtons();
@@ -59,9 +69,15 @@ public class AddRemoveElements_Test extends BaseTest
         assertEquals(0, page.getDeleteButtons().size());
     }
 
-    @Test
-    public void verifyDeleteAllElements()
+    @ParameterizedTest(name = "verifyDeleteAllElements: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyDeleteAllElements(BrowserType browserType) throws Exception
     {
+        // Setup
+        page = initPage(browserType, URL, AddRemoveElementsPage.class);
+        assertEquals(URL, page.getCurrentURL());
+
+        // Test
         int elementsToAdd = 10;
 
         for(int i = 0; i < elementsToAdd; i++)
@@ -81,9 +97,15 @@ public class AddRemoveElements_Test extends BaseTest
         assertEquals(0, page.getDeleteButtons().size());
     }
 
-    @Test
-    public void verifyDeleteRandomElements()
+    @ParameterizedTest(name = "verifyDeleteRandomElements: {0}")
+    @EnumSource(BrowserType.class)
+    public void verifyDeleteRandomElements(BrowserType browserType) throws Exception
     {
+        // Setup
+        page = initPage(browserType, URL, AddRemoveElementsPage.class);
+        assertEquals(URL, page.getCurrentURL());
+
+        // Test
         int elementsToAdd = 10;
         int elementsToDelete = 3;
 

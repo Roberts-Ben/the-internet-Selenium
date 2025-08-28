@@ -1,7 +1,6 @@
 package com.br.theinternet.tests;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -16,6 +15,7 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class BaseTest
 {
@@ -98,6 +98,19 @@ public class BaseTest
         options.addPreference("browser.helperApps.neverAsk.saveToDisk", "application/pdf,application/octet-stream");
         options.addPreference("pdfjs.disabled", true);
         return options;
+    }
+
+    protected <T> T initPage(BrowserType browserType, String url, Class<T> pageClass) throws Exception
+    {
+        this.browser = browserType;
+        initializeDriver();
+
+        T page = pageClass.getConstructor(WebDriver.class).newInstance(driver);
+        if(!Objects.equals(url, ""))
+        {
+            driver.get(url);
+        }
+        return page;
     }
 
     @AfterEach
