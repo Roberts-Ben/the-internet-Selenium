@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.AuthPage;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.HasAuthentication;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,26 +16,23 @@ public class BasicAuth_Test extends BaseTest
     String username = "admin";
     String password = "admin";
 
-    @ParameterizedTest(name = "verifyAuthSuccessViaDirectURL: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyAuthSuccessViaDirectURL(BrowserType browserType) throws Exception
+    @BeforeEach
+    public void setup() throws Exception
     {
-        // Setup
-        page = initPage(browserType, "", AuthPage.class);
+        page = initPage(browser, "", AuthPage.class);
+        page = new AuthPage(driver);
+    }
 
-        // Test
+    @Test
+    public void verifyAuthSuccessViaDirectURL()
+    {
         page.navigateWithCredentials(username, password, baseURL);
         assertEquals("Congratulations! You must have the proper credentials.", page.getSuccessMessage());
     }
 
-    @ParameterizedTest(name = "verifyAuthSuccessViaHasAuthentication: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyAuthSuccessViaHasAuthentication(BrowserType browserType) throws Exception
+    @Test
+    public void verifyAuthSuccessViaHasAuthentication()
     {
-        // Setup
-        page = initPage(browserType, "", AuthPage.class);
-
-        // Test
         page.navigateWithAuth((HasAuthentication) driver, username, password, baseURL);
         assertEquals("Congratulations! You must have the proper credentials.", page.getSuccessMessage());
     }

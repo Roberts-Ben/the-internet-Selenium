@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.DynamicContentPage;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -14,15 +14,17 @@ public class DynamicContent_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/dynamic_content";
 
-    @ParameterizedTest(name = "verifyDynamicContent: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyDynamicContent(BrowserType browserType) throws Exception
+    @BeforeEach
+    public void setup() throws Exception
     {
-        // Setup
-        page = initPage(browserType, URL, DynamicContentPage.class);
+        page = initPage(browser, URL, DynamicContentPage.class);
+        page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
+    }
 
-        // Test
+    @Test
+    public void verifyDynamicContent()
+    {
         List<String> originalAvatars = page.getAvatarSources();
         List<String> originalParagraphs = page.getParagraphTexts();
 
@@ -34,15 +36,9 @@ public class DynamicContent_Test extends BaseTest
         assertTrue(page.hasContentChanged(originalAvatars, newAvatars, false) || page.hasContentChanged(originalParagraphs, newParagraphs, false));
     }
 
-    @ParameterizedTest(name = "verifyStaticAndDynamicContent: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyStaticAndDynamicContent(BrowserType browserType) throws Exception
+    @Test
+    public void verifyStaticAndDynamicContent()
     {
-        // Setup
-        page = initPage(browserType, URL, DynamicContentPage.class);
-        assertEquals(URL, page.getCurrentURL());
-
-        // Test
         page.enableStaticDynamicMode();
 
         List<String> originalAvatars = page.getAvatarSources();

@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.MultipleWindowsPage;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,15 +12,17 @@ public class MultipleWindows_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/windows";
 
-    @ParameterizedTest(name = "verifyNewWindow: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyNewWindow(BrowserType browserType) throws Exception
+    @BeforeEach
+    public void setup() throws Exception
     {
-        // Setup
-        page = initPage(browserType, URL, MultipleWindowsPage.class);
+        page = initPage(browser, URL, MultipleWindowsPage.class);
+        page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
+    }
 
-        // Test
+    @Test
+    public void verifyNewWindow()
+    {
         page.clickNewTabButton();
 
         page.switchWindow(1);

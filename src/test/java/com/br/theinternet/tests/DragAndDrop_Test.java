@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.DragAndDropPage;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,15 +12,17 @@ public class DragAndDrop_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/drag_and_drop";
 
-    @ParameterizedTest(name = "verifyDragDropSwap: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyDragDropSwap(BrowserType browserType) throws Exception
+    @BeforeEach
+    public void setup() throws Exception
     {
-        // Setup
-        page = initPage(browserType, URL, DragAndDropPage.class);
+        page = initPage(browser, URL, DragAndDropPage.class);
+        page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
+    }
 
-        // Test
+    @Test
+    public void verifyDragDropSwap()
+    {
         assertEquals("A",page.getHeaderAText());
         assertEquals("B",page.getHeaderBText());
 

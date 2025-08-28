@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.BrokenImagesPage;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -15,15 +15,17 @@ public class BrokenImages_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/broken_images";
 
-    @ParameterizedTest(name = "verifyImages: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyImages (BrowserType browserType) throws Exception
+    @BeforeEach
+    public void setup() throws Exception
     {
-        // Setup
-        page = initPage(browserType, URL, BrokenImagesPage.class);
+        page = initPage(browser, URL, BrokenImagesPage.class);
+        page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
+    }
 
-        // Test
+    @Test
+    public void verifyImages ()
+    {
         List<WebElement> images = page.getAllImages();
 
         for (WebElement image : images)

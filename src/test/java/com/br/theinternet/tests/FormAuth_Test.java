@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.FormAuthPage;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,15 +18,17 @@ public class FormAuth_Test extends BaseTest
     private static final String invalidUsername = "test";
     private static final String invalidPassword = "pass";
 
-    @ParameterizedTest(name = "verifyValidAuth: {0}")
-@   EnumSource(BrowserType.class)
-    public void verifyValidAuth(BrowserType browserType) throws Exception
+    @BeforeEach
+    public void setup() throws Exception
     {
-        // Setup
-        page = initPage(browserType, URL, FormAuthPage.class);
+        page = initPage(browser, URL, FormAuthPage.class);
+        page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
+    }
 
-        // Test
+    @Test
+    public void verifyValidAuth()
+    {
         page.inputCredentials(username, password);
 
         page.clickLogin();
@@ -34,15 +36,9 @@ public class FormAuth_Test extends BaseTest
         assertTrue(page.getDataAlertText().contains("You logged into a secure area!"));
     }
 
-    @ParameterizedTest(name = "verifyInvalidAuth: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyInvalidAuth(BrowserType browserType) throws Exception
+    @Test
+    public void verifyInvalidAuth()
     {
-        // Setup
-        page = initPage(browserType, URL, FormAuthPage.class);
-        assertEquals(URL, page.getCurrentURL());
-
-        // Test
         page.inputCredentials(invalidUsername, invalidPassword);
 
         page.clickLogin();
@@ -50,15 +46,9 @@ public class FormAuth_Test extends BaseTest
         assertTrue(page.getDataAlertText().contains("Your username is invalid!"));
     }
 
-    @ParameterizedTest(name = "verifyLogout: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyLogout(BrowserType browserType) throws Exception
+    @Test
+    public void verifyLogout()
     {
-        // Setup
-        page = initPage(browserType, URL, FormAuthPage.class);
-        assertEquals(URL, page.getCurrentURL());
-
-        // Test
         page.inputCredentials(username, password);
 
         page.clickLogin();
@@ -68,15 +58,9 @@ public class FormAuth_Test extends BaseTest
         assertTrue(page.getDataAlertText().contains("You logged out of the secure area!"));
     }
 
-    @ParameterizedTest(name = "verifyUnableToBypass: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyUnableToBypass(BrowserType browserType) throws Exception
+    @Test
+    public void verifyUnableToBypass()
     {
-        // Setup
-        page = initPage(browserType, URL, FormAuthPage.class);
-        assertEquals(URL, page.getCurrentURL());
-
-        // Test
         page.navigateTo(bypassURL);
         assertEquals(URL, page.getCurrentURL());
 

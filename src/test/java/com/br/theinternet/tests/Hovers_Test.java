@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.HoversPage;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,15 +13,17 @@ public class Hovers_Test extends BaseTest
     private static final String URL = "https://the-internet.herokuapp.com/hovers";
     private static final String userURL = "https://the-internet.herokuapp.com/hovers/users/";
 
-    @ParameterizedTest(name = "verifyHover: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyHover(BrowserType browserType) throws Exception
+    @BeforeEach
+    public void setup() throws Exception
     {
-        // Setup
-        page = initPage(browserType, URL, HoversPage.class);
+        page = initPage(browser, URL, HoversPage.class);
+        page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
+    }
 
-        // Test
+    @Test
+    public void verifyHover()
+    {
         // Verify all hidden hover info is hidden
         for (int i = 0; i < page.getHiddenElements().size(); i++)
         {

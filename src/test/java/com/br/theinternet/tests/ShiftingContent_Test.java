@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.ShiftingContentPage;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
@@ -13,21 +13,22 @@ public class ShiftingContent_Test extends BaseTest
     private ShiftingContentPage page;
 
     private static final String URL = "https://the-internet.herokuapp.com/shifting_content";
-
-    private static final String baseURL = "https://the-internet.herokuapp.com";
+    
     private static final String menuURL = "https://the-internet.herokuapp.com/shifting_content/menu";
     private static final String imageURL = "https://the-internet.herokuapp.com/shifting_content/image";
     private static final String listURL = "https://the-internet.herokuapp.com/shifting_content/list";
 
-    @ParameterizedTest(name = "verifyMenuElement: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyMenuElement(BrowserType browserType) throws Exception
+    @BeforeEach
+    public void setup() throws Exception
     {
-        // Setup
-        page = initPage(browserType, URL, ShiftingContentPage.class);
+        page = initPage(browser, URL, ShiftingContentPage.class);
+        page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
+    }
 
-        // Test
+    @Test
+    public void verifyMenuElement()
+    {
         page.clickMenuLink();
         assertEquals(menuURL, page.getCurrentURL());
 
@@ -38,15 +39,9 @@ public class ShiftingContent_Test extends BaseTest
         confirmButtonElements();
     }
 
-    @ParameterizedTest(name = "verifyImageElement: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyImageElement(BrowserType browserType) throws Exception
+    @Test
+    public void verifyImageElement()
     {
-        // Setup
-        page = initPage(browserType, URL, ShiftingContentPage.class);
-        assertEquals(URL, page.getCurrentURL());
-
-        // Test
         page.clickImageLink();
         assertEquals(imageURL, page.getCurrentURL());
 
@@ -57,15 +52,9 @@ public class ShiftingContent_Test extends BaseTest
         assertTrue(page.isImageDisplayed());
     }
 
-    @ParameterizedTest(name = "verifyListElement: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyListElement(BrowserType browserType) throws Exception
+    @Test
+    public void verifyListElement()
     {
-        // Setup
-        page = initPage(browserType, URL, ShiftingContentPage.class);
-        assertEquals(URL, page.getCurrentURL());
-
-        // Test
         page.clickListLink();
         assertEquals(listURL, page.getCurrentURL());
 

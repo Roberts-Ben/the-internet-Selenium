@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.DisappearingElementsPage;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,15 +12,17 @@ public class DisappearingElements_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/disappearing_elements";
 
-    @ParameterizedTest(name = "verifyDisappearingElements: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyDisappearingElements(BrowserType browserType) throws Exception
+    @BeforeEach
+    public void setup() throws Exception
     {
-        // Setup
-        page = initPage(browserType, URL, DisappearingElementsPage.class);
+        page = initPage(browser, URL, DisappearingElementsPage.class);
+        page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
+    }
 
-        // Test
+    @Test
+    public void verifyDisappearingElements()
+    {
         boolean verified5Elements = false;
         boolean verified4Elements = false;
 

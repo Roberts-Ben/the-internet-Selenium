@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.SortableDataTablesPage;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
@@ -14,15 +14,17 @@ public class SortableDataTables_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/tables";
 
-    @ParameterizedTest(name = "verifyTableWithoutID: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyTableWithoutID(BrowserType browserType) throws Exception
+    @BeforeEach
+    public void setup() throws Exception
     {
-        // Setup
-        page = initPage(browserType, URL, SortableDataTablesPage.class);
+        page = initPage(browser, URL, SortableDataTablesPage.class);
+        page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
+    }
 
-        // Test
+    @Test
+    public void verifyTableWithoutID() throws InterruptedException
+    {
         // Assert content exists
         List<String> lastNames = page.getColumnContentByIndex("table1", 0);
         assertEquals(4, lastNames.size()); // 4 rows
@@ -46,15 +48,9 @@ public class SortableDataTables_Test extends BaseTest
         assertTrue(isSortedDescending(descSorted));
     }
 
-    @ParameterizedTest(name = "verifyTableWithID: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyTableWithID(BrowserType browserType) throws Exception
+    @Test
+    public void verifyTableWithID() throws InterruptedException
     {
-        // Setup
-        page = initPage(browserType, URL, SortableDataTablesPage.class);
-        assertEquals(URL, page.getCurrentURL());
-
-        // Test
         // Assert content exists
         List<String> firstNames = page.getColumnContentByID("table2", "first-name");
         assertEquals(4, firstNames.size()); // 4 rows

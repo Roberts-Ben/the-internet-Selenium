@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.NotificationMessagesPage;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,15 +14,17 @@ public class NotificationMessages_Test extends BaseTest
     private static final String successNotif = "Action successful";
     private static final String failNotif = "Action unsuccesful, please try again";
 
-    @ParameterizedTest(name = "verifyNotification: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyNotification(BrowserType browserType) throws Exception
+    @BeforeEach
+    public void setup() throws Exception
     {
-        // Setup
-        page = initPage(browserType, URL, NotificationMessagesPage.class);
+        page = initPage(browser, URL, NotificationMessagesPage.class);
+        page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
+    }
 
-        // Test
+    @Test
+    public void verifyNotification()
+    {
         page.clickNotificationTrigger();
 
         String notificationText = page.getNotificationText();

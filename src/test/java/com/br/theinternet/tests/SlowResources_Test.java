@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.SlowResourcesPage;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,15 +16,17 @@ public class SlowResources_Test extends BaseTest
     private static final String URL = "https://the-internet.herokuapp.com/slow";
     private static final String slowURL = "https://the-internet.herokuapp.com/slow_external";
 
-    @ParameterizedTest(name = "verifySlowElement: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifySlowElement(BrowserType browserType) throws Exception
+    @BeforeEach
+    public void setup() throws Exception
     {
-        // Setup
-        page = initPage(browserType, URL, SlowResourcesPage.class);
+        page = initPage(browser, URL, SlowResourcesPage.class);
+        page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
+    }
 
-        // Test
+    @Test
+    public void verifySlowElement()
+    {
         assertEquals(503, page.getSlowResourceStatus(slowURL));
     }
 }

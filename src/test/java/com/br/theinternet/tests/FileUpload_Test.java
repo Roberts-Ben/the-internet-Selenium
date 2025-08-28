@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.FileUploadPage;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
@@ -15,15 +15,17 @@ public class FileUpload_Test extends BaseTest
     private static final String URL = "https://the-internet.herokuapp.com/upload";
     private static final String fileName = "src/main/resources/testuploadfile/testFile.txt";
 
-    @ParameterizedTest(name = "verifyUpload: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyUpload(BrowserType browserType) throws Exception
+    @BeforeEach
+    public void setup() throws Exception
     {
-        // Setup
-        page = initPage(browserType, URL, FileUploadPage.class);
+        page = initPage(browser, URL, FileUploadPage.class);
+        page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
+    }
 
-        // Test
+    @Test
+    public void verifyUpload()
+    {
         File fileToUpload = new File(fileName);
         String fileName = fileToUpload.getName();
 
@@ -35,15 +37,9 @@ public class FileUpload_Test extends BaseTest
         assertTrue(page.getUploadedFileName().contains(fileName));
     }
 
-    @ParameterizedTest(name = "verifyEmptyUpload: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyEmptyUpload(BrowserType browserType) throws Exception
+    @Test
+    public void verifyEmptyUpload()
     {
-        // Setup
-        page = initPage(browserType, URL, FileUploadPage.class);
-        assertEquals(URL, page.getCurrentURL());
-
-        // Test
         page.clickUpload();
 
         assertEquals("Internal Server Error", page.getHeaderText());

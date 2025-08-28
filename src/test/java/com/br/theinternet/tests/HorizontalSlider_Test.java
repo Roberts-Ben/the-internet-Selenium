@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.HorizontalSliderPage;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,15 +13,17 @@ public class HorizontalSlider_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/horizontal_slider";
 
-    @ParameterizedTest(name = "verifySliderClickAndDrag: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifySliderClickAndDrag(BrowserType browserType) throws Exception
+    @BeforeEach
+    public void setup() throws Exception
     {
-        // Setup
-        page = initPage(browserType, URL, HorizontalSliderPage.class);
+        page = initPage(browser, URL, HorizontalSliderPage.class);
+        page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
+    }
 
-        // Test
+    @Test
+    public void verifySliderClickAndDrag()
+    {
         assertEquals("0", page.getSliderValue());
 
         page.dragSlider(1);
@@ -29,15 +31,9 @@ public class HorizontalSlider_Test extends BaseTest
         assertEquals("2.5", page.getSliderValue());
     }
 
-    @ParameterizedTest(name = "verifySliderArrowKeys: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifySliderArrowKeys(BrowserType browserType) throws Exception
+    @Test
+    public void verifySliderArrowKeys()
     {
-        // Setup
-        page = initPage(browserType, URL, HorizontalSliderPage.class);
-        assertEquals(URL, page.getCurrentURL());
-
-        // Test
         assertEquals("0", page.getSliderValue());
 
         page.moveSliderViaKeys(Keys.ARROW_RIGHT);

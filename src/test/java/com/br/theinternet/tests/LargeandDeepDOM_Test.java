@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.LargeAndDeepDOMPage;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -15,15 +15,17 @@ public class LargeandDeepDOM_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/large";
 
-    @ParameterizedTest(name = "verifyDeepSiblings: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyDeepSiblings(BrowserType browserType) throws Exception
+    @BeforeEach
+    public void setup() throws Exception
     {
-        // Setup
-        page = initPage(browserType, URL, LargeAndDeepDOMPage.class);
+        page = initPage(browser, URL, LargeAndDeepDOMPage.class);
+        page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
+    }
 
-        // Test
+    @Test
+    public void verifyDeepSiblings()
+    {
         assertEquals("No siblings", page.getNoSiblingsText());
 
         List<WebElement> siblingsContent = page.getSiblingsContent();
@@ -42,15 +44,9 @@ public class LargeandDeepDOM_Test extends BaseTest
         }
     }
 
-    @ParameterizedTest(name = "verifyLargeTable: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyLargeTable(BrowserType browserType) throws Exception
+    @Test
+    public void verifyLargeTable()
     {
-        // Setup
-        page = initPage(browserType, URL, LargeAndDeepDOMPage.class);
-        assertEquals(URL, page.getCurrentURL());
-
-        // Test
         List<WebElement> tableContent = page.getLargeTableContent();
         int totalCols = 50;
 

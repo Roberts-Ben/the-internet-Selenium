@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.DropdownPage;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,15 +12,17 @@ public class Dropdown_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/dropdown";
 
-    @ParameterizedTest(name = "verifyDropdown: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyDropdown(BrowserType browserType) throws Exception
+    @BeforeEach
+    public void setup() throws Exception
     {
-        // Setup
-        page = initPage(browserType, URL, DropdownPage.class);
+        page = initPage(browser, URL, DropdownPage.class);
+        page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
+    }
 
-        // Test
+    @Test
+    public void verifyDropdown()
+    {
         assertEquals("Please select an option", page.getSelectedOption());
 
         page.selectByValue("1");

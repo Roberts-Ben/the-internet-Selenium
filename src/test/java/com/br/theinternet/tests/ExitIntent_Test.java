@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.ExitIntentPage;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,15 +12,17 @@ public class ExitIntent_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/exit_intent";
 
-    @ParameterizedTest(name = "verifyModal: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyModal(BrowserType browserType) throws Exception
+    @BeforeEach
+    public void setup() throws Exception
     {
-        // Setup
-        page = initPage(browserType, URL, ExitIntentPage.class);
+        page = initPage(browser, URL, ExitIntentPage.class);
+        page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
+    }
 
-        // Test
+    @Test
+    public void verifyModal() throws InterruptedException
+    {
         assertFalse(page.isModalVisible());
 
         // Force the modal as if we moved cursor outside the window

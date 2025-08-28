@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.TyposPage;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,15 +15,17 @@ public class Typos_Test extends BaseTest
     private static final String expectedText = "Sometimes you'll see a typo, other times you won't.";
     private static final String typoText = "Sometimes you'll see a typo, other times you won,t.";
 
-    @ParameterizedTest(name = "verifyText: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyText(BrowserType browserType) throws Exception
+    @BeforeEach
+    public void setup() throws Exception
     {
-        // Setup
-        page = initPage(browserType, URL, TyposPage.class);
+        page = initPage(browser, URL, TyposPage.class);
+        page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
+    }
 
-        // Test
+    @Test
+    public void verifyText()
+    {
         String actualText = page.getContent();
 
         assertTrue(actualText.equals(expectedText) || actualText.equals(typoText));

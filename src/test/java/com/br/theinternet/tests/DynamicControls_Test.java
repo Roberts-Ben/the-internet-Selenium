@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.DynamicControlsPage;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,15 +12,17 @@ public class DynamicControls_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/dynamic_controls";
 
-    @ParameterizedTest(name = "verifyDynamicCheckbox: {0}")
-@EnumSource(BrowserType.class)
-    public void verifyDynamicCheckbox(BrowserType browserType) throws Exception
+    @BeforeEach
+    public void setup() throws Exception
     {
-        // Setup
-        page = initPage(browserType, URL, DynamicControlsPage.class);
+        page = initPage(browser, URL, DynamicControlsPage.class);
+        page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
+    }
 
-        // Test
+    @Test
+    public void verifyDynamicCheckbox()
+    {
         assertEquals(1, page.getCheckboxSize());
 
         page.clickSwapCheckboxButton();
@@ -38,15 +40,9 @@ public class DynamicControls_Test extends BaseTest
         assertEquals(1, page.getCheckboxSize());
     }
 
-    @ParameterizedTest(name = "verifyDynamicInput: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyDynamicInput(BrowserType browserType) throws Exception
+    @Test
+    public void verifyDynamicInput()
     {
-        // Setup
-        page = initPage(browserType, URL, DynamicControlsPage.class);
-        assertEquals(URL, page.getCurrentURL());
-
-        // Test
         assertTrue(page.isInputFieldDisabled());
 
         page.clickSwapInputButton();

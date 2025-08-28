@@ -1,8 +1,8 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.GeolocationPage;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,15 +13,17 @@ public class Geolocation_Test extends BaseTest
     private static final String URL = "https://the-internet.herokuapp.com/geolocation";
     private static final String mapsBaseURL = "http://maps.google.com/";
 
-    @ParameterizedTest(name = "verifyLocation: {0}")
-    @EnumSource(BrowserType.class)
-    public void verifyLocation(BrowserType browserType) throws Exception
+    @BeforeEach
+    public void setup() throws Exception
     {
-        // Setup
-        page = initPage(browserType, URL, GeolocationPage.class);
+        page = initPage(browser, URL, GeolocationPage.class);
+        page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
+    }
 
-        // Test
+    @Test
+    public void verifyLocation()
+    {
         page.clickLocationButton();
 
         assertTrue(page.isLatitudeVisible());

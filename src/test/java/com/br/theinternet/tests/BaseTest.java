@@ -90,9 +90,6 @@ public class BaseTest
         FirefoxOptions  options = new FirefoxOptions();
         options.addArguments("-headless");
 
-        String firefoxBinary = System.getProperty("firefox.binary", "/usr/bin/firefox");
-        options.setBinary(firefoxBinary);
-
         options.addPreference("browser.download.folderList", 2);
         options.addPreference("browser.download.dir", downloadDirectory);
         options.addPreference("browser.helperApps.neverAsk.saveToDisk", "application/pdf,application/octet-stream");
