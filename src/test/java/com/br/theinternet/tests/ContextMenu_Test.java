@@ -25,6 +25,6 @@ public class ContextMenu_Test extends BaseTest
     {
         page.rightClickHotSpot();
 
-        page.switchToAlert().accept();
+        page.acceptAlert();
     }
 }

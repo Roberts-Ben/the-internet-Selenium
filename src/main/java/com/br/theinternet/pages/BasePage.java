@@ -1,10 +1,9 @@
 package com.br.theinternet.pages;
 
 import io.restassured.RestAssured;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -38,6 +37,16 @@ public class BasePage
         driver.switchTo().window((String)windowHandles[index]);
     }
 
+    public void switchToDefault()
+    {
+        driver.switchTo().defaultContent();
+    }
+
+    public void switchToFrame(String name)
+    {
+        driver.switchTo().frame(name);
+    }
+
     public void closeWindow()
     {
         driver.close();
@@ -53,10 +62,36 @@ public class BasePage
         return driver.getCurrentUrl();
     }
 
+    // Alerts
+    public Alert getAlert()
+    {
+        return driver.switchTo().alert();
+    }
+
+    public String getAlertText()
+    {
+        return getAlert().getText();
+    }
+
+    public void acceptAlert()
+    {
+        getAlert().accept();
+    }
+
+    public void dismissAlert()
+    {
+        getAlert().dismiss();
+    }
+
+    public void enterAlertText(String input)
+    {
+        getAlert().sendKeys(input);
+    }
+
     // Find element(s)
     protected WebElement find(By locator)
     {
-        return driver.findElement(locator);
+        return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
     protected List<WebElement> findAll(By locator)
@@ -155,8 +190,13 @@ public class BasePage
         return RestAssured.given().when().get(URL).statusCode();
     }
 
+    //Misc
     public void delay(int duration) throws InterruptedException
     {
         Thread.sleep(duration);
+    }
+    public List<LogEntry> getLogs()
+    {
+        return driver.manage().logs().get(LogType.BROWSER).getAll();
     }
 }

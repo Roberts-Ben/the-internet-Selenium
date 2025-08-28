@@ -32,7 +32,7 @@ public class FormAuthPage extends BasePage
         type(passwordFieldBy, password);
     }
 
-    public String getAlertText()
+    public String getDataAlertText()
     {
         return getText(alertBy);
     }

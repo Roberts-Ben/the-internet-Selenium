@@ -1,6 +1,5 @@
 package com.br.theinternet.pages;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -28,31 +27,6 @@ public class JavascriptAlertsPage extends BasePage
     public void clickJSPrompt()
     {
         click(jsPromptButtonBy);
-    }
-
-    public Alert getAlert()
-    {
-        return driver.switchTo().alert();
-    }
-
-    public String getAlertText()
-    {
-        return getAlert().getText();
-    }
-
-    public void acceptAlert()
-    {
-        getAlert().accept();
-    }
-
-    public void dismissAlert()
-    {
-        getAlert().dismiss();
-    }
-
-    public void enterText(String input)
-    {
-        getAlert().sendKeys(input);
     }
 
     public String getResultText()

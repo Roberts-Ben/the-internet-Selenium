@@ -33,7 +33,7 @@ public class FormAuth_Test extends BaseTest
 
         page.clickLogin();
 
-        assertTrue(page.getAlertText().contains("You logged into a secure area!"));
+        assertTrue(page.getDataAlertText().contains("You logged into a secure area!"));
     }
 
     @Test
@@ -43,7 +43,7 @@ public class FormAuth_Test extends BaseTest
 
         page.clickLogin();
 
-        assertTrue(page.getAlertText().contains("Your username is invalid!"));
+        assertTrue(page.getDataAlertText().contains("Your username is invalid!"));
     }
 
     @Test
@@ -55,7 +55,7 @@ public class FormAuth_Test extends BaseTest
 
         page.clickLogout();
 
-        assertTrue(page.getAlertText().contains("You logged out of the secure area!"));
+        assertTrue(page.getDataAlertText().contains("You logged out of the secure area!"));
     }
 
     @Test
@@ -64,6 +64,6 @@ public class FormAuth_Test extends BaseTest
         page.navigateTo(bypassURL);
         assertEquals(URL, page.getCurrentURL());
 
-        assertTrue(page.getAlertText().contains("You must login to view the secure area!"));
+        assertTrue(page.getDataAlertText().contains("You must login to view the secure area!"));
     }
 }

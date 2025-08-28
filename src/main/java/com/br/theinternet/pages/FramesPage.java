@@ -8,6 +8,7 @@ public class FramesPage extends BasePage
     private By nestedFramesLinkBy = By.xpath("//a[@href='/nested_frames']");
     private By closeButtonBy = By.xpath("//button//div[@aria-label='Close']/..");
     private By editorBy = By.tagName("body");
+    private String frameID = "mce_0_ifr";
 
     public FramesPage(WebDriver driver)
     {
@@ -26,7 +27,7 @@ public class FramesPage extends BasePage
 
     public String getFrameContent()
     {
-        driver.switchTo().frame("mce_0_ifr");
+        switchToFrame(frameID);
         return getText(editorBy);
     }
 }

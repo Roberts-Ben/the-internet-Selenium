@@ -21,7 +21,7 @@ public class ShadowDOMPage extends BasePage
 
     public List<WebElement> getShadowHosts()
     {
-        return driver.findElements(shadowHostBy);
+        return findAll(shadowHostBy);
     }
 
     // Get default shadow text inside first/second host
@@ -33,11 +33,11 @@ public class ShadowDOMPage extends BasePage
 
     public String getLightSpanText()
     {
-        return driver.findElement(slotInsideFirstLightBy).getText();
+        return getText(slotInsideFirstLightBy);
     }
 
     public List<WebElement> getLightListItems()
     {
-        return driver.findElements(getSlotInsideSecondLightBy);
+        return findAll(getSlotInsideSecondLightBy);
     }
 }

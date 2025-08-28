@@ -63,7 +63,7 @@ public class JavascriptAlerts_Test extends BaseTest
 
         assertEquals("I am a JS prompt", page.getAlertText());
 
-        page.enterText("Test");
+        page.enterAlertText("Test");
         page.acceptAlert();
 
         assertEquals("You entered: Test", page.getResultText());

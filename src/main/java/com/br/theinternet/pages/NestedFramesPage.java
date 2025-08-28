@@ -2,7 +2,6 @@ package com.br.theinternet.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 public class NestedFramesPage extends BasePage
 {
@@ -15,12 +14,12 @@ public class NestedFramesPage extends BasePage
 
     public String getFrameText(String... frames)
     {
-        driver.switchTo().defaultContent();
+        switchToDefault();
 
         // Navigate through nested frames
         for (String frame : frames)
         {
-            driver.switchTo().frame(frame);
+            switchToFrame(frame);
         }
 
         return getText(frameBodyBy);
