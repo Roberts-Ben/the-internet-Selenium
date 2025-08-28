@@ -1,4 +1,4 @@
-name: Java CI with Maven (Cross-Browser)
+name: Java CI with Maven
 
 on:
   push:
@@ -8,11 +8,8 @@ on:
 
 jobs:
   build:
-    name: Build and Run Tests on ${{ matrix.browser }}
+    name: Build and Run Tests
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        browser: [CHROME, FIREFOX, EDGE]
 
     steps:
     - name: Checkout
@@ -25,19 +22,9 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    - name: Install Edge
-      if: matrix.browser == 'EDGE'
-      run: |
-        curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-        sudo install -o root -g root -m 644 microsoft.gpg /usr/share/keyrings/
-        sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge.list'
-        sudo apt update
-        sudo apt install -y microsoft-edge-stable
-        rm microsoft.gpg
 
     - name: Build and Run Tests
-      #run: mvn test -Dbrowser=${{ matrix.browser }} --batch-mode --fail-at-end
-      run: mvn test -Dbrowser=${{ matrix.browser }} -Dtest=com.br.theinternet.tests.ABTesting_Test --batch-mode --fail-at-end
+      run: mvn test --batch-mode --fail-at-end
 
     - name: Publish Test Report
       if: success() || failure()

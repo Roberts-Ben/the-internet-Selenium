@@ -5,8 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
@@ -25,37 +23,23 @@ public class BaseTest
     public Path tempProfile;
     public String downloadDirectory;
 
-    public enum BrowserType {
-        CHROME,
-        EDGE,
-        FIREFOX
-    }
-    protected BrowserType browser = BrowserType.CHROME;
-
-    protected void initializeDriver() throws Exception
+    @BeforeEach
+    public void setUp() throws Exception
     {
-        tempProfile = Files.createTempDirectory("browser-profile-");
+        tempProfile = Files.createTempDirectory("chrome-profile-");
         downloadDirectory = Files.createTempDirectory("downloads").toAbsolutePath().toString();
 
-        String browserName = System.getProperty("browser", "CHROME");
-        this.browser = BrowserType.valueOf(browserName);
+        ChromeOptions options = getChromeOptions();
+        options.addArguments("--headless=new");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--user-data-dir=" + tempProfile.toAbsolutePath());
 
-        driver = createDriver(browser);
+        driver = new ChromeDriver(options);
         wait = new WebDriverWait(driver, Duration.ofSeconds(20));
     }
 
-    private WebDriver createDriver(BrowserType browserType)
-    {
-        return switch (browserType) {
-            case CHROME -> new ChromeDriver(getChromeOptions());
-            case FIREFOX -> new org.openqa.selenium.firefox.FirefoxDriver(getFirefoxOptions());
-            case EDGE -> new org.openqa.selenium.edge.EdgeDriver(getEdgeOptions());
-            default -> throw new IllegalArgumentException("Unsupported browser: " + browserType);
-        };
-    }
-
-    private ChromeOptions getChromeOptions()
-    {
+    private ChromeOptions getChromeOptions() {
         Map<String, Object> chromePrefs = new HashMap<>();
         chromePrefs.put("credentials_enable_service", false);
         chromePrefs.put("profile.password_manager_enabled", false);
@@ -63,40 +47,7 @@ public class BaseTest
         chromePrefs.put("download.default_directory", downloadDirectory);
 
         ChromeOptions options = new ChromeOptions();
-
-        options.addArguments("--headless=new");
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--user-data-dir=" + tempProfile.toAbsolutePath());
         options.setExperimentalOption("prefs", chromePrefs);
-
-        return options;
-    }
-
-    private EdgeOptions getEdgeOptions()
-    {
-        Map<String, Object> prefs = new HashMap<>();
-        prefs.put("download.default_directory", downloadDirectory);
-
-        EdgeOptions options = new EdgeOptions();
-        options.addArguments("--headless=new");
-        options.setExperimentalOption("prefs", prefs);
-
-        return options;
-    }
-
-    private FirefoxOptions getFirefoxOptions()
-    {
-        FirefoxOptions  options = new FirefoxOptions();
-        options.addArguments("-headless");
-
-        String firefoxBinary = System.getProperty("firefox.binary", "/usr/bin/firefox");
-        options.setBinary(firefoxBinary);
-
-        options.addPreference("browser.download.folderList", 2);
-        options.addPreference("browser.download.dir", downloadDirectory);
-        options.addPreference("browser.helperApps.neverAsk.saveToDisk", "application/pdf,application/octet-stream");
-        options.addPreference("pdfjs.disabled", true);
         return options;
     }
 
