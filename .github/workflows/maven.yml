@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        browser: [CHROME, FIREFOX, EDGE]
+        browser: [CHROME, EDGE, FIREFOX]
 
     steps:
       - name: Checkout
@@ -28,6 +28,6 @@ jobs:
       - name: Build and Run Tests
         run: mvn test -Dbrowser=${{ matrix.browser }} --batch-mode --fail-at-end
 
-      - name: Publish Test Report
+      - name: Publish Test Report (${{ matrix.browser }})
         if: success() || failure()
         uses: scacap/action-surefire-report@v1

@@ -1,6 +1,7 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.AuthPage;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.HasAuthentication;
@@ -33,6 +34,8 @@ public class BasicAuth_Test extends BaseTest
     @Test
     public void verifyAuthSuccessViaHasAuthentication()
     {
+        Assumptions.assumeTrue(browser != BrowserType.FIREFOX, "Skipping test: Firefox does not support HasAuthentication");
+
         page.navigateWithAuth((HasAuthentication) driver, username, password, baseURL);
         assertEquals("Congratulations! You must have the proper credentials.", page.getSuccessMessage());
     }

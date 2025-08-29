@@ -132,6 +132,7 @@ public class BasePage
     // Check if element is visible
     protected boolean isDisplayed(By locator)
     {
+        wait.until(ExpectedConditions.presenceOfElementLocated(locator));
         return driver.findElement(locator).isDisplayed();
     }
 
