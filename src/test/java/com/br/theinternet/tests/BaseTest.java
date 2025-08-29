@@ -4,6 +4,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
@@ -23,20 +25,33 @@ public class BaseTest
     public Path tempProfile;
     public String downloadDirectory;
 
-    @BeforeEach
-    public void setUp() throws Exception
+    public enum BrowserType {
+        CHROME,
+        EDGE,
+        FIREFOX
+    }
+    protected BrowserType browser = BrowserType.CHROME;
+
+    public void initializeDriver() throws Exception
     {
-        tempProfile = Files.createTempDirectory("chrome-profile-");
+        tempProfile = Files.createTempDirectory("browser-profile-");
         downloadDirectory = Files.createTempDirectory("downloads").toAbsolutePath().toString();
 
-        ChromeOptions options = getChromeOptions();
-        options.addArguments("--headless=new");
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--user-data-dir=" + tempProfile.toAbsolutePath());
+        String browserName = System.getProperty("browser", "CHROME");
+        this.browser = BrowserType.valueOf(browserName);
 
-        driver = new ChromeDriver(options);
+        driver = createDriver(browser);
         wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+    }
+
+    private WebDriver createDriver(BrowserType browserType)
+    {
+        return switch (browserType) {
+            case CHROME -> new ChromeDriver(getChromeOptions());
+            case FIREFOX -> new org.openqa.selenium.firefox.FirefoxDriver(getFirefoxOptions());
+            case EDGE -> new org.openqa.selenium.edge.EdgeDriver(getEdgeOptions());
+            default -> throw new IllegalArgumentException("Unsupported browser: " + browserType);
+        };
     }
 
     private ChromeOptions getChromeOptions() {
@@ -47,6 +62,11 @@ public class BaseTest
         chromePrefs.put("download.default_directory", downloadDirectory);
 
         ChromeOptions options = new ChromeOptions();
+
+        options.addArguments("--headless=new");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--user-data-dir=" + tempProfile.toAbsolutePath());
         options.setExperimentalOption("prefs", chromePrefs);
 
         return options;
