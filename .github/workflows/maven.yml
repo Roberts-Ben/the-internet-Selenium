@@ -31,3 +31,5 @@ jobs:
       - name: Publish Test Report (${{ matrix.browser }})
         if: success() || failure()
         uses: scacap/action-surefire-report@v1
+        with:
+          artifact_name: "surefire-report-${{ matrix.browser }}"
