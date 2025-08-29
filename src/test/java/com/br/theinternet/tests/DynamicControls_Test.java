@@ -15,7 +15,7 @@ public class DynamicControls_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new DynamicControlsPage(driver);
+        page = initPage(browser, URL, DynamicControlsPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

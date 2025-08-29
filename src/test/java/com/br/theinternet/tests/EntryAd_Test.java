@@ -15,7 +15,7 @@ public class EntryAd_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new EntryAdPage(driver);
+        page = initPage(browser, URL, EntryAdPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

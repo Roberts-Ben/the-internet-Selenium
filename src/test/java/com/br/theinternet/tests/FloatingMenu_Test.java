@@ -15,7 +15,7 @@ public class FloatingMenu_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new FloatingMenuPage(driver);
+        page = initPage(browser, URL, FloatingMenuPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

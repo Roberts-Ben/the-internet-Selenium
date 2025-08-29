@@ -18,7 +18,7 @@ public class FileDownload_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new FileDownloadPage(driver);
+        page = initPage(browser, URL, FileDownloadPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

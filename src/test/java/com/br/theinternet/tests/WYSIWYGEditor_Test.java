@@ -3,9 +3,6 @@ package com.br.theinternet.tests;
 import com.br.theinternet.pages.FramesPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +15,7 @@ public class WYSIWYGEditor_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new FramesPage(driver);
+        page = initPage(browser, URL, FramesPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

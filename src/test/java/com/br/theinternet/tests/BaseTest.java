@@ -1,7 +1,6 @@
 package com.br.theinternet.tests;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -14,6 +13,7 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class BaseTest
 {
@@ -48,7 +48,54 @@ public class BaseTest
 
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("prefs", chromePrefs);
+
         return options;
+    }
+
+    private EdgeOptions getEdgeOptions()
+    {
+        Map<String, Object> prefs = new HashMap<>();
+        prefs.put("download.default_directory", downloadDirectory);
+
+        EdgeOptions options = new EdgeOptions();
+        options.addArguments("--headless=new");
+        options.setExperimentalOption("prefs", prefs);
+
+        return options;
+    }
+
+    private FirefoxOptions getFirefoxOptions()
+    {
+        FirefoxOptions options = new FirefoxOptions();
+        options.addArguments("-headless");
+        options.addPreference("browser.download.folderList", 2);
+        options.addPreference("browser.download.dir", downloadDirectory);
+        options.addPreference("browser.helperApps.neverAsk.saveToDisk", "application/pdf,application/octet-stream");
+        options.addPreference("pdfjs.disabled", true);
+
+        // Fake geolocation provider response
+        options.addPreference("geo.enabled", true);
+        options.addPreference("geo.prompt.testing", true);
+        options.addPreference("geo.prompt.testing.allow", true);
+
+        String fakeGeo = "{ \"location\": { \"lat\": 56.9139, \"lng\": -4.514}, \"accuracy\": 100.0 }";
+        options.addPreference("geo.provider.network.url",
+                "data:application/json," + fakeGeo);
+
+        return options;
+    }
+
+    protected <T> T initPage(BrowserType browserType, String url, Class<T> pageClass) throws Exception
+    {
+        this.browser = browserType;
+        initializeDriver();
+
+        T page = pageClass.getConstructor(WebDriver.class).newInstance(driver);
+        if(!Objects.equals(url, ""))
+        {
+            driver.get(url);
+        }
+        return page;
     }
 
     @AfterEach

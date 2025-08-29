@@ -16,7 +16,7 @@ public class StatusCodes_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new StatusCodesPage(driver);
+        page = initPage(browser, URL, StatusCodesPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

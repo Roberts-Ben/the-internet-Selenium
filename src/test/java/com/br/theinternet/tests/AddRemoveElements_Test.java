@@ -19,7 +19,7 @@ public class AddRemoveElements_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new AddRemoveElementsPage(driver);
+        page = initPage(browser, URL, AddRemoveElementsPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

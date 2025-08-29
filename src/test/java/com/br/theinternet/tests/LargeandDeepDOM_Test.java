@@ -18,7 +18,7 @@ public class LargeandDeepDOM_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new LargeAndDeepDOMPage(driver);
+        page = initPage(browser, URL, LargeAndDeepDOMPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

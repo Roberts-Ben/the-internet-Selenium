@@ -15,7 +15,7 @@ public class JavascriptAlerts_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new JavascriptAlertsPage(driver);
+        page = initPage(browser, URL, JavascriptAlertsPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

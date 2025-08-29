@@ -15,7 +15,7 @@ public class Dropdown_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new DropdownPage(driver);
+        page = initPage(browser, URL, DropdownPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

@@ -13,8 +13,7 @@ public class ShiftingContent_Test extends BaseTest
     private ShiftingContentPage page;
 
     private static final String URL = "https://the-internet.herokuapp.com/shifting_content";
-
-    private static final String baseURL = "https://the-internet.herokuapp.com";
+    
     private static final String menuURL = "https://the-internet.herokuapp.com/shifting_content/menu";
     private static final String imageURL = "https://the-internet.herokuapp.com/shifting_content/image";
     private static final String listURL = "https://the-internet.herokuapp.com/shifting_content/list";
@@ -22,7 +21,7 @@ public class ShiftingContent_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new ShiftingContentPage(driver);
+        page = initPage(browser, URL, ShiftingContentPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

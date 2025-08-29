@@ -15,10 +15,9 @@ public class ABTesting_Test extends BaseTest
     private static final String HEADER_B = "A/B Test Control";
 
     @BeforeEach
-    public void setup()
+    public void setup() throws Exception
     {
-        page = new ABTestingPage(driver);
-        page.navigateTo(URL);
+        page = initPage(browser, URL, ABTestingPage.class);
         assertEquals(URL, page.getCurrentURL());
     }
 

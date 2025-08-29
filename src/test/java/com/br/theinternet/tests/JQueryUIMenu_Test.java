@@ -16,7 +16,7 @@ public class JQueryUIMenu_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new JQueryUIMenuPage(driver);
+        page = initPage(browser, URL, JQueryUIMenuPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

@@ -19,7 +19,7 @@ public class SlowResources_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new SlowResourcesPage(driver);
+        page = initPage(browser, URL, SlowResourcesPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

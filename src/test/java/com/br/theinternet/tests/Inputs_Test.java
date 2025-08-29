@@ -15,7 +15,7 @@ public class Inputs_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new InputsPage(driver);
+        page = initPage(browser, URL, InputsPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

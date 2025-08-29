@@ -15,7 +15,7 @@ public class Checkboxes_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new CheckboxesPage(driver);
+        page = initPage(browser, URL, CheckboxesPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

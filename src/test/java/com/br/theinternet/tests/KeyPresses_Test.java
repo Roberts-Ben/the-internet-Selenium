@@ -16,7 +16,7 @@ public class KeyPresses_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new KeyPressesPage(driver);
+        page = initPage(browser, URL, KeyPressesPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

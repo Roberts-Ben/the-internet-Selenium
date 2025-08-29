@@ -15,7 +15,7 @@ public class DisappearingElements_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new DisappearingElementsPage(driver);
+        page = initPage(browser, URL, DisappearingElementsPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

@@ -15,7 +15,7 @@ public class Template_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new TemplatePage(driver);
+        page = initPage(browser, URL, TemplatePage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

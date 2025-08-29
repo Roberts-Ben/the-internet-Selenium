@@ -15,7 +15,7 @@ public class ContextMenu_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new ContextMenuPage(driver);
+        page = initPage(browser, URL, ContextMenuPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

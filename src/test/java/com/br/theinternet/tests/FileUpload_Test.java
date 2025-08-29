@@ -18,7 +18,7 @@ public class FileUpload_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new FileUploadPage(driver);
+        page = initPage(browser, URL, FileUploadPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

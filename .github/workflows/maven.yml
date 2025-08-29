@@ -2,7 +2,7 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "Cross-browser-setup" ]
   pull_request:
     branches: [ "master" ]
 
@@ -10,22 +10,28 @@ jobs:
   build:
     name: Build and Run Tests
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        browser: [CHROME, EDGE, FIREFOX]
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Set up JDK 21
-      uses: actions/setup-java@v4
-      with:
-        java-version: '21'
-        distribution: 'temurin'
-        cache: maven
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
 
 
-    - name: Build and Run Tests
-      run: mvn test --batch-mode --fail-at-end
+      - name: Build and Run Tests
+        run: mvn test -Dbrowser=${{ matrix.browser }} --batch-mode --fail-at-end
 
-    - name: Publish Test Report
-      if: success() || failure()
-      uses: scacap/action-surefire-report@v1
+      - name: Publish Test Report (${{ matrix.browser }})
+        if: success() || failure()
+        uses: scacap/action-surefire-report@v1
+        with:
+          report_paths: '**/surefire-reports/TEST-*.xml'
+          check_name: "Test Report - ${{ matrix.browser }}"

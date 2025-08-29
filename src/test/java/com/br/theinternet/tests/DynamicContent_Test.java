@@ -17,7 +17,7 @@ public class DynamicContent_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new DynamicContentPage(driver);
+        page = initPage(browser, URL, DynamicContentPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

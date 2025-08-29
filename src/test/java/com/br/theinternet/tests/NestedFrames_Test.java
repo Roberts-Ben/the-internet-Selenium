@@ -15,7 +15,7 @@ public class NestedFrames_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new NestedFramesPage(driver);
+        page = initPage(browser, URL, NestedFramesPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

@@ -10,14 +10,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SecureFileDownload_Test extends BaseTest
 {
+    FileDownloadPage page;
+
     String baseURL = "the-internet.herokuapp.com/download_secure";
     String username = "admin";
     String password = "admin";
 
     @Test
-    public void verifySecureLoginDownload()
+    public void verifySecureLoginDownload() throws Exception
     {
-        FileDownloadPage page = new FileDownloadPage(driver);
+        page = initPage(browser, "", FileDownloadPage.class);
 
         String authURL = "https://" + username + ":" + password + "@" + baseURL;
 

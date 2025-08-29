@@ -17,7 +17,7 @@ public class DynamicLoading_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new DynamicLoadingPage(driver);
+        page = initPage(browser, URL, DynamicLoadingPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

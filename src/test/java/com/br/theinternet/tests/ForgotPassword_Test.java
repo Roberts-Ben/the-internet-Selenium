@@ -15,7 +15,7 @@ public class ForgotPassword_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new ForgotPasswordPage(driver);
+        page = initPage(browser, URL, ForgotPasswordPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

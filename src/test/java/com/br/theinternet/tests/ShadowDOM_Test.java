@@ -18,7 +18,7 @@ public class ShadowDOM_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new ShadowDOMPage(driver);
+        page = initPage(browser, URL, ShadowDOMPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

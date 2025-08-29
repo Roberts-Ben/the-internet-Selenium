@@ -17,7 +17,7 @@ public class NotificationMessages_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new NotificationMessagesPage(driver);
+        page = initPage(browser, URL, NotificationMessagesPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

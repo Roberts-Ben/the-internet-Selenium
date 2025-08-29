@@ -16,7 +16,7 @@ public class Geolocation_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new GeolocationPage(driver);
+        page = initPage(browser, URL, GeolocationPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

@@ -1,8 +1,7 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.JavascriptOnLoadEventErrorPage;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.logging.LogEntry;
@@ -19,12 +18,10 @@ public class JavascriptOnLoadEventError_Test extends BaseTest
 
     private static final String URL = "https://the-internet.herokuapp.com/javascript_error";
 
-    private static final Log log = LogFactory.getLog(JavascriptOnLoadEventError_Test.class);
-
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new JavascriptOnLoadEventErrorPage(driver);
+        page = initPage(browser, URL, JavascriptOnLoadEventErrorPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }
@@ -32,6 +29,8 @@ public class JavascriptOnLoadEventError_Test extends BaseTest
     @Test
     public void verifyError()
     {
+        Assumptions.assumeTrue(browser != BrowserType.FIREFOX, "Skipping test: Firefox does not support Browser logs");
+
         // Define JavaScript error types to filter
         List<String> errorStrings = Arrays.asList(
                 "SyntaxError",

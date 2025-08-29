@@ -16,7 +16,7 @@ public class RedirectLink_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new RedirectLinkPage(driver);
+        page = initPage(browser, URL, RedirectLinkPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

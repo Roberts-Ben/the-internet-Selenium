@@ -15,7 +15,7 @@ public class ChallengingDOM_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new ChallengingDOMPage(driver);
+        page = initPage(browser, URL, ChallengingDOMPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

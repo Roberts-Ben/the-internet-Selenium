@@ -16,7 +16,7 @@ public class Hovers_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new HoversPage(driver);
+        page = initPage(browser, URL, HoversPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

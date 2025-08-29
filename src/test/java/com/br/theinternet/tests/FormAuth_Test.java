@@ -21,7 +21,7 @@ public class FormAuth_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new FormAuthPage(driver);
+        page = initPage(browser, URL, FormAuthPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

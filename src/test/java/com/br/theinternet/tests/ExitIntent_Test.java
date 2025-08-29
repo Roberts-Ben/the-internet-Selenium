@@ -15,7 +15,7 @@ public class ExitIntent_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new ExitIntentPage(driver);
+        page = initPage(browser, URL, ExitIntentPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

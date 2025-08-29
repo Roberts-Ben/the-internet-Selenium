@@ -16,7 +16,7 @@ public class HorizontalSlider_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new HorizontalSliderPage(driver);
+        page = initPage(browser, URL, HorizontalSliderPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

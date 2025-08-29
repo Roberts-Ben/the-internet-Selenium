@@ -15,7 +15,7 @@ public class MultipleWindows_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new MultipleWindowsPage(driver);
+        page = initPage(browser, URL, MultipleWindowsPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

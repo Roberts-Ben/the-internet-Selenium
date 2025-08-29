@@ -18,7 +18,7 @@ public class BrokenImages_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new BrokenImagesPage(driver);
+        page = initPage(browser, URL, BrokenImagesPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

@@ -17,7 +17,7 @@ public class SortableDataTables_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new SortableDataTablesPage(driver);
+        page = initPage(browser, URL, SortableDataTablesPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }

@@ -15,7 +15,7 @@ public class InfiniteScrolling_Test extends BaseTest
     @BeforeEach
     public void setup() throws Exception
     {
-        page = new InfiniteScrollingPage(driver);
+        page = initPage(browser, URL, InfiniteScrollingPage.class);
         page.navigateTo(URL);
         assertEquals(URL, page.getCurrentURL());
     }
