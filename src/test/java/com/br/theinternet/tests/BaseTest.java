@@ -152,34 +152,36 @@ public class BaseTest
 
     protected boolean isFileDownloaded(String fileName, boolean shouldExist)
     {
-        File file = new File(downloadDirectory, fileName);
+        File dir = new File(downloadDirectory);
+
+        String normalizedFileName = normalizeFileName(fileName);
 
         int timeElapsed = 0;
         int timeout = 10;
 
         if (!shouldExist)
         {
-            return file.exists();
+            return getMatchingFile(normalizedFileName, dir) != null;
         }
 
         while (timeElapsed < timeout)
         {
             // Check full file
-            if (file.exists())
+            File match = getMatchingFile(normalizedFileName, dir);
+            if (match != null)
             {
-                file.delete(); // cleanup after verification
+                match.delete(); // Cleanup after verification
                 return true;
             }
 
             // Check for partial files (.crdownload)
-            File[] partials = new File(downloadDirectory).listFiles((d, name) -> name.startsWith(fileName) || name.endsWith(".crdownload"));
-
+            File[] partials = dir.listFiles((d, name) -> name.endsWith(".crdownload") || name.endsWith(".part"));
             if (partials != null)
             {
                 for (File p : partials)
                 {
                     p.delete();
-                    return true; // treat as detected for cleanup
+                    return true; // Treat as detected for cleanup
                 }
             }
 
@@ -195,5 +197,33 @@ public class BaseTest
 
         System.out.println("File should be downloaded but is not: " + fileName);
         return false;
+    }
+
+    private File getMatchingFile(String normalizedExpected, File dir)
+    {
+        File[] files = dir.listFiles();
+
+        if (files == null)
+        {
+            return null;
+        }
+
+        for (File file : files)
+        {
+            String normalizedActual = normalizeFileName(file.getName());
+
+            if (normalizedActual.equals(normalizedExpected))
+            {
+                return file;
+            }
+        }
+        return null;
+    }
+
+    private String normalizeFileName(String name)
+    {
+        return name.trim().replaceAll("[\\u00A0\\u202F]", " ") // Normalize NBSP/narrow spaces
+                .replaceAll("\\s+", " ")  // Collapse all whitespace to one space
+                .toLowerCase();                     // Ignore case
     }
 }

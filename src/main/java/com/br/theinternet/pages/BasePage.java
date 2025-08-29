@@ -23,7 +23,7 @@ public class BasePage
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        pattern = Pattern.compile("\\.(jpg|png|txt|json|xlsx|pdf|mp4|zip|py|exe|docx|jpeg|csv|sol|tmp|java|doc|class|bin|mov|xml)$", Pattern.CASE_INSENSITIVE);
+        pattern = Pattern.compile("\\.(jpg|png|txt|json|xlsx|pdf|mp4|zip|py|exe|docx|jpeg|csv|sol|tmp|java|doc|class|bin|mov|xml|bmp)$", Pattern.CASE_INSENSITIVE);
     }
 
     public void navigateTo(String url)
