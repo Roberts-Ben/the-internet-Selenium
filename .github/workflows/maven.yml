@@ -33,3 +33,7 @@ jobs:
         uses: scacap/action-surefire-report@v1
         with:
           artifact_name: "surefire-report-${{ matrix.browser }}"
+
+      - name: Add Browser Info to Job Summary
+        run: |
+          echo "### Test Report for ${{ matrix.browser }}" >> $GITHUB_STEP_SUMMARY
