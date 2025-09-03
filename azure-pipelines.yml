@@ -1,0 +1,28 @@
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+strategy:
+  matrix:
+    CHROME:
+      BROWSER: CHROME
+    EDGE:
+      BROWSER: EDGE
+    FIREFOX:
+      BROWSER: FIREFOX
+
+steps:
+- task: Maven@3
+  displayName: 'Build and Run Tests on $(BROWSER)'
+  inputs:
+    mavenPomFile: 'pom.xml'
+    mavenOptions: '-Xmx3072m'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.21'   # Use Java 21
+    jdkArchitectureOption: 'x64'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    goals: 'test'
+    options: '-Dbrowser=$(BROWSER) --batch-mode --fail-at-end'
