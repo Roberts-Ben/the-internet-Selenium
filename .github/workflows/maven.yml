@@ -2,7 +2,7 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "master", "Cross-browser-setup" ]
+    branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
@@ -13,6 +13,7 @@ jobs:
     strategy:
       matrix:
         browser: [CHROME, EDGE, FIREFOX]
+      fail-fast: false
 
     steps:
       - name: Checkout

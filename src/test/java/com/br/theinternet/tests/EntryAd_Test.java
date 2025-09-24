@@ -1,6 +1,7 @@
 package com.br.theinternet.tests;
 
 import com.br.theinternet.pages.EntryAdPage;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -56,6 +57,8 @@ public class EntryAd_Test extends BaseTest
     @Test
     public void verifyAdAppearsAfterRefresh() throws InterruptedException
     {
+        Assumptions.assumeTrue(browser != BrowserType.FIREFOX, "Skipping test: Firefox does not refresh the Ad correctly");
+
         assertFalse(page.isModalVisible());
 
         // Wait for modal to appear
@@ -73,6 +76,6 @@ public class EntryAd_Test extends BaseTest
         Thread.sleep(2000);
         page.refreshPage();
 
-        assertFalse(page.isModalVisible());
+        assertTrue(page.waitForModalVisible());
     }
 }

@@ -78,7 +78,12 @@ public class BaseTest
         prefs.put("download.default_directory", downloadDirectory);
 
         EdgeOptions options = new EdgeOptions();
+
         options.addArguments("--headless=new");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        //options.addArguments("--user-data-dir=" + tempProfile.toAbsolutePath());
         options.setExperimentalOption("prefs", prefs);
 
         return options;
@@ -210,7 +215,7 @@ public class BaseTest
 
         for (File file : files)
         {
-            String normalizedActual = normalizeFileName(file.getName());
+            String normalizedActual = normalizeFileName(file.getName().replaceAll("%20", " ")); // decode URL spaces);
 
             if (normalizedActual.equals(normalizedExpected))
             {
