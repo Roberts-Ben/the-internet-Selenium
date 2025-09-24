@@ -78,7 +78,12 @@ public class BaseTest
         prefs.put("download.default_directory", downloadDirectory);
 
         EdgeOptions options = new EdgeOptions();
+
         options.addArguments("--headless=new");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--user-data-dir=" + tempProfile.toAbsolutePath());
         options.setExperimentalOption("prefs", prefs);
 
         return options;

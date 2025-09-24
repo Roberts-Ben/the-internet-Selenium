@@ -5,13 +5,11 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,15 +34,6 @@ public class FileDownloadPage extends BasePage
         String downloadLink = downloadButton.getAttribute("href");
         String encodedFileName = downloadLink.substring(downloadLink.lastIndexOf('/') + 1);
         return URLDecoder.decode(encodedFileName, StandardCharsets.UTF_8);
-    }
-
-    public void waitForPageLoad()
-    {
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(
-                webDriver -> ((JavascriptExecutor) webDriver)
-                        .executeScript("return document.readyState")
-                        .equals("complete")
-        );
     }
 
     public void clickDownload(WebElement downloadButton)

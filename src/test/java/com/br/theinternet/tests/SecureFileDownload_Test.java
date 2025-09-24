@@ -24,7 +24,6 @@ public class SecureFileDownload_Test extends BaseTest
         String authURL = "https://" + username + ":" + password + "@" + baseURL;
 
         page.navigateTo(authURL);
-        page.waitForPageLoad();
 
         Map<String, WebElement> filesToDownload = page.getLargestFilePerExtension();
         int totalFiles = filesToDownload.size();
