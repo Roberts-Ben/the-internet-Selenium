@@ -10,7 +10,7 @@ public class DynamicLoading_Test extends BaseTest
 {
     private DynamicLoadingPage page;
 
-    private static final String URL = "https://the-internet.herokuapp.com/dynamic_controls";
+    private static final String URL = "https://the-internet.herokuapp.com/dynamic_loading";
     private static final String URLTest1 = "https://the-internet.herokuapp.com/dynamic_loading/1";
     private static final String URLTest2 = "https://the-internet.herokuapp.com/dynamic_loading/2";
 
