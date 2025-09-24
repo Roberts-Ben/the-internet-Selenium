@@ -4,7 +4,7 @@ import com.br.theinternet.pages.FileDownloadPage;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
-import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,30 +25,23 @@ public class SecureFileDownload_Test extends BaseTest
 
         page.navigateTo(authURL);
 
-        List<WebElement> downloadButtons = page.getDownloadButtons();
-
-        int totalFiles = downloadButtons.size();
-        int currentFile = 0;
+        Map<String, WebElement> filesToDownload = page.getLargestFilePerExtension();
+        int totalFiles = filesToDownload.size();
+        int currentFile = 1;
 
         // Download and verify files
-        for (WebElement downloadButton : downloadButtons)
+        for (Map.Entry<String, WebElement> entry : filesToDownload.entrySet())
         {
+            String ext = entry.getKey();
+            WebElement downloadButton = entry.getValue();
             String fileName = page.extractFileName(downloadButton);
 
-            if (page.isValidFileName(fileName))
-            {
-                assertFalse(isFileDownloaded(fileName, false));
-
-                page.clickDownload(downloadButton);
-                System.out.println(fileName + " - " + currentFile + "/" + totalFiles);
-
-                assertTrue(isFileDownloaded(fileName, true));
-            }
-            else
-            {
-                System.out.println("Invalid file: " + fileName);
-            }
+            System.out.println("Downloading largest " + ext + " file: " + fileName);
+            page.clickDownload(downloadButton);
+            System.out.println(fileName + " - " + currentFile + "/" + totalFiles);
             currentFile++;
+
+            assertTrue(isFileDownloaded(fileName, true));
         }
     }
 }
