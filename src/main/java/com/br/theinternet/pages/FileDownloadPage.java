@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.HttpURLConnection;
@@ -48,7 +49,14 @@ public class FileDownloadPage extends BasePage
 
     public void clickDownload(WebElement downloadButton)
     {
-        downloadButton.click();
+        try {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", downloadButton);
+            wait.until(ExpectedConditions.elementToBeClickable(downloadButton));
+            downloadButton.click();
+        } catch (Exception e) {
+            // Fallback JS click
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", downloadButton);
+        }
     }
 
     public Map<String, WebElement> getLargestFilePerExtension()
