@@ -1,13 +1,16 @@
 package com.br.theinternet.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,10 +37,13 @@ public class FileDownloadPage extends BasePage
         return URLDecoder.decode(encodedFileName, StandardCharsets.UTF_8);
     }
 
-    public boolean isValidFileName(String fileName)
+    public void waitForPageLoad()
     {
-        Matcher matcher = pattern.matcher(fileName);
-        return matcher.find();
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(
+                webDriver -> ((JavascriptExecutor) webDriver)
+                        .executeScript("return document.readyState")
+                        .equals("complete")
+        );
     }
 
     public void clickDownload(WebElement downloadButton)
