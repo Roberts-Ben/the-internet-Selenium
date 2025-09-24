@@ -2,14 +2,14 @@
 
 This project is a Selenium WebDriver test automation framework for herokuapp's [the-internet](https://the-internet.herokuapp.com/).
 
-It is designed with Page Object Model (POM), JUnit 5, and supports cross-browser execution through GitHub Actions.
-[![CI](https://github.com/Roberts-Ben/the-internet-Selenium/actions/workflows/maven.yml/badge.svg)](https://github.com/Roberts-Ben/the-internet-Selenium/actions/workflows/maven.yml)
+It is designed with Page Object Model (POM), JUnit 5, and supports cross-browser execution through GitHub Actions and Azure DevOps.
+[![CI](https://github.com/Roberts-Ben/the-internet-Selenium/actions/workflows/maven.yml/badge.svg)](https://github.com/Roberts-Ben/the-internet-Selenium/actions/workflows/maven.yml) [![CI](https://dev.azure.com/ben-roberts/the-internet-Selenium/_apis/build/status/the-internet-Selenium?branchName=master)](https://dev.azure.com/ben-roberts/the-internet-Selenium/_build/latest?definitionId=1&branchName=master)
 
 ## Features
 - Page Object Model (POM): Clean separation of UI structure and test logic.
-- Cross-Browser Testing: Runs on Chrome, Edge, and Firefox via GitHub Actions.
+- Cross-Browser Testing: Runs on Chrome, Edge, and Firefox via GitHub Actions and Azure DevOps.
 - Parallel Execution: Configured with Maven Surefire for faster test runs.
-- Continuous Integration (CI): GitHub Actions workflow runs tests automatically on pull requests and pushes.
+- Continuous Integration (CI): GitHub Actions workflow runs tests automatically on pull requests and pushes, Azure DevOps runs on pushes.
 
 ## Project Structure
 ```shell
@@ -18,7 +18,8 @@ the-internet-Selenium/
 │   ├── main/java/com/br/theinternet/pages/   # Page Object classes
 │   └── test/java/com/br/theinternet/tests/   # Test classes
 │── pom.xml                                   # Maven dependencies & plugins
-│── .github/workflows/maven.yml               # CI/CD pipeline config
+│── azure-pipelines.yml                       # Azure DevOps CI/CD pipeline config
+│── .github/workflows/maven.yml               # GitHub CI/CD pipeline config
 ```
 ## Setup Instructions
 ### Prerequisites
