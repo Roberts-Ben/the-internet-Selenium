@@ -21,7 +21,6 @@ public class BasicAuth_Test extends BaseTest
     public void setup() throws Exception
     {
         page = initPage(browser, "", AuthPage.class);
-        page = new AuthPage(driver);
     }
 
     @Test

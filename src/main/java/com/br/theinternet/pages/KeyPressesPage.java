@@ -26,6 +26,7 @@ public class KeyPressesPage extends BasePage
 
     public void sendInput(Keys key)
     {
+        click(inputFieldBy);
         sendKeys(inputFieldBy, key);
     }
 }
