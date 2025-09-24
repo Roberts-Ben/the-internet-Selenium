@@ -2,7 +2,6 @@ trigger:
   branches:
     include:
       - master
-      - azure-pipelines
 
 jobs:
   - job: BrowserTests
