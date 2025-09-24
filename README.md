@@ -3,6 +3,7 @@
 This project is a Selenium WebDriver test automation framework for herokuapp's [the-internet](https://the-internet.herokuapp.com/).
 
 It is designed with Page Object Model (POM), JUnit 5, and supports cross-browser execution through GitHub Actions and Azure DevOps.
+
 [![CI](https://github.com/Roberts-Ben/the-internet-Selenium/actions/workflows/maven.yml/badge.svg)](https://github.com/Roberts-Ben/the-internet-Selenium/actions/workflows/maven.yml) [![Build Status](https://dev.azure.com/ben-roberts/the-internet-Selenium/_apis/build/status%2FRoberts-Ben.the-internet-Selenium?branchName=master)](https://dev.azure.com/ben-roberts/the-internet-Selenium/_build/latest?definitionId=1&branchName=master)
 
 ## Features
