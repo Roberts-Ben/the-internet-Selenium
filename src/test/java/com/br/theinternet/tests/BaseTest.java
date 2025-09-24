@@ -210,7 +210,7 @@ public class BaseTest
 
         for (File file : files)
         {
-            String normalizedActual = normalizeFileName(file.getName());
+            String normalizedActual = normalizeFileName(file.getName().replaceAll("%20", " ")); // decode URL spaces);
 
             if (normalizedActual.equals(normalizedExpected))
             {
